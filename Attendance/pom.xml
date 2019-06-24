@@ -122,12 +122,6 @@
       <version>1.1.2</version>
     </dependency>
 
-    <dependency>
-      <groupId>com.liuvei.common</groupId>
-      <artifactId>liuvei-common</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-
 
     <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
     <dependency>
@@ -220,6 +214,19 @@
       <artifactId>mybatis-spring</artifactId>
       <version>2.0.0</version>
     </dependency>
+
+    <!-- ********************************************************************** -->
+    <!-- ***** 3000. [third liuvei common][jar] -->
+    <!-- ********************************************************************** -->
+    <!-- 说明1：本jar包是第三方包，需要先以命令行形式安装在本地仓库； -->
+    <!-- 说明2：如使私服，且已在私服部署本包，则直接依赖即可。 -->
+    <dependency>
+      <groupId>com.liuvei.common</groupId>
+      <artifactId>liuvei-common</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <!-- ********************************************************************** -->
 
 
   </dependencies>
