@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Hello WSLL!</h1>
+<%=application.getRealPath("/")%>
+
 </body>
 </html>
