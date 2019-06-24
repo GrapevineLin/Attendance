@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 
     protected void loginView(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String toPage = UIConst.VIEWPATH + "/Login.jsp";
+        String toPage = UIConst.VIEWPATH + "/Login_x.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
     }
 
@@ -81,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 //        String validateCode = request.getParameter("validateCode");
 
         request.setAttribute("userName", userName);
-        String toPage = UIConst.VIEWPATH + "/Login.jsp"; //登录失败，转发页面
+        String toPage = UIConst.VIEWPATH + "/Login_x.jsp"; //登录失败，转发页面
         String msg = "";
         request.setAttribute("msg", msg);
         if (userName == null || userName.isEmpty()) {
