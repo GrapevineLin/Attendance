@@ -42,12 +42,11 @@ public class LoginServlet extends HttpServlet {
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
         /* ----------------------------------------------------------------- */
+
+
         String oper = request.getParameter("oper");
         if (oper != null && oper.equalsIgnoreCase("loginDeal")) {
             loginDeal(request, response);
-        }
-        if (oper != null && oper.equalsIgnoreCase("logoutDeal")) {
-            logoutDeal(request, response);
         } else {
             loginView(request, response);
         }
