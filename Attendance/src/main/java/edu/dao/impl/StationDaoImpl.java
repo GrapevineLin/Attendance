@@ -1,8 +1,8 @@
 package edu.dao.impl;
 
 import com.liuvei.common.DbFun;
-import edu.bean.Department;
-import edu.dao.DepartmentDao;
+import edu.bean.Station;
+import edu.dao.StationDao;
 import edu.util.DbUtil.DbUtil;
 
 import java.sql.Connection;
@@ -11,15 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DepartmentDaoImpl implements DepartmentDao {
-    public List<Department> list() {
-
-        List<Department> list = new ArrayList<Department>();
+public class StationDaoImpl implements StationDao {
+    @Override
+    public List<Station> list() {
+        List<Station> list = new ArrayList<Station>();
 
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append("select * from Department");
+        sbSQL.append("select * from Station");
 
         String sql = sbSQL.toString();
         Object[] params = paramsList.toArray();
@@ -43,27 +43,27 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return list;
     }
 
-    public Long insert(Department bean) {
+    public Long insert(Station bean) {
         Long result = 0L;
 
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
         //SQL语句
-        sbSQL.append(" Insert Into Department");
+        sbSQL.append(" Insert Into Station");
         sbSQL.append(" (");
-        sbSQL.append(" depCode,depName,depHead,depResp");
-        sbSQL.append(" ,supDepId");
+        sbSQL.append(" jobCode,jobName,dep,dirSup");
+        sbSQL.append(" ,jobCat");
         sbSQL.append(" )");
         sbSQL.append(" values(?,?,?,? ,?)");
 
         //添加参数
-        paramsList.add(bean.getDepCode());
-        paramsList.add(bean.getDepName());
-        paramsList.add(bean.getDepHead());
-        paramsList.add(bean.getDepResp());
+        paramsList.add(bean.getJobCode());
+        paramsList.add(bean.getJobName());
+        paramsList.add(bean.getDep());
+        paramsList.add(bean.getDirSup());
 
-        paramsList.add(bean.getSupDepId());
+        paramsList.add(bean.getJobCat());
 
         String sql = sbSQL.toString();
         Object[] params = paramsList.toArray();
@@ -94,8 +94,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
         List<Object> paramsList = new ArrayList<Object>();
 
         // SQL语句
-        sbSQL.append(" delete from Department");
-        sbSQL.append(" where depId=?");
+        sbSQL.append(" delete from Station");
+        sbSQL.append(" where jobId=?");
 
         //添加参数
         paramsList.add(id);
@@ -118,7 +118,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return result;
     }
 
-    public Long update(Department bean) {
+    public Long update(Station bean) {
 
         Long result = 0L;
 
@@ -126,20 +126,20 @@ public class DepartmentDaoImpl implements DepartmentDao {
         List<Object> paramsList = new ArrayList<Object>();
 
         // SQL语句
-        sbSQL.append(" update Department ");
-        sbSQL.append(" set depCode=?, depName=?, depHead=?, depResp=?,");
-        sbSQL.append(" supDepId=?");
-        sbSQL.append(" where depId=?");
+        sbSQL.append(" update Station ");
+        sbSQL.append(" set jobCode=?, jobName=?, dep=?, dirSup=?,");
+        sbSQL.append(" jobCat=?");
+        sbSQL.append(" where jobId=?");
 
         //添加参数
-        paramsList.add(bean.getDepCode());
-        paramsList.add(bean.getDepName());
-        paramsList.add(bean.getDepHead());
-        paramsList.add(bean.getDepResp());
+        paramsList.add(bean.getJobCode());
+        paramsList.add(bean.getJobName());
+        paramsList.add(bean.getDep());
+        paramsList.add(bean.getDirSup());
 
-        paramsList.add(bean.getSupDepId());
+        paramsList.add(bean.getJobCat());
 
-        paramsList.add(bean.getDepId());
+        paramsList.add(bean.getJobId());
 
         String sql = sbSQL.toString();
         Object[] params = paramsList.toArray();
@@ -157,14 +157,14 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return result;
     }
 
-    public Department load(Long id) {
-        Department bean = null;
+    public Station load(Long id) {
+        Station bean = null;
 
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select * from Department");
-        sbSQL.append(" where depId=?");
+        sbSQL.append(" select * from Station");
+        sbSQL.append(" where jobId=?");
 
         paramsList.add(id);
 
@@ -191,15 +191,15 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return bean;
     }
 
-    public Department loadByName(String name) {
-        Department bean = null;
+    public Station loadByName(String name) {
+        Station bean = null;
 
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select * from Department");
-        sbSQL.append(" where depName like ? ");
-        sbSQL.append(" or depCode like ?");
+        sbSQL.append(" select * from Station");
+        sbSQL.append(" where jobName like ? ");
+        sbSQL.append(" or jobCode like ?");
 
         paramsList.add("%"+name+"%");
         paramsList.add("%"+name+"%");
@@ -232,7 +232,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append("select count(1) from Department");
+        sbSQL.append("select count(1) from Station");
 
         String sql = sbSQL.toString();
         Object[] params = paramsList.toArray();
@@ -251,14 +251,14 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return result;
     }
 
-    public List<Department> pager(Long pageNum, Long pageSize) {
-        List<Department> list = new ArrayList<Department>();
+    public List<Station> pager(Long pageNum, Long pageSize) {
+        List<Station> list = new ArrayList<Station>();
 
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select * from Department");
-        sbSQL.append(" order by depId asc");
+        sbSQL.append(" select * from Station");
+        sbSQL.append(" order by jobId asc");
 
         if (pageNum < 1) {
             pageNum = 1L;
@@ -296,8 +296,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select count(1) from Department");
-        sbSQL.append(" where depName like ? or depCode like ? ");
+        sbSQL.append(" select count(1) from Station");
+        sbSQL.append(" where jobName like ? or jobCode like ? ");
 
         name = "%" + name + "%";
         paramsList.add(name);
@@ -320,16 +320,16 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return result;
     }
 
-    public List<Department> pagerByName(String name, Long pageNum, Long pageSize) {
-        List<Department> bean = new ArrayList<Department>();
+    public List<Station> pagerByName(String name, Long pageNum, Long pageSize) {
+        List<Station> bean = new ArrayList<Station>();
 
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select * from Department");
-        sbSQL.append(" where depName like ?");
-        sbSQL.append(" or depCode like ?");
-        sbSQL.append(" order by depId asc");
+        sbSQL.append(" select * from Station");
+        sbSQL.append(" where jobName like ?");
+        sbSQL.append(" or jobCode like ?");
+        sbSQL.append(" order by jobId asc");
 
         if (pageNum < 1) {
             pageNum = 1L;
@@ -364,17 +364,16 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return bean;
     }
 
-    private Department toBean(ResultSet rs) {
-        Department bean = new Department();
+    private Station toBean(ResultSet rs) {
+        Station bean = new Station();
 
         try {
-            bean.setDepId(rs.getLong("depId"));
-            bean.setDepCode(rs.getString("depCode"));
-            bean.setDepName(rs.getString("depName"));
-            bean.setDepHead(rs.getString("depHead"));
-            bean.setDepResp(rs.getString("depResp"));
-            bean.setSupDepId(rs.getLong("supDepId"));
-
+            bean.setJobId(rs.getLong("jobId"));
+            bean.setJobCode(rs.getString("jobCode"));
+            bean.setJobName(rs.getString("jobName"));
+            bean.setDep(rs.getString("dep"));
+            bean.setDirSup(rs.getString("dirSup"));
+            bean.setJobCat(rs.getString("jobCat"));
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

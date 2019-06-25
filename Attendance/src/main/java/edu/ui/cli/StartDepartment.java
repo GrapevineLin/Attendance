@@ -10,7 +10,7 @@ import java.util.List;
 
 public class StartDepartment {
     public static void main(String[] args) {
-        departmentService.delete(5L);
+        System.out.println(departmentService.countByName("总"));
     }
 
     private static DepartmentService departmentService = new DepartmentServiceImpl();
