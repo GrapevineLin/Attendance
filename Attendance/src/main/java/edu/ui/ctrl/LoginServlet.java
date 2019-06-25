@@ -42,12 +42,11 @@ public class LoginServlet extends HttpServlet {
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
         /* ----------------------------------------------------------------- */
+
+
         String oper = request.getParameter("oper");
         if (oper != null && oper.equalsIgnoreCase("loginDeal")) {
             loginDeal(request, response);
-        }
-        if (oper != null && oper.equalsIgnoreCase("logoutDeal")) {
-            logoutDeal(request, response);
         } else {
             loginView(request, response);
         }
@@ -55,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 
     protected void loginView(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String toPage = UIConst.VIEWPATH + "/Login.jsp";
+        String toPage = UIConst.VIEWPATH + "/Login_x.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
     }
 
@@ -81,7 +80,7 @@ public class LoginServlet extends HttpServlet {
 //        String validateCode = request.getParameter("validateCode");
 
         request.setAttribute("userName", userName);
-        String toPage = UIConst.VIEWPATH + "/Login.jsp"; //登录失败，转发页面
+        String toPage = UIConst.VIEWPATH + "/Login_x.jsp"; //登录失败，转发页面
         String msg = "";
         request.setAttribute("msg", msg);
         if (userName == null || userName.isEmpty()) {

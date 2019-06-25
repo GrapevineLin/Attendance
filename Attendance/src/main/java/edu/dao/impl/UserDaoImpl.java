@@ -16,7 +16,7 @@ public class UserDaoImpl implements UserDao {
     private User toBean(ResultSet rs) {
         User bean = new User();
         try {
-            bean.setId(rs.getLong("Id"));
+            bean.setId(rs.getLong("id"));
             bean.setUserName(rs.getString("userName"));
             bean.setPassWord(rs.getString("passWord"));
 
@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
         List<Object> paramsList = new ArrayList<Object>();
         sbSQL.append("select * from tlogin ");
         sbSQL.append("where userName = ? ");
-        sbSQL.append(" order by Id asc");
+        sbSQL.append(" order by id asc");
         paramsList.add(name);
         String sql = sbSQL.toString();
         Object[] params = paramsList.toArray();
