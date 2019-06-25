@@ -2,8 +2,6 @@ package edu.ui.cli;
 
 import edu.bean.Station;
 import edu.service.impl.StationService;
-import edu.service.impl.StationService;
-import edu.service.impl.impl.StationServiceImpl;
 import edu.service.impl.impl.StationServiceImpl;
 
 import java.util.List;
