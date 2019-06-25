@@ -49,7 +49,7 @@ nbdist/
 *.tar.gz
 *.rar
 
-#SQL
+# SQL #
 app.properties
 
 !.gitignore
