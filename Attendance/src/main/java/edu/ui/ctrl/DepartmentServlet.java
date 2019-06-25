@@ -5,7 +5,6 @@ import com.liuvei.common.SysFun;
 import edu.bean.Department;
 import edu.service.impl.DepartmentService;
 import edu.service.impl.impl.DepartmentServiceImpl;
-import edu.ui.ctrl.UIConst;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
