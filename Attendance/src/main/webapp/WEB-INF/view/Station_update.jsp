@@ -38,7 +38,11 @@
                     <span class="x-red">*</span>岗位编码</label>
                 <div class="layui-input-inline">
                     <input type="text" id="jobCode" name="jobCode" required="" lay-verify="jobCode" autocomplete="off"
-                           class="layui-input" value="${jobCode}"></div>
+                           class="layui-input" value="${jobCode}">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    岗位编码必须输入
+                </div>
             </div>
             <div class="layui-form-item">
                 <label for="jobName" class="layui-form-label">
@@ -71,9 +75,8 @@
             </div>
 
             <div class="layui-form-item">
-                <%--                <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>--%>
-                <input class="btn btn-primary radius" type="submit"
-                       value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                <label class="layui-form-label"></label>
+                <button class="layui-btn" lay-submit>提交</button>
             </div>
 
         </form>

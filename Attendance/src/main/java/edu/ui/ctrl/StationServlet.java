@@ -54,7 +54,7 @@ public class StationServlet extends HttpServlet {
 
         //获取操作参数
         String oper = request.getParameter("oper");
-        System.out.println("oper="+ oper);
+        System.out.println("oper=" + oper);
         if (oper == null) {
             oper = "";
         } else {
@@ -66,27 +66,27 @@ public class StationServlet extends HttpServlet {
             case "list":
                 listView(request, response); // 列表页面
                 break;
-//            case "listdeal":
-//                listDeal(request, response); // 列表处理
-//                break;
-//            case "insert":
-//                insertView(request, response); // 添加页面
-//                break;
-//            case "insertdeal":
-//                insertDeal(request, response); // 添加处理
-//                break;
+            case "listdeal":
+                listDeal(request, response); // 列表处理
+                break;
+            case "insert":
+                insertView(request, response); // 添加页面
+                break;
+            case "insertdeal":
+                insertDeal(request, response); // 添加处理
+                break;
             case "update":
                 updateView(request, response); // 修改页面
                 break;
             case "updatedeal":
                 updateDeal(request, response); // 修改处理
                 break;
-//            case "detail":
-//                detailView(request, response); // 查看页面
-//                break;
-//            case "deletedeal":
-//                deleteDeal(request, response); // 删除处理
-//                break;
+            case "detail":
+                detailView(request, response); // 查看页面
+                break;
+            case "deletedeal":
+                deleteDeal(request, response); // 删除处理
+                break;
             default:
                 // listView(request, response); // 列表页面 : 默认
                 System.out.println("oper不存在。");
@@ -169,95 +169,98 @@ public class StationServlet extends HttpServlet {
         request.getRequestDispatcher(toPage).forward(request, response);
     }
 
-//    protected void insertDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
-//        java.io.PrintWriter out = response.getWriter();
-//        // 获取请求数据
-//        String depCode = request.getParameter("depCode");
-//        String depName = request.getParameter("depName");
-//        String depHead = request.getParameter("depHead");
-//        String depResp = request.getParameter("depResp");
-//        String supDepId = request.getParameter("supDepId");
-//        //为了在输入页面回显原来的旧值，将旧值放到作用域，页面中进行获取
-//        request.setAttribute("depCode", depCode);
-//        request.setAttribute("depName", depName);
-//        request.setAttribute("depHead", depHead);
-//        request.setAttribute("depResp", depResp);
-//        request.setAttribute("supDepId", supDepId);
-//        //服务端验证
-//        String vMsg = "";
-//        if (SysFun.isNullOrEmpty(depName)) {
-//            vMsg += "部门编码不能为空";
-//        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-//        if (!SysFun.isNullOrEmpty(vMsg)) {
-//            request.setAttribute("msg", vMsg);
-//            System.out.println(vMsg);
-//            insertView(request, response);
-//            return;
-//        }
-//        if (SysFun.isNullOrEmpty(depHead)) {
-//            vMsg += "部门名称不能为空";
-//        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-//        if (!SysFun.isNullOrEmpty(vMsg)) {
-//            request.setAttribute("msg", vMsg);
-//            System.out.println(vMsg);
-//            insertView(request, response);
-//            return;
-//        }
-//        if (SysFun.isNullOrEmpty(depResp)) {
-//            vMsg += "部门负责人不能为空";
-//        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-//        if (!SysFun.isNullOrEmpty(vMsg)) {
-//            request.setAttribute("msg", vMsg);
-//            System.out.println(vMsg);
-//            insertView(request, response);
-//            return;
-//        }
-//        if (!SysFun.isNullOrEmpty(depResp)) {
-//            vMsg += "部门描述不能为空";
-//        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-//        if (!SysFun.isNullOrEmpty(vMsg)) {
-//            request.setAttribute("msg", vMsg);
-//            System.out.println(vMsg);
-//            insertView(request, response);
-//            return;
-//        }
-//        if (SysFun.isNullOrEmpty(supDepId)) {
-//            vMsg += "上级部门不能为空";
-//        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-//        if (!SysFun.isNullOrEmpty(vMsg)) {
-//            request.setAttribute("msg", vMsg);
-//            System.out.println(vMsg);
-//            insertView(request, response);
-//            return;
-//        }
-//
-//        Long sId=SysFun.parseLong(supDepId);
-//
-//        Department bean = new Department();
-//        bean.setDepCode(depCode);
-//        bean.setDepName(depName);
-//        bean.setDepHead(depHead);
-//        bean.setDepHead(depResp);
-//        bean.setSupDepId(sId);
-//        Long result = 0L;
-//        try {
-//            result = stationService.insert(bean);
-//        } catch (Exception e) {
-//            vMsg = "添加失败." + e.getMessage();
-//            // TODO: handle exception
-//        }
-//        if (result > 0) {
-//            System.out.println("添加成功");
-//            out.println("<script>");
-//            out.println("parent.window.location.reload();");
-//            out.println("</script>");
-//        } else {
-//            request.setAttribute("msg", vMsg);
-//            System.out.println(vMsg);
-//            insertView(request, response);
-//        }
-//    }
+    protected void insertDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
+        java.io.PrintWriter out = response.getWriter();
+        // 获取请求数据
+//        String vId = request.getParameter("jobId");
+        String jobCode = request.getParameter("jobCode");
+        String depName = request.getParameter("jobName");
+        String dep = request.getParameter("dep");
+        String dirSup = request.getParameter("dirSup");
+        String jobCat = request.getParameter("jobCat");
+        // 为了在输入页面回显原来的旧值,需要将旧值放到作用域,页面中进行获取
+//        request.setAttribute("jobId", vId);
+        request.setAttribute("jobCode", jobCode);
+        request.setAttribute("jobName", depName);
+        request.setAttribute("dep", dep);
+        request.setAttribute("dirSup", dirSup);
+        request.setAttribute("jobCat", jobCat);
+        // (1) 服务端验证
+        String vMsg = "";
+        if (SysFun.isNullOrEmpty(jobCode)) {
+            vMsg += "部门编码不能为空";
+        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
+        if (!SysFun.isNullOrEmpty(vMsg)) {
+            request.setAttribute("msg", vMsg);
+            System.out.println(vMsg);
+            insertView(request, response);
+            return;
+        }
+        if (SysFun.isNullOrEmpty(depName)) {
+            vMsg += "岗位名称不能为空";
+        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
+        if (!SysFun.isNullOrEmpty(vMsg)) {
+            request.setAttribute("msg", vMsg);
+            System.out.println(vMsg);
+            insertView(request, response);
+            return;
+        }
+        if (SysFun.isNullOrEmpty(dep)) {
+            vMsg += "所在部门不能为空";
+        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
+        if (!SysFun.isNullOrEmpty(vMsg)) {
+            request.setAttribute("msg", vMsg);
+            System.out.println(vMsg);
+            insertView(request, response);
+            return;
+        }
+        if (SysFun.isNullOrEmpty(dirSup)) {
+            vMsg += "直接上级不能为空";
+        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
+        if (!SysFun.isNullOrEmpty(vMsg)) {
+            request.setAttribute("msg", vMsg);
+            System.out.println(vMsg);
+            insertView(request, response);
+            return;
+        }
+        if (SysFun.isNullOrEmpty(jobCat)) {
+            vMsg += "岗位类别不能为空";
+        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
+        if (!SysFun.isNullOrEmpty(vMsg)) {
+            request.setAttribute("msg", vMsg);
+            System.out.println(vMsg);
+            insertView(request, response);
+            return;
+        }
+
+        Long sId = SysFun.parseLong(jobCode);
+
+        Station bean = new Station();
+//        bean.setJobId(sId); //主键不用自己添加
+        bean.setDep(dep);
+        bean.setDirSup(dirSup);
+        bean.setJobCode(jobCode);
+        bean.setJobName(depName);
+        bean.setJobCat(jobCat);
+        Long result = 0L;
+        try {
+            result = stationService.insert(bean);
+        } catch (Exception e) {
+            vMsg = "添加失败." + e.getMessage();
+            // TODO: handle exception
+        }
+        if (result > 0) {
+            System.out.println("添加成功");
+            out.println("<script>");
+            out.println("parent.window.location.reload();");
+            out.println("</script>");
+        } else {
+            request.setAttribute("msg", vMsg);
+            System.out.println(vMsg);
+            insertView(request, response);
+        }
+    }
 
     protected void updateView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
@@ -385,7 +388,8 @@ public class StationServlet extends HttpServlet {
         Long result = 0L;
         try {
             result = stationService.update(bean);
-        } catch (Exception e) {vMsg = "修改失败." + e.getMessage();
+        } catch (Exception e) {
+            vMsg = "修改失败." + e.getMessage();
             // TODO: handle exception
         }
         if (result > 0) {
@@ -402,46 +406,44 @@ public class StationServlet extends HttpServlet {
         }
     }
 
-//    protected void deleteDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
-//        java.io.PrintWriter out = response.getWriter();
-//
-//        //取得逐渐，再根据主键获取记录
-//        String vId = request.getParameter("id");
-//        if (!SysFun.isNullOrEmpty(vId)) {
-//            Long iId = SysFun.parseLong(vId);
-//
-//            Long result = 0L;
-//            result = stationService.delete(iId);
-//
-//            if (result > 0) {
-//                out.print("ok");// 不要使用println()
-//                return;
-//            }
-//        }
-//        out.println("nook");
-//    }
-//
-//    protected void detailView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
-//        java.io.PrintWriter out = response.getWriter();
-//        // 取得主键，再根据主键，获取记录
-//        String vId = request.getParameter("id");
-//        if (!SysFun.isNullOrEmpty(vId)) {
-//            Long iPK = SysFun.parseLong(vId);
-//            Department bean = stationService.load(iPK);
-//            if (bean != null) {
-//                // 使用对象来回显
-//                request.setAttribute("bean", bean);
-//                String toPage = UIConst.VIEWPATH + "/Department_detail.jsp";
-//                request.getRequestDispatcher(toPage).forward(request, response);
-//                return;
-//            }
-//        }
-//        out.println("<script>");out.println("alert('数据不存在.');");
-//        out.println("parent.window.location.reload();");
-//        out.println("</script>");
-//    }
+    protected void deleteDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
+        java.io.PrintWriter out = response.getWriter();
+        //取得逐渐，再根据主键获取记录
+        String vId = request.getParameter("jobId");
+        if (!SysFun.isNullOrEmpty(vId)) {
+            Long iId = SysFun.parseLong(vId);
+            Long result = 0L;
+            result = stationService.delete(iId);
+            if (result > 0) {
+                out.print("ok");// 不要使用println()
+                return;
+            }
+        }
+        out.println("nook");
+    }
+
+    protected void detailView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
+        java.io.PrintWriter out = response.getWriter();
+        // 取得主键，再根据主键，获取记录
+        String vId = request.getParameter("jobId");
+        if (!SysFun.isNullOrEmpty(vId)) {
+            Long iPK = SysFun.parseLong(vId);
+            Station bean = stationService.load(iPK);
+            if (bean != null) {
+                // 使用对象来回显
+                request.setAttribute("bean", bean);
+                String toPage = UIConst.VIEWPATH + "/Station_detail.jsp";
+                request.getRequestDispatcher(toPage).forward(request, response);
+                return;
+            }
+        }
+        out.println("<script>");
+        out.println("alert('数据不存在.');");
+        out.println("parent.window.location.reload();");
+        out.println("</script>");
+    }
 
     protected String checkLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         javax.servlet.http.HttpSession session = request.getSession();

@@ -42,7 +42,8 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5">
+                    <form class="layui-form layui-col-space5" action="Station" method="get">
+                        <input type="hidden" name="oper" value="listDeal"/>
                         <div class="layui-inline layui-show-xs-block">
                             <input type="text" name="searchName" placeholder="请输入编码或者名称" autocomplete="off"
                                    class="layui-input" value="${searchName}">
@@ -58,7 +59,7 @@
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
                     <button href="javascript:;" class="layui-btn"
-                            onclick="item_add('添加用户','Member?oper=insert','600','400')"><i
+                            onclick="xadmin.open('添加用户','Station?oper=insert',800,600,false)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -191,7 +192,7 @@
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: 'Station?oper=deleteDeal&id=' + id,
+                url: 'Station?oper=deleteDeal&jobId=' + id,
                 //dataType: 'json',
                 success: function (data) {
                     if (data == "ok") {
