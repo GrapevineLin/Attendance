@@ -163,9 +163,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select D1.*,D2.depName as supDepName from Department D1");
-        sbSQL.append(" left join Department D2 on D1.supDepId=D2.depId");
-        sbSQL.append(" where D1.depId=?");
+        sbSQL.append(" select * from Department");
+        sbSQL.append(" where depId=?");
 
         paramsList.add(id);
 
@@ -181,7 +180,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
             rs = DbFun.query(conn, sql, params);
 
             if (rs.next()) {
-                bean = toBeanDep(rs);
+                bean = toBean(rs);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -258,9 +257,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select D1.*,D2.depName as supDepName from Department D1");
-        sbSQL.append(" left join Department D2 on D1.supDepId=D2.depId");
-        sbSQL.append(" order by D1.depId asc");
+        sbSQL.append(" select * from Department");
+        sbSQL.append(" order by depId asc");
 
         if (pageNum < 1) {
             pageNum = 1L;
@@ -281,7 +279,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
             conn = DbUtil.getConn();
             rs = DbFun.query(conn, sql, params);
             while (rs.next()) {
-                list.add(toBeanDep(rs));
+                list.add(toBean(rs));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -328,11 +326,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select D1.*,D2.depName as supDepName from Department D1");
-        sbSQL.append(" left join Department D2 on D1.supDepId=D2.depId");
-        sbSQL.append(" where D1.depName like ?");
-        sbSQL.append(" or D1.depCode like ?");
-        sbSQL.append(" order by D1.depId asc");
+        sbSQL.append(" select * from Department");
+        sbSQL.append(" where depName like ?");
+        sbSQL.append(" or depCode like ?");
+        sbSQL.append(" order by depId asc");
 
         if (pageNum < 1) {
             pageNum = 1L;
@@ -356,7 +353,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
             conn = DbUtil.getConn();
             rs = DbFun.query(conn, sql, params);
             while (rs.next()) {
-                bean.add(toBeanDep(rs));
+                bean.add(toBean(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -377,26 +374,6 @@ public class DepartmentDaoImpl implements DepartmentDao {
             bean.setDepHead(rs.getString("depHead"));
             bean.setDepResp(rs.getString("depResp"));
             bean.setSupDepId(rs.getLong("supDepId"));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-        return bean;
-    }
-
-    private Department toBeanDep(ResultSet rs) {
-        Department bean = new Department();
-
-        try {
-            bean.setDepId(rs.getLong("depId"));
-            bean.setDepCode(rs.getString("depCode"));
-            bean.setDepName(rs.getString("depName"));
-            bean.setDepHead(rs.getString("depHead"));
-            bean.setDepResp(rs.getString("depResp"));
-            bean.setSupDepId(rs.getLong("supDepId"));
-            bean.setSupDepName(rs.getString("supDepName"));
 
         } catch (SQLException e) {
             e.printStackTrace();

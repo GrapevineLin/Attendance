@@ -8,8 +8,6 @@ public class Department {
     private String depResp;
     private Long supDepId;
 
-    private String supDepName;
-
     public Long getDepId() {
         return depId;
     }
@@ -56,13 +54,5 @@ public class Department {
 
     public void setSupDepId(Long supDepId) {
         this.supDepId = supDepId;
-    }
-
-    public String getSupDepName() {
-        return supDepName;
-    }
-
-    public void setSupDepName(String supDepName) {
-        this.supDepName = supDepName;
     }
 }
