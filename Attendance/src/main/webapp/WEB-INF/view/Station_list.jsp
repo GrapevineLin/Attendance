@@ -64,7 +64,7 @@
                     </button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table class="layui-table layui-form">
+                    <table class="layui-table layui-form" id="datalist">
                         <thead>
                         <tr>
                             <th>
@@ -214,21 +214,63 @@
         layer_show(title, url, w, h);
     }
 
-    function delAll(argument) {
-        var ids = [];
+    // function delAll(argument) {
+    //     var ids = [];
+    //
+    //     // 获取选中的id
+    //     $('tbody input').each(function (index, el) {
+    //         if ($(this).prop('checked')) {
+    //             ids.push($(this).val())
+    //         }
+    //     });
+    //
+    //     layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
+    //         //捉到所有被选中的，发异步进行删除
+    //         layer.msg('删除成功', {icon: 1});
+    //         $(".layui-form-checked").not('.header').parents('tr').remove();
+    //     });
+    // }
 
-        // 获取选中的id
-        $('tbody input').each(function (index, el) {
-            if ($(this).prop('checked')) {
-                ids.push($(this).val())
-            }
-        });
+    /*批量-删除*/
+    function delAll() {
+        layer.confirm("确认要删除选中的数据", function (index) {
+            var num = 0;      //删除成功的行数
+            var total = 0;    //要删除的总行数
+            var obj = null;   //当前对象
+            var id = 0;       //当前要删除的主键值
+            $('#datalist input[type=checkbox]:checked').each(function () {
+                obj = this;
+                id = $(this).val();     //取得，当前复选框代表的主键值
+                //排除全选或反选的复选框
+                if (id != null && id != "" && id != 0) {
+                    total++;    //总行数
+                    //Start : ajax方式，一行一行删除
+                    $.ajax({
+                        type: 'POST',
+                        url: 'Station',
+                        async: false, //是否异步
+                        data: {"oper": "deleteDeal", "jobId": id},
+                        success: function (data) {
+                            if (data = "ok") {
+                                $(obj).parents("tr").remove();
+                                num++;  //删除成功的数+1
+                            } else {
 
-        layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+                            }
+                        },
+                        error: function (data) {
+                        }
+                    });
+                    //End ： ajax方式，一行一行删除
+                }
+            });
+            layer.msg("要删除" + total + "行记录，成功删除" + num + "行记录。", {
+                icon: 1,
+                time: 1000
+            });
         });
     }
+
+
 </script>
 </html>
