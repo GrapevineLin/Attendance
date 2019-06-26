@@ -81,7 +81,7 @@
                                 <td>${item.depName}</td>
                                 <td>${item.depHead}</td>
                                 <td>${item.depResp}</td>
-                                <td>${item.supDepName}</td>
+                                <td>${item.supDepId}</td>
                                     <%--<td class="td-status">
                                       <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
                                     <td class="td-manage">
