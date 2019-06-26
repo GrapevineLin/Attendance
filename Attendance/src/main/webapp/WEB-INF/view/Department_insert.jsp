@@ -22,7 +22,8 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form">
+        <form action="Department" class="layui-form" >
+            <input type="hidden" name="oper" value="insertDeal">
             <div class="layui-form-item">
                 <label for="depCode" class="layui-form-label">
                     <span class="x-red">*</span>部门编码</label>
@@ -41,7 +42,7 @@
             </div>
             <div class="layui-form-item">
                 <label for="depHead" class="layui-form-label">
-                    <span class="x-red">*</span>部门编码</label>
+                    <span class="x-red">*</span>部门负责人</label>
                 <div class="layui-input-inline">
                     <input type="text" id="depHead" name="depHead" value="${depHead}" required=""
                            autocomplete="off" class="layui-input">
@@ -64,8 +65,11 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="supDepId" class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+                <%--<label for="supDepId" class="layui-form-label"></label>
+                <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>--%>
+                    <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                        <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+                    </div>
             </div>
         </form>
     </div>

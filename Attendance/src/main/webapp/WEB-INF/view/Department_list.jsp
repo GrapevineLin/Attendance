@@ -50,7 +50,7 @@
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
-                    <button href="javascript:;" class="layui-btn" onclick="item_add('添加用户','Member?oper=insert','600','400')"><i
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','./Department?oper=insert',600,400)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -81,7 +81,7 @@
                                 <td>${item.depName}</td>
                                 <td>${item.depHead}</td>
                                 <td>${item.depResp}</td>
-                                <td>${item.supDepId}</td>
+                                <td>${item.supDepName}</td>
                                     <%--<td class="td-status">
                                       <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
                                     <td class="td-manage">
@@ -109,11 +109,6 @@
 </div>
 </body>
 <script>
-
-    /*项目-增加*/
-    function item_add(title, url, w, h) {
-        layer_show(title, url, w, h)
-    }
 
     layui.use(['laydate', 'form'], function () {
         var laydate = layui.laydate;
