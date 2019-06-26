@@ -100,6 +100,11 @@
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>部门</cite></a>
                             </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('班次','Classes?oper=list')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>班次</cite></a>
+                            </li>
 <%--                            <li>--%>
 <%--                                <a onclick="xadmin.add_tab('会员删除','member-del.html')">--%>
 <%--                                    <i class="iconfont">&#xe6a7;</i>--%>
