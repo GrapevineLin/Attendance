@@ -77,7 +77,7 @@
                                         <td>${item.sex}</td>
                                         <td>${item.age}</td>
                                         <td>${item.nation}</td>
-                                        <td>${item.jobId}</td>
+                                        <td>${item.jobName}</td>
                                             <%--<td class="td-status">
                                               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
                                             <td class="td-manage">

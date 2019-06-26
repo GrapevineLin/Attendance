@@ -197,9 +197,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select * from Department");
-        sbSQL.append(" where depName like ? ");
-        sbSQL.append(" or depCode like ?");
+        sbSQL.append(" select D1.*,D2.depName as supDepName from Department D1");
+        sbSQL.append(" left join Department D2 on D1.supDepId=D2.depId");
+        sbSQL.append(" where D1.depName like ? ");
+        sbSQL.append(" or D1.depid like ?");
 
         paramsList.add("%"+name+"%");
         paramsList.add("%"+name+"%");
