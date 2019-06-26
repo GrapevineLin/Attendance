@@ -4,7 +4,9 @@ import com.liuvei.common.PagerItem;
 import com.liuvei.common.SysFun;
 import edu.bean.Department;
 import edu.bean.Station;
+import edu.service.impl.DepartmentService;
 import edu.service.impl.StationService;
+import edu.service.impl.impl.DepartmentServiceImpl;
 import edu.service.impl.impl.StationServiceImpl;
 import edu.ui.ctrl.UIConst;
 
@@ -164,6 +166,13 @@ public class StationServlet extends HttpServlet {
     }
 
     protected void insertView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        DepartmentService departmentService = new DepartmentServiceImpl();
+        List<Department> departmentList = departmentService.list();
+        request.setAttribute("departmentList", departmentList);
+
+        List<Station> stationList = stationService.list();
+        request.setAttribute("stationList", stationList);
+
         //转发页面
         String toPage = UIConst.VIEWPATH + "/Station_insert.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
@@ -208,15 +217,6 @@ public class StationServlet extends HttpServlet {
         }
         if (SysFun.isNullOrEmpty(dep)) {
             vMsg += "所在部门不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            insertView(request, response);
-            return;
-        }
-        if (SysFun.isNullOrEmpty(dirSup)) {
-            vMsg += "直接上级不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
