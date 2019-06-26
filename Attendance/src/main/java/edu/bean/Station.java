@@ -1,12 +1,12 @@
 package edu.bean;
 
 public class Station {
-    private Long jobId;
-    private String jobCode;
-    private String jobName;
-    private String dep;
-    private String dirSup;
-    private String jobCat;
+    private Long jobId;//岗位ID
+    private String jobCode;//岗位编码
+    private String jobName;//岗位名称
+    private String dep;//所在部门
+    private String dirSup;//直接上级
+    private String jobCat;//岗位类名
 
     public Long getJobId() {
         return jobId;
