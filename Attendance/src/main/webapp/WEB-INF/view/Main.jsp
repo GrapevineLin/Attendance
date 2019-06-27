@@ -168,9 +168,9 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('三级地区联动','city.html')">
+                                <a onclick="xadmin.add_tab('打卡单','PunchCard?oper=list')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>三级地区联动</cite></a>
+                                    <cite>打卡单</cite></a>
                             </li>
                         </ul>
                     </li>
