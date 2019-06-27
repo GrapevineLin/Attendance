@@ -3,9 +3,11 @@ package edu.ui.ctrl;
 import com.liuvei.common.PagerItem;
 import com.liuvei.common.SysFun;
 import edu.bean.Department;
+import edu.bean.Employee;
 import edu.service.impl.DepartmentService;
+import edu.service.impl.EmployeeService;
 import edu.service.impl.impl.DepartmentServiceImpl;
-import edu.ui.ctrl.UIConst;
+import edu.service.impl.impl.EmployeeServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -162,6 +164,11 @@ public class DepartmentServlet extends HttpServlet {
     }
 
     protected void insertView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //  Servlet从下面两层取出数据，通过作用域，推送到页面
+        EmployeeService employeeService=new EmployeeServiceImpl();
+        List<Employee> empList=employeeService.list();
+        request.setAttribute("empList",empList);
+
         //转发页面
         String toPage = UIConst.VIEWPATH + "/Department_insert.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
@@ -184,7 +191,7 @@ public class DepartmentServlet extends HttpServlet {
         request.setAttribute("supDepId", supDepId);
         //服务端验证
         String vMsg = "";
-        if (SysFun.isNullOrEmpty(depName)) {
+        if (SysFun.isNullOrEmpty(depCode)) {
             vMsg += "部门编码不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
@@ -193,7 +200,7 @@ public class DepartmentServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depHead)) {
+        if (SysFun.isNullOrEmpty(depName)) {
             vMsg += "部门名称不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
@@ -202,7 +209,7 @@ public class DepartmentServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depResp)) {
+        if (SysFun.isNullOrEmpty(depHead)) {
             vMsg += "部门负责人不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
@@ -211,13 +218,13 @@ public class DepartmentServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (!SysFun.isNullOrEmpty(depResp)) {
+        if (SysFun.isNullOrEmpty(depResp)) {
             vMsg += "部门描述不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
-            insertView(request, response);
+            updateView(request, response);
             return;
         }
         if (SysFun.isNullOrEmpty(supDepId)) {
@@ -258,6 +265,11 @@ public class DepartmentServlet extends HttpServlet {
     }
 
     protected void updateView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //  Servlet从下面两层取出数据，通过作用域，推送到页面
+        EmployeeService employeeService=new EmployeeServiceImpl();
+        List<Employee> empList=employeeService.list();
+        request.setAttribute("empList",empList);
+
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
         // 取得主键，再根据主键，获取记录
@@ -304,6 +316,7 @@ public class DepartmentServlet extends HttpServlet {
         request.setAttribute("depHead", depHead);
         request.setAttribute("depResp", depResp);
         request.setAttribute("supDepId", supDepId);
+
         // (1) 服务端验证
         String vMsg = "";
         if (SysFun.isNullOrEmpty(vId)) {
@@ -321,34 +334,25 @@ public class DepartmentServlet extends HttpServlet {
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
-            insertView(request, response);
+            updateView(request, response);
             return;
         }
         if (SysFun.isNullOrEmpty(depHead)) {
-            vMsg += "部门名称不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            insertView(request, response);
-            return;
-        }
-        if (SysFun.isNullOrEmpty(depResp)) {
             vMsg += "部门负责人不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
-            insertView(request, response);
+            updateView(request, response);
             return;
         }
-        if (!SysFun.isNullOrEmpty(depResp)) {
+        if (SysFun.isNullOrEmpty(depResp)) {
             vMsg += "部门描述不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
-            insertView(request, response);
+            updateView(request, response);
             return;
         }
         if (SysFun.isNullOrEmpty(supDepId)) {
@@ -357,7 +361,7 @@ public class DepartmentServlet extends HttpServlet {
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
-            insertView(request, response);
+            updateView(request, response);
             return;
         }
         // (2) 数据库验证
@@ -405,7 +409,7 @@ public class DepartmentServlet extends HttpServlet {
         java.io.PrintWriter out = response.getWriter();
 
         //取得逐渐，再根据主键获取记录
-        String vId = request.getParameter("id");
+        String vId = request.getParameter("depId");
         if (!SysFun.isNullOrEmpty(vId)) {
             Long iId = SysFun.parseLong(vId);
 
@@ -424,7 +428,7 @@ public class DepartmentServlet extends HttpServlet {
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
         // 取得主键，再根据主键，获取记录
-        String vId = request.getParameter("id");
+        String vId = request.getParameter("depId");
         if (!SysFun.isNullOrEmpty(vId)) {
             Long iPK = SysFun.parseLong(vId);
             Department bean = departmentService.load(iPK);

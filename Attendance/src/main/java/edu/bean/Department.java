@@ -1,14 +1,14 @@
 package edu.bean;
 
 public class Department {
-    private Long depId;
-    private String depCode;
-    private String depName;
-    private String depHead;
-    private String depResp;
-    private Long supDepId;
+    private Long depId;//部门id
+    private String depCode;//部门编码
+    private String depName;//部门名称
+    private String depHead;//部门负责人
+    private String depResp;//部门描述
+    private Long supDepId;//上级部门ID
 
-    private String supDepName;
+    private String supDepName;//上级部门名
 
     public Long getDepId() {
         return depId;
