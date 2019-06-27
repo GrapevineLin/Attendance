@@ -53,11 +53,11 @@
                         <div class="layui-form-mid layui-word-aux"></div></div>
                     <div class="layui-form-item">
                         <label for="remark" class="layui-form-label">备注</label>
-                        <div class="layui-input-inline">
-                            <textarea id="remark" name="remark" value="${remark}" autocomplete="off" class="layui-textarea"></textarea></div>
+                        <div style="margin-left: 110px;">
+                            <textarea id="remark" name="remark" value="${remark}" class="layui-textarea"></textarea></div>
                     </div>
                     <div class="layui-form-item">
-<%--                        <label for="L_repass" class="layui-form-label"></label>--%>
+                        <label class="layui-form-label"></label>
                         <button class="layui-btn" lay-filter="update" lay-submit="">修改班次</button></div>
                 </form>
             </div>
