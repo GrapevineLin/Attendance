@@ -55,6 +55,44 @@
         </div>
     </div>
 </div>
+<%--编辑页面--%>
+<div class="layui-row" id="Update" style="display:none;">
+    <div class="layui-col-md10">
+        <form class="layui-form layui-from-pane" action="" style="margin-top:20px">
+            <div class="layui-form-item">
+                <label class="layui-form-label">补卡人</label>
+                <div class="layui-input-block">
+                    <input type="text" name="empCode" required lay-verify="required" autocomplete="off"
+                           placeholder="请输入补卡人编码" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">补卡时间</label>
+                <div class="layui-input-block">
+                    <input type="date" name="date" required autocomplete="off" placeholder="请输入补卡时间"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">补卡原因</label>
+                <div class="layui-input-block">
+                    <div style="margin-left:0px;top:-5px;padding:0">
+                    <textarea id="reason" name="reason" rows="4" cols="4" class="layui-textarea"
+                              value=""></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item" style="margin-top:40px">
+                <div class="layui-input-block">
+                    <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="demo11">确认修改</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <%--操作工具栏--%>
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
@@ -75,7 +113,7 @@
                 , {field: 'empCode', title: '补卡人编码', width: "20%"}
                 , {field: 'date', title: '补卡日期', width: "20%", sort: true}
                 , {field: 'reason', title: '原因', width: "30%"}
-                ,{fixed: 'right', title:'操作', toolbar: '#bar', width:"20%"}
+                , {fixed: 'right', title: '操作', toolbar: '#bar', width: "20%"}
             ]]
         });
         /*仍然利用table组件 对操作栏进行监听*/
@@ -108,17 +146,66 @@
                 });
             } else if (obj.event === 'edit') {
                 //编辑先忽略
-                layer.prompt({
-                    formType: 2
-                    , value: data.email
-                }, function (value, index) {
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
+                layer.open({
+                    //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                    type: 1,
+                    area: [500 + 'px', 600 + 'px'],
+                    fix: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    shade: 0.4,
+                    title: "编辑补卡单",
+                    // content: 'RepairCard?oper=update&repairId=' + data.repairId
+                    content: $("#Update")
                 });
+                // setFormValue(obj, data);
+                // layer.prompt({
+                //     formType: 2
+                //     , value: data.reason
+                // }, function (value, index) {
+                //     obj.update({
+                //         email: value
+                //     });
+                //     layer.close(index);
+                // });
             }
         });
+
+        // function setFormValue(obj, data) {
+        //     form.on('submit(demo11)', function (massage) {
+        //         $.ajax({
+        //             url: 'RepairCard?oper=delete',
+        //             type: 'POST',
+        //             data: {
+        //                 repairId: data.repairId,
+        //                 // empCode: data.empCode,
+        //                 // date: data.date,
+        //                 // reason: data.reason
+        //             },
+        //             success: function (msg) {
+        //                 var returnCode = msg.returnCode;//取得返回数据（Sting类型的字符串）的信息进行取值判断
+        //                 if (returnCode == 200) {
+        //                     layer.closeAll('loading');
+        //                     layer.load(2);
+        //                     layer.msg("修改成功", {icon: 6});
+        //                     setTimeout(function () {
+        //                         obj.update({
+        //                             eqptType: massage.field.neweqptType,
+        //                             eqptIdCode: massage.field.neweqptIdCode,
+        //                             eqptName: massage.field.neweqptName
+        //                         });//修改成功修改表格数据不进行跳转
+        //                         layer.closeAll();//关闭所有的弹出层
+        //                     }, 1000);
+        //                     加载层 - 风格
+        //                 } else {
+        //                     layer.msg("修改失败", {icon: 5});
+        //                 }
+        //             }
+        //         })
+        //     })
+        //
+        // }
+
     });
 
 </script>
