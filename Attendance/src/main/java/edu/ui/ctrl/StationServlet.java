@@ -2,6 +2,7 @@ package edu.ui.ctrl;
 
 import com.liuvei.common.PagerItem;
 import com.liuvei.common.SysFun;
+import edu.bean.Department;
 import edu.bean.Station;
 import edu.service.impl.DepartmentService;
 import edu.service.impl.StationService;

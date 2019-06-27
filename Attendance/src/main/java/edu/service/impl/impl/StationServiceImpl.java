@@ -9,7 +9,7 @@ import java.util.List;
 
 public class StationServiceImpl implements StationService {
 
-    StationDao stationDao=new StationDaoImpl();
+    StationDao stationDao = new StationDaoImpl();
 
     @Override
     public List<Station> list() {
@@ -48,7 +48,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public List<Station> pager(Long pageNum, Long pageSize) {
-        return stationDao.pager(pageNum,pageSize);
+        return stationDao.pager(pageNum, pageSize);
     }
 
     @Override
@@ -58,6 +58,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public List<Station> pagerByName(String name, Long pageNum, Long pageSize) {
-        return stationDao.pagerByName(name,pageNum,pageSize);
+        return stationDao.pagerByName(name, pageNum, pageSize);
     }
 }
