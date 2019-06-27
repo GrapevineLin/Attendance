@@ -213,8 +213,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
         //组合SQL
-        //连接Station和Employee表
-        sbSQL.append(" Select E.*,S.jobName from Employee E");
+        sbSQL.append("select E.*,S.jobName from Employee E");
         sbSQL.append(" left join Station S on E.jobId=S.jobId");
         sbSQL.append(" where E.empId=?");
 
@@ -239,7 +238,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             //单行转换为对象
 
             if(rs.next()){
-                bean =toBeanSta(rs);
+                bean =toBeanEx(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -258,11 +257,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
         //组合SQL
-        //连接Station和Employee表
-        sbSQL.append(" Select E.*,S.jobName from Employee E");
-        sbSQL.append(" left join Station S on E.jobId=S.jobId");
-        sbSQL.append(" where E.empName= ? ");
-        sbSQL.append(" order by E.empId asc");
+        sbSQL.append("select * from Employee ");
+        sbSQL.append("where empName= ? ");
+        sbSQL.append(" order by empId asc");
 
         //添加参数
         paramsList.add(name);
@@ -285,7 +282,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             //单行转换为对象
 
             if(rs.next()){
-                bean =toBeanSta(rs);
+                bean =toBean(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -336,8 +333,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new  ArrayList<Object>();
 
-        //连接Station和Employee表
-        sbSQL.append(" Select E.*,S.jobName from Employee E");
+        sbSQL.append("select E.*,S.jobName from Employee E");
         sbSQL.append(" left join Station S on E.jobId=S.jobId");
         sbSQL.append(" order by E.empId asc");
 
@@ -361,7 +357,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             rs = DbFun.query(conn, sql, params);
 
             while (rs.next()) {
-                list.add(toBeanSta(rs));
+                list.add(toBeanEx(rs));
 
             }
         } catch (SQLException e) {
@@ -416,10 +412,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new  ArrayList<Object>();
 
-        //连接Station和Employee表
-        sbSQL.append(" Select E.*,S.jobName from Employee E");
+        sbSQL.append("select E.*,S.jobName from Employee E");
         sbSQL.append(" left join Station S on E.jobId=S.jobId");
-        sbSQL.append(" where E.empName like ?");
+        sbSQL.append( "where E.empName like ?");
         sbSQL.append(" order by E.empId asc");
 
         if(pageNum<1){
@@ -445,7 +440,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             rs = DbFun.query(conn, sql, params);
 
             while (rs.next()) {
-                list.add(toBeanSta(rs));
+                list.add(toBeanEx(rs));
 
             }
         } catch (SQLException e) {
@@ -456,7 +451,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
         return list;
     }
-
     private Employee toBean(ResultSet rs) {
         Employee bean = new Employee();
 
@@ -482,8 +476,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         return bean;
     }
-
-    private Employee toBeanSta(ResultSet rs) {
+    private Employee toBeanEx(ResultSet rs) {
         Employee bean = new Employee();
 
         try {

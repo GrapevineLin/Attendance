@@ -57,7 +57,7 @@ public class test {
     }
     private static void update(){
         Employee employee = new Employee();
-         employee.setEmpId(3L);
+         employee.setEmpId(5L);
         employee.setEmpCode("K");
         employee.setEmpName("WK");
         employee.setSex("男");

@@ -3,8 +3,11 @@ package edu.ui.ctrl;
 import com.liuvei.common.PagerItem;
 import com.liuvei.common.SysFun;
 import edu.bean.Employee;
+import edu.bean.Station;
 import edu.service.impl.EmployeeService;
+import edu.service.impl.StationService;
 import edu.service.impl.impl.EmployeeServiceImpl;
+import edu.service.impl.impl.StationServiceImpl;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import javax.servlet.ServletException;
@@ -19,6 +22,7 @@ import java.util.List;
 @WebServlet(UIConst.AREAPATH + "/Employee")
 public class EmployeeServlet extends HttpServlet {
     EmployeeService employeeService =new EmployeeServiceImpl();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
@@ -95,7 +99,7 @@ public class EmployeeServlet extends HttpServlet {
         java.io.PrintWriter out = response.getWriter();
 
         // 取得主键，再根据主键，获取记录
-        String vId = request.getParameter("id");
+        String vId = request.getParameter("empId");
         if (!SysFun.isNullOrEmpty(vId)) {
             Long iId = SysFun.parseLong(vId);
 
@@ -116,7 +120,7 @@ public class EmployeeServlet extends HttpServlet {
         // 获取请求数据
         String empCode = request.getParameter("empCode");
         String empName = request.getParameter("empName");
-        //String sex = request.getParameter("sex");
+        String sex = request.getParameter("sex");
         String age = request.getParameter("age");
         String nation = request.getParameter("nation");
         String IDC = request.getParameter("IDC");
@@ -129,7 +133,7 @@ public class EmployeeServlet extends HttpServlet {
         //为了在输入页面回显原来的旧值，将旧值放到作用域，页面中进行获取
         request.setAttribute("empCode",empCode);
         request.setAttribute("empName", empName);
-        //request.setAttribute("sex", sex);
+        request.setAttribute("sex", sex);
         request.setAttribute("age", age);
         request.setAttribute("nation", nation);
         request.setAttribute("IDC", IDC);
@@ -217,7 +221,7 @@ public class EmployeeServlet extends HttpServlet {
         bean.setEmpCode(empCode);
         bean.setEmpName(empName);
 
-        bean.setSex("男");
+        bean.setSex(sex);
         bean.setAge(SysFun.parseLong(age));
 
         bean.setNation(nation);
@@ -255,6 +259,11 @@ public class EmployeeServlet extends HttpServlet {
 
     protected void insertView(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        StationService stationService = new StationServiceImpl();
+        List<Station> sList = stationService.list();
+        request.setAttribute("sList",sList);
+
         //转发到页面
         String toPage = UIConst.VIEWPATH + "/Employee_insert.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
@@ -463,7 +472,7 @@ public class EmployeeServlet extends HttpServlet {
         }
 
         // (3) 真正处理
-        bean.setEmpId(iId);
+        //bean.setEmpId(iId);
         bean.setEmpCode(empCode);
         bean.setEmpName(empName);
         bean.setSex(sex);
@@ -484,14 +493,14 @@ public class EmployeeServlet extends HttpServlet {
             // TODO: handle exception
         }
         if (result > 0) {
-            // System.out.println("修改成功");             // listView(request, response);
+             System.out.println("修改成功");             // listView(request, response);
             // 如果修改成功，则父窗口页面的地址栏重新加载
             out.println("<script>");
             out.println("parent.window.location.reload();");
             out.println("</script>");
         } else {
             request.setAttribute("msg", vMsg);
-            //System.out.println("修改失败");
+            System.out.println("修改失败");
             updateView(request, response);
         }
 
@@ -499,11 +508,16 @@ public class EmployeeServlet extends HttpServlet {
 
     protected void updateView(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        StationService stationService = new StationServiceImpl();
+        List<Station> sList = stationService.list();
+        request.setAttribute("sList",sList);
+
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
 
         // 取得主键，再根据主键，获取记录
-        String vId = request.getParameter("id");
+        String vId = request.getParameter("empId");
         if (!SysFun.isNullOrEmpty(vId)) {
             Long iId = SysFun.parseLong(vId);
             Employee bean = employeeService.load(iId);
@@ -532,7 +546,7 @@ public class EmployeeServlet extends HttpServlet {
             }
         }
         out.println("<script>");
-        out.println("alert('数据不存在');");
+        out.println("alert('数据不存在123');");
         out.println("parent.window.location.reload();");  	 	out.println("</script>");
 
 
