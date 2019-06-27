@@ -22,7 +22,8 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form">
+        <form action="Department" class="layui-form" method="post">
+            <input type="hidden" name="oper" value="insertDeal">
             <div class="layui-form-item">
                 <label for="depCode" class="layui-form-label">
                     <span class="x-red">*</span>部门编码</label>
@@ -41,10 +42,14 @@
             </div>
             <div class="layui-form-item">
                 <label for="depHead" class="layui-form-label">
-                    <span class="x-red">*</span>部门编码</label>
+                    <span class="x-red">*</span>部门负责人</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="depHead" name="depHead" value="${depHead}" required=""
-                           autocomplete="off" class="layui-input">
+                    <select id="depHead" name="depHead" class="layui-select">
+                        <option value="">请选择</option>
+                        <c:forEach var="item" items="${empList}">
+                            <option value="${item.empName}">${item.empCode}-${item.empName}</option>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -57,15 +62,15 @@
             </div>
             <div class="layui-form-item">
                 <label for="supDepId" class="layui-form-label">
-                    <span class="x-red">*</span>上级部门ID</label>
+                    <span class="x-red">*</span>上级部门</label>
                 <div class="layui-input-inline">
                     <input type="text" id="supDepId" name="supDepId" value="${supDepId}" required=""
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="supDepId" class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+                <label class="layui-form-label"></label>
+                <button class="layui-btn" lay-submit>增加</button>
             </div>
         </form>
     </div>

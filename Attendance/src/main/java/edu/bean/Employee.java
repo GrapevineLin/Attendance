@@ -14,6 +14,17 @@ public class Employee {
     private String ecpTel;
     private Long jobId;
     private String des;//描述
+    private String jobName;
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+
+
 
     public Long getEmpId() {
         return empId;

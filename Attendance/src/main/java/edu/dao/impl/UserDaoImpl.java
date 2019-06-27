@@ -28,6 +28,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public Long insert(UserDao bean) {
+        return null;
+    }
+
+    @Override
     public User LoadByName(String name) {
         User bean = null;
         StringBuffer sbSQL = new StringBuffer();
