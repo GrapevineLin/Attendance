@@ -26,7 +26,7 @@ public class startPaySalary {
     }
 
     private static void load() {
-        PaySalary item = paySalaryService.loadByName("z");
+        PaySalary item = paySalaryService.load(7L);
         System.out.println(item.getPayId() + " " + item.getEmpId() + " " + item.getBeginDate() + " " + item.getEndDate() + " " + item.getSalary());
     }
 

@@ -160,10 +160,10 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
 
         //组合SQL
         //连接Station和Employee表
-        sbSQL.append(" Select P.*,E.empName from PaySalary P");
+        sbSQL.append(" Select P.*,E.empName,E.empCode from PaySalary P");
         sbSQL.append(" left join Employee E on P.empId=E.empId");
-        sbSQL.append(" where P.empId= ? ");
-        sbSQL.append(" order by P.empId asc");
+        sbSQL.append(" where P.payId= ? ");
+        sbSQL.append(" order by P.payId asc");
 
         paramsList.add(id);
 
@@ -198,7 +198,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
 
         //组合SQL
         //连接Station和Employee表
-        sbSQL.append(" Select P.*,E.empName from PaySalary P");
+        sbSQL.append(" Select P.*,E.empName,E.empCode from PaySalary P");
         sbSQL.append(" left join Employee E on P.empId=E.empId");
         sbSQL.append(" where E.empName like ? ");
         sbSQL.append(" or E.empCode like ?");
@@ -261,7 +261,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
 
         //组合SQL
         //连接Station和Employee表
-        sbSQL.append(" Select P.*,E.empName from PaySalary P");
+        sbSQL.append(" Select P.*,E.empName,E.empCode from PaySalary P");
         sbSQL.append(" left join Employee E on P.empId=E.empId");
         sbSQL.append(" order by P.payId asc");
 
@@ -336,7 +336,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
 
         //组合SQL
         //连接Station和Employee表
-        sbSQL.append(" Select P.*,E.empName from PaySalary P");
+        sbSQL.append(" Select P.*,E.empName,E.empCode from PaySalary P");
         sbSQL.append(" left join Employee E on P.empId=E.empId");
         sbSQL.append(" where E.empName like ?");
         sbSQL.append(" or E.empCode like ?");
@@ -404,6 +404,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
             bean.setSalary(rs.getLong("salary"));
 
             bean.setEmpName(rs.getString("empName"));
+            bean.setEmpCode(rs.getString("empCode"));
 
         } catch (SQLException e) {
             e.printStackTrace();

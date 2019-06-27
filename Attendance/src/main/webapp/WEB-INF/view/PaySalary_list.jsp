@@ -35,7 +35,7 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="Department" method="get">
+                    <form class="layui-form layui-col-space5" action="PaySalary" method="get">
                         <input type="hidden" name="oper" value="listDeal"/>
                         <div class="layui-inline layui-show-xs-block" >
                             <input type="text" name="searchName" placeholder="请输入编码或者名称" autocomplete="off"
@@ -51,7 +51,7 @@
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','Department?oper=insert',800,600)"><i
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','PaySalary?oper=insert',800,600)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -62,12 +62,12 @@
                             <th>
                                 <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
                             </th>
-                            <th>部门ID</th>
-                            <th>部门编码</th>
-                            <th>部门名</th>
-                            <th>部门负责人</th>
-                            <th>部门职责</th>
-                            <th>上级部门</th>
+                            <th>ID</th>
+                            <th>领薪人编码</th>
+                            <th>领薪人姓名</th>
+                            <th>薪水</th>
+                            <th>计算开始日期</th>
+                            <th>计算结束日期</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -75,14 +75,14 @@
                         <c:forEach var="item" items="${DataList }">
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" value="${item.depId}" lay-skin="primary">
+                                    <input type="checkbox" name="" value="${item.payId}" lay-skin="primary">
                                 </td>
-                                <td>${item.depId}</td>
-                                <td>${item.depCode}</td>
-                                <td>${item.depName}</td>
-                                <td>${item.depHead}</td>
-                                <td>${item.depResp}</td>
-                                <td>${item.supDepName}</td>
+                                <td>${item.payId}</td>
+                                <td>${item.empCode}</td>
+                                <td>${item.empName}</td>
+                                <td>${item.salary}</td>
+                                <td>${item.beginDate}</td>
+                                <td>${item.endDate}</td>
                                     <%--<td class="td-status">
                                       <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
                                     <td class="td-manage">
@@ -90,11 +90,11 @@
                                         <i class="layui-icon">&#xe601;</i>
                                     </a>--%>
                                 <td class="td-manage">
-                                    <a title="编辑" onclick="xadmin.open('编辑[id=${item.depId}]','Department?oper=update&id=${item.depId}','800','500',false)"
+                                    <a title="编辑" onclick="xadmin.open('编辑[id=${item.payId}]','PaySalary?oper=update&id=${item.payId}','800','500',false)"
                                        href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
-                                    <a title="删除" onclick="department_del(this,${item.depId})" href="javascript:;">
+                                    <a title="删除" onclick="paySalary_del(this,${item.payId})" href="javascript:;">
                                         <i class="layui-icon">&#xe640;</i>
                                     </a>
                                 </td>
@@ -174,11 +174,11 @@
     }*/
 
     /*删除*/
-    function department_del(obj, id) {
+    function paySalary_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: 'Department?oper=deleteDeal&depId=' + id,
+                url: 'PaySalary?oper=deleteDeal&payId=' + id,
                 //dataType: 'json',
                 success: function (data) {
                     if (data == "ok") {
@@ -233,9 +233,9 @@
                     //Start : ajax方式，一行一行删除
                     $.ajax({
                         type: 'POST',
-                        url: 'Department',
+                        url: 'PaySalary',
                         async: false, //是否异步
-                        data: {"oper": "deleteDeal", "depId": id},
+                        data: {"oper": "deleteDeal", "payId": id},
                         success: function (data) {
                             if (data = "ok") {
                                 $(obj).parents("tr").remove();
