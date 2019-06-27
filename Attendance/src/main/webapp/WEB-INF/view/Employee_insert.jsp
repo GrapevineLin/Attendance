@@ -116,14 +116,12 @@
                 </div>
             </div>
 
-
-
             <div class="layui-form-item">
                 <label for="des" class="layui-form-label">
-                    <span class="x-red">*</span>个人描述</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="des" name="des" value="${des}" required=""
-                           autocomplete="off" class="layui-input">
+                    个人描述</label>
+                <div style="margin-left:110px;top:-5px;padding:0">
+                    <textarea id="des" name="des" rows="5" cols="5" class="layui-textarea"
+                              value="${des}"></textarea>
                 </div>
             </div>
 
