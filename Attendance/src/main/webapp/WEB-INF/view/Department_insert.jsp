@@ -47,7 +47,7 @@
                     <select id="depHead" name="depHead" class="layui-select">
                         <option value="">请选择</option>
                         <c:forEach var="item" items="${empList}">
-                            <option value="${item.empId}">${item.empCode}-${item.empName}</option>
+                            <option value="${item.empName}">${item.empCode}-${item.empName}</option>
                         </c:forEach>
                     </select>
                 </div>

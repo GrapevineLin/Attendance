@@ -56,7 +56,7 @@
                     </button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table class="layui-table layui-form">
+                    <table class="layui-table layui-form" id="datalist">
                         <thead>
                         <tr>
                             <th>
@@ -90,7 +90,7 @@
                                         <i class="layui-icon">&#xe601;</i>
                                     </a>--%>
                                 <td class="td-manage">
-                                    <a title="编辑" onclick="xadmin.open('编辑[id=${item.depId}]','Department?oper=update&id=${item.depId}',800,600)"
+                                    <a title="编辑" onclick="xadmin.open('编辑[id=${item.depId}]','Department?oper=update&id=${item.depId}','800','500',false)"
                                        href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>

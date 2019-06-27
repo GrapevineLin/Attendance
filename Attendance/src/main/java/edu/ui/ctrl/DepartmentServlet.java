@@ -191,7 +191,7 @@ public class DepartmentServlet extends HttpServlet {
         request.setAttribute("supDepId", supDepId);
         //服务端验证
         String vMsg = "";
-        if (SysFun.isNullOrEmpty(depName)) {
+        if (SysFun.isNullOrEmpty(depCode)) {
             vMsg += "部门编码不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
@@ -200,7 +200,7 @@ public class DepartmentServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depHead)) {
+        if (SysFun.isNullOrEmpty(depName)) {
             vMsg += "部门名称不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
@@ -209,13 +209,22 @@ public class DepartmentServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depResp)) {
+        if (SysFun.isNullOrEmpty(depHead)) {
             vMsg += "部门负责人不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
             insertView(request, response);
+            return;
+        }
+        if (SysFun.isNullOrEmpty(depResp)) {
+            vMsg += "部门描述不能为空";
+        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
+        if (!SysFun.isNullOrEmpty(vMsg)) {
+            request.setAttribute("msg", vMsg);
+            System.out.println(vMsg);
+            updateView(request, response);
             return;
         }
         if (SysFun.isNullOrEmpty(supDepId)) {
@@ -307,6 +316,7 @@ public class DepartmentServlet extends HttpServlet {
         request.setAttribute("depHead", depHead);
         request.setAttribute("depResp", depResp);
         request.setAttribute("supDepId", supDepId);
+
         // (1) 服务端验证
         String vMsg = "";
         if (SysFun.isNullOrEmpty(vId)) {
@@ -324,34 +334,25 @@ public class DepartmentServlet extends HttpServlet {
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
-            insertView(request, response);
+            updateView(request, response);
             return;
         }
         if (SysFun.isNullOrEmpty(depHead)) {
-            vMsg += "部门名称不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            insertView(request, response);
-            return;
-        }
-        if (SysFun.isNullOrEmpty(depResp)) {
             vMsg += "部门负责人不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
-            insertView(request, response);
+            updateView(request, response);
             return;
         }
-        if (!SysFun.isNullOrEmpty(depResp)) {
+        if (SysFun.isNullOrEmpty(depResp)) {
             vMsg += "部门描述不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
-            insertView(request, response);
+            updateView(request, response);
             return;
         }
         if (SysFun.isNullOrEmpty(supDepId)) {
@@ -360,7 +361,7 @@ public class DepartmentServlet extends HttpServlet {
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
             System.out.println(vMsg);
-            insertView(request, response);
+            updateView(request, response);
             return;
         }
         // (2) 数据库验证

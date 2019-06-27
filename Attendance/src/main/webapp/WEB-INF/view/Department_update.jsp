@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
@@ -56,7 +57,7 @@
                     <select id="depHead" name="depHead" class="layui-select">
                         <option value="">请选择</option>
                         <c:forEach var="item" items="${empList}">
-                            <option value="${item.empId}">${item.empCode}-${item.empName}</option>
+                            <option value="${item.empName}">${item.empCode}-${item.empName}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -65,7 +66,7 @@
                 <label for="depResp" class="layui-form-label">
                     <span class="x-red">*</span>部门描述</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="depResp" name="depResp" value="${depResp}" required=""
+                    <input type="text" id="depResp" name="depResp" value="${depResp}" lay-verify="depResp" required=""
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -73,7 +74,7 @@
                 <label for="supDepId" class="layui-form-label">
                     <span class="x-red">*</span>上级部门</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="supDepId" name="supDepId" value="${supDepId}" required=""
+                    <input type="text" id="supDepId" name="supDepId" value="${supDepId}" lay-verify="supDepId" required=""
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -132,10 +133,10 @@
     s.parentNode.insertBefore(hm, s);
 })();</script>
 <script>
-    $(function () {
+/*    $(function () {
         //选中当前负责人
-        $("depHead").val("${depHead}")
-    })
+        $("depHead").val("${empName}")
+    })*/
 </script>
 </body>
 
