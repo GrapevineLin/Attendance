@@ -59,7 +59,7 @@
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
                     <button href="javascript:;" class="layui-btn"
-                            onclick="xadmin.open('添加用户','Station?oper=insert',800,600,false)"><i
+                            onclick="xadmin.open('添加用户','Station?oper=insert',600,500,false)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -99,7 +99,7 @@
                                     </a>--%>
                                 <td class="td-manage">
                                     <a title="编辑"
-                                       onclick="xadmin.open('编辑[id=${item.jobId}]','Station?oper=update&id=${item.jobId}','800','500',false)"
+                                       onclick="xadmin.open('编辑[id=${item.jobId}]','Station?oper=update&jobId=${item.jobId}','800','500',false)"
                                        href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>

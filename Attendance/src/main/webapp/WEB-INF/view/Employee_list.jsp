@@ -50,7 +50,7 @@
                             </button>
                         </div>
                         <div class="layui-card-body layui-table-body layui-table-main">
-                            <table class="layui-table layui-form">
+                            <table class="layui-table layui-form" id="datalist">
                                 <thead>
                                   <tr>
                                     <th>

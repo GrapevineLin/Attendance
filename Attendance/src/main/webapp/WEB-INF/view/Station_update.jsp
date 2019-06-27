@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
@@ -46,32 +48,58 @@
             </div>
             <div class="layui-form-item">
                 <label for="jobName" class="layui-form-label">
-                    岗位名称</label>
+                    <span class="x-red">*</span>岗位名称</label>
                 <div class="layui-input-inline">
                     <input type="text" id="jobName" name="jobName" required="" lay-verify="jobName" autocomplete="off"
                            class="layui-input" value="${jobName}">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    岗位名称必须输入
                 </div>
             </div>
             <div class="layui-form-item">
                 <label for="dep" class="layui-form-label">
                     所在部门</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="dep" name="dep" required="" lay-verify="dep" autocomplete="off"
-                           class="layui-input" value="${dep}"></div>
+                    <select class="layui-select" name="dep" id="dep">
+                        <option value="无">请选择</option>
+                        <option value="">无</option>
+                        <c:forEach var="item" items="${departmentList}">
+                            <option value="${item.depName}">${item.depCode}-${item.depName}</option>
+                        </c:forEach>
+                    </select>
+
+                </div>
             </div>
             <div class="layui-form-item">
                 <label for="dirSup" class="layui-form-label">
                     直接上级</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="dirSup" name="dirSup" required="" lay-verify="dirSup"
-                           autocomplete="off" class="layui-input" value="${dirSup}"></div>
+                    <select class="layui-select" name="dirSup" id="dirSup">
+                        <option value="无">请选择</option>
+                        <option value="">无</option>
+                        <c:forEach var="item" items="${stationList}">
+                            <option value="${item.jobCode}">${item.jobCode}-${item.jobName}</option>
+                        </c:forEach>
+                    </select>
+
+                </div>
             </div>
             <div class="layui-form-item">
                 <label for="jobCat" class="layui-form-label">
                     岗位类别</label>
                 <div class="layui-input-inline">
                     <input type="text" id="jobCat" name="jobCat" required="" lay-verify="jobCat"
-                           autocomplete="off" class="layui-input" value="${jobCat}"></div>
+                           autocomplete="off" class="layui-input" value="${jobCat}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="jobDes" class="layui-form-label">
+                    岗位描述</label>
+                <div style="margin-left:110px;top:-5px;padding:0">
+                    <textarea id="jobDes" name="jobDes" rows="4" cols="4" class="layui-textarea"
+                              value="${jobDes}">${jobDes}</textarea>
+                </div>
             </div>
 
             <div class="layui-form-item">

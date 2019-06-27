@@ -87,6 +87,14 @@
                     <input type="text" id="jobCat" name="jobCat" required="" lay-verify="jobCat"
                            autocomplete="off" class="layui-input" value="${jobCat}"></div>
             </div>
+            <div class="layui-form-item">
+                <label for="jobDes" class="layui-form-label">
+                    岗位描述</label>
+                <div style="margin-left:110px;top:-5px;padding:0">
+                    <textarea id="jobDes" name="jobDes" rows="5" cols="5" class="layui-textarea"
+                              value="${jobDes}"></textarea>
+                </div>
+            </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
@@ -104,9 +112,9 @@
 
         //自定义验证规则
         form.verify({
-            nikename: function (value) {
-                if (value.length < 5) {
-                    return '昵称至少得5个字符啊';
+            jobCode: function (value) {
+                if (value.length <= 0) {
+                    return '岗位编码必须输入';
                 }
             },
             pass: [/(.+){6,12}$/, '密码必须6到12位'],

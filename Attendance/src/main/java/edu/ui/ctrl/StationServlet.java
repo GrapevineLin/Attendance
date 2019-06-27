@@ -188,17 +188,19 @@ public class StationServlet extends HttpServlet {
         String dep = request.getParameter("dep");
         String dirSup = request.getParameter("dirSup");
         String jobCat = request.getParameter("jobCat");
+        String jobDes = request.getParameter("jobDes");
         // 为了在输入页面回显原来的旧值,需要将旧值放到作用域,页面中进行获取
 //        request.setAttribute("jobId", vId);
-        request.setAttribute("jobCode", jobCode);
-        request.setAttribute("jobName", depName);
-        request.setAttribute("dep", dep);
-        request.setAttribute("dirSup", dirSup);
-        request.setAttribute("jobCat", jobCat);
+//        request.setAttribute("jobCode", jobCode);
+//        request.setAttribute("jobName", depName);
+//        request.setAttribute("dep", dep);
+//        request.setAttribute("dirSup", dirSup);
+//        request.setAttribute("jobCat", jobCat);
+//        request.setAttribute("jobDes", jobDes);
         // (1) 服务端验证
         String vMsg = "";
         if (SysFun.isNullOrEmpty(jobCode)) {
-            vMsg += "部门编码不能为空";
+            vMsg += "岗位编码不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -215,27 +217,8 @@ public class StationServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(dep)) {
-            vMsg += "所在部门不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            insertView(request, response);
-            return;
-        }
-        if (SysFun.isNullOrEmpty(jobCat)) {
-            vMsg += "岗位类别不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            insertView(request, response);
-            return;
-        }
 
         Long sId = SysFun.parseLong(jobCode);
-
         Station bean = new Station();
 //        bean.setJobId(sId); //主键不用自己添加
         bean.setDep(dep);
@@ -243,6 +226,7 @@ public class StationServlet extends HttpServlet {
         bean.setJobCode(jobCode);
         bean.setJobName(depName);
         bean.setJobCat(jobCat);
+        bean.setJobDes(jobDes);
         Long result = 0L;
         try {
             result = stationService.insert(bean);
@@ -263,10 +247,17 @@ public class StationServlet extends HttpServlet {
     }
 
     protected void updateView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        DepartmentService departmentService = new DepartmentServiceImpl();
+        List<Department> departmentList = departmentService.list();
+        request.setAttribute("departmentList", departmentList);
+
+        List<Station> stationList = stationService.list();
+        request.setAttribute("stationList", stationList);
+
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
         // 取得主键，再根据主键，获取记录
-        String vId = request.getParameter("id");
+        String vId = request.getParameter("jobId");
         if (!SysFun.isNullOrEmpty(vId)) {
             Long iId = SysFun.parseLong(vId);
             Station bean = stationService.load(iId);
@@ -280,6 +271,7 @@ public class StationServlet extends HttpServlet {
                 request.setAttribute("dep", bean.getDep());
                 request.setAttribute("dirSup", bean.getDirSup());
                 request.setAttribute("jobCat", bean.getJobCat());
+                request.setAttribute("jobDes", bean.getJobDes());
                 String toPage = UIConst.VIEWPATH +
                         "/Station_update.jsp";
                 request.getRequestDispatcher(toPage).forward(request,
@@ -302,13 +294,15 @@ public class StationServlet extends HttpServlet {
         String dep = request.getParameter("dep");
         String dirSup = request.getParameter("dirSup");
         String jobCat = request.getParameter("jobCat");
+        String jobDes = request.getParameter("jobDes");
         // 为了在输入页面回显原来的旧值,需要将旧值放到作用域,页面中进行获取
-        request.setAttribute("jobId", vId);
-        request.setAttribute("jobCode", jobCode);
-        request.setAttribute("jobName", depName);
-        request.setAttribute("dep", dep);
-        request.setAttribute("dirSup", dirSup);
-        request.setAttribute("jobCat", jobCat);
+        //request.setAttribute("jobId", vId);
+        //request.setAttribute("jobCode", jobCode);
+        //request.setAttribute("jobName", depName);
+        //request.setAttribute("dep", dep);
+        //request.setAttribute("dirSup", dirSup);
+        //request.setAttribute("jobCat", jobCat);
+        //request.setAttribute("jobDes", jobDes);
         // (1) 服务端验证
         String vMsg = "";
         if (SysFun.isNullOrEmpty(vId)) {
@@ -338,38 +332,11 @@ public class StationServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(dep)) {
-            vMsg += "所在部门不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            insertView(request, response);
-            return;
-        }
-        if (SysFun.isNullOrEmpty(dirSup)) {
-            vMsg += "直接上级不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            insertView(request, response);
-            return;
-        }
-        if (SysFun.isNullOrEmpty(jobCat)) {
-            vMsg += "岗位类别不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            insertView(request, response);
-            return;
-        }
         // (2) 数据库验证
         Long iId = SysFun.parseLong(vId);
         Station bean = stationService.load(iId);
         if (bean == null) {
-            vMsg = "数据不存在";
+            vMsg = "数据不存在啊啊！";
         }
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -385,6 +352,7 @@ public class StationServlet extends HttpServlet {
         bean.setJobCode(jobCode);
         bean.setJobName(depName);
         bean.setJobCat(jobCat);
+        bean.setJobDes(jobDes);
         Long result = 0L;
         try {
             result = stationService.update(bean);

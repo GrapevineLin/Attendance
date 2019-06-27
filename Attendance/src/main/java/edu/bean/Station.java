@@ -8,6 +8,16 @@ public class Station {
     private String dirSup;
     private String jobCat;
 
+    public String getJobDes() {
+        return jobDes;
+    }
+
+    public void setJobDes(String jobDes) {
+        this.jobDes = jobDes;
+    }
+
+    private String jobDes;
+
     public Long getJobId() {
         return jobId;
     }

@@ -53,17 +53,17 @@ public class StationDaoImpl implements StationDao {
         sbSQL.append(" Insert Into Station");
         sbSQL.append(" (");
         sbSQL.append(" jobCode,jobName,dep,dirSup");
-        sbSQL.append(" ,jobCat");
+        sbSQL.append(" ,jobCat,jobDes");
         sbSQL.append(" )");
-        sbSQL.append(" values(?,?,?,? ,?)");
+        sbSQL.append(" values(?,?,?,?,?,?)");
 
         //添加参数
         paramsList.add(bean.getJobCode());
         paramsList.add(bean.getJobName());
         paramsList.add(bean.getDep());
         paramsList.add(bean.getDirSup());
-
         paramsList.add(bean.getJobCat());
+        paramsList.add(bean.getJobDes());
 
         String sql = sbSQL.toString();
         Object[] params = paramsList.toArray();
@@ -128,7 +128,7 @@ public class StationDaoImpl implements StationDao {
         // SQL语句
         sbSQL.append(" update Station ");
         sbSQL.append(" set jobCode=?, jobName=?, dep=?, dirSup=?,");
-        sbSQL.append(" jobCat=?");
+        sbSQL.append(" jobCat=?,jobDes=?");
         sbSQL.append(" where jobId=?");
 
         //添加参数
@@ -136,9 +136,8 @@ public class StationDaoImpl implements StationDao {
         paramsList.add(bean.getJobName());
         paramsList.add(bean.getDep());
         paramsList.add(bean.getDirSup());
-
         paramsList.add(bean.getJobCat());
-
+        paramsList.add(bean.getJobDes());
         paramsList.add(bean.getJobId());
 
         String sql = sbSQL.toString();
@@ -201,8 +200,8 @@ public class StationDaoImpl implements StationDao {
         sbSQL.append(" where jobName like ? ");
         sbSQL.append(" or jobCode like ?");
 
-        paramsList.add("%"+name+"%");
-        paramsList.add("%"+name+"%");
+        paramsList.add("%" + name + "%");
+        paramsList.add("%" + name + "%");
 
         String sql = sbSQL.toString();
         Object[] params = paramsList.toArray();
@@ -374,6 +373,7 @@ public class StationDaoImpl implements StationDao {
             bean.setDep(rs.getString("dep"));
             bean.setDirSup(rs.getString("dirSup"));
             bean.setJobCat(rs.getString("jobCat"));
+            bean.setJobDes(rs.getString("jobDes"));
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
