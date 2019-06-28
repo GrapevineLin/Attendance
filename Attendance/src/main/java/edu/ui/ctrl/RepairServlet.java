@@ -59,27 +59,27 @@ public class RepairServlet extends HttpServlet {
             case "delete":
                 delete(request, response);
                 break;
-                //case "listdeal":
-                //    listDeal(request, response); // 列表处理
-                //    break;
-                //case "insert":
-                //    insertView(request, response); // 添加页面
-                //    break;
-                //case "insertdeal":
-                //    insertDeal(request, response); // 添加处理
-                //    break;
-                //case "update":
-                //    updateView(request, response); // 修改页面
-                //    break;
-                //case "updatedeal":
-                //    updateDeal(request, response); // 修改处理
-                //    break;
-                //case "detail":
-                //    detailView(request, response); // 查看页面
-                //    break;
-                //case "deletedeal":
-                //    deleteDeal(request, response); // 删除处理
-                //    break;
+            //case "listdeal":
+            //    listDeal(request, response); // 列表处理
+            //    break;
+            //case "insert":
+            //    insertView(request, response); // 添加页面
+            //    break;
+            //case "insertdeal":
+            //    insertDeal(request, response); // 添加处理
+            //    break;
+            //case "update":
+            //    updateView(request, response); // 修改页面
+            //    break;
+            //case "updatedeal":
+            //    updateDeal(request, response); // 修改处理
+            //    break;
+            //case "detail":
+            //    detailView(request, response); // 查看页面
+            //    break;
+            //case "deletedeal":
+            //    deleteDeal(request, response); // 删除处理
+            //    break;
             default:
                 // listView(request, response); // 列表页面 : 默认
                 System.out.println("oper不存在" + oper);
@@ -108,11 +108,14 @@ public class RepairServlet extends HttpServlet {
 
     private void getList(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
-        List<RepairCard> repairCards = repairCardService.list();
+        Long page = Long.parseLong(request.getParameter("page"));
+        Long limit = Long.parseLong(request.getParameter("limit"));
+        //List<RepairCard> repairCards = repairCardService.list();
+        List<RepairCard> repairCards = repairCardService.pager(page, limit);
         Map<String, Object> map = new HashMap<>();
         map.put("code", 0);
         map.put("msg", "");
-        map.put("count", 100);
+        map.put("count", repairCardService.count());
         map.put("data", repairCards);
         //将结果转成JSON字符串 返回给前台
         System.out.println("Json" + JSON.toJSONString(map));

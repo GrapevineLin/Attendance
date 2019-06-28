@@ -101,12 +101,68 @@ public class RepairCardDaoImpl implements RepairCardDao {
 
     @Override
     public Long count() {
-        return null;
+        Long result = 0L;
+
+        StringBuffer sbSQL = new StringBuffer();
+        List<Object> paramsList = new ArrayList<Object>();
+
+        sbSQL.append("select count(1) from RepairCard");
+
+        String sql = sbSQL.toString();
+        Object[] params = paramsList.toArray();
+
+        Connection conn = null;
+
+        try {
+            conn = DbUtil.getConn();
+            result = DbFun.queryScalarLong(conn, sql, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            DbUtil.close(conn);
+        }
+        return result;
     }
 
     @Override
-    public List<RepairCard> pager(Long pageNum, Long pageSize) {
-        return null;
+    public List<RepairCard> pager(Long pageNum, Long pageSize){
+        List<RepairCard> list = new ArrayList<RepairCard>();
+
+        StringBuffer sbSQL = new StringBuffer();
+        List<Object> paramsList = new ArrayList<Object>();
+
+        sbSQL.append(" select * from RepairCard");
+        sbSQL.append(" order by repairId asc");
+
+        if (pageNum < 1) {
+            pageNum = 1L;
+        }
+        if (pageSize < 1) {
+            pageSize = 10L;
+        }
+        Long startIndex = (pageNum - 1) * pageSize;
+        sbSQL.append(" limit " + startIndex + "," + pageSize);
+
+        String sql = sbSQL.toString();
+        Object[] params = paramsList.toArray();
+
+        Connection conn = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DbUtil.getConn();
+            rs = DbFun.query(conn, sql, params);
+            while (rs.next()) {
+                list.add(toBean(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            DbUtil.close(conn);
+        }
+        return list;
     }
 
     @Override

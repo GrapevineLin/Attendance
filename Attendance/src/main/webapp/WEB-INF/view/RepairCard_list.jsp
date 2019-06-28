@@ -123,7 +123,7 @@
             var data = obj.data; //obj.data 代表是这行表格的数据
             //console.log(obj)
             if (obj.event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
+                layer.confirm('真的删除这行么', function (index) {
                     /* 弹出确认框,如果你点击确定 就会执行这下面的内容*/
                     $.ajax({
                         type: 'GET',
@@ -154,6 +154,7 @@
                     maxmin: true,
                     shadeClose: true,
                     shade: 0.4,
+                    btn: ['按钮一', '按钮二', '按钮三'],
                     title: "编辑补卡单",
                     // content: 'RepairCard?oper=update&repairId=' + data.repairId
                     content: $("#Update")
