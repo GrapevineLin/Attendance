@@ -1,10 +1,17 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 31660
+  Date: 2019/6/27 0027
+  Time: 11:45
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.2</title>
+    <title>岗位页面-X-admin2.2</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -22,7 +29,7 @@
 <div class="x-nav">
           <span class="layui-breadcrumb">
             <a href="">首页</a>
-            <a href="">部门</a>
+            <a href="">补卡单</a>
             <a>
               <cite>清单</cite></a>
           </span>
@@ -35,10 +42,10 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="Employee" method="get">
+                    <form class="layui-form layui-col-space5" action="Station" method="get">
                         <input type="hidden" name="oper" value="listDeal"/>
-                        <div class="layui-inline layui-show-xs-block" >
-                            <input type="text" name="searchName" placeholder="请输入名称" autocomplete="off"
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="searchName" placeholder="请输入人员编码或者名称" autocomplete="off"
                                    class="layui-input" value="${searchName}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
@@ -51,57 +58,52 @@
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','Employee?oper=insert',800,600)"><i
+                    <button href="javascript:;" class="layui-btn"
+                            onclick="xadmin.open('添加补卡单','Station?oper=insert',600,500,false)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table id="datalist"  class="layui-table layui-form">
+                    <table class="layui-table layui-form" id="datalist">
                         <thead>
                         <tr>
                             <th>
                                 <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
                             </th>
                             <th>ID</th>
-                            <th>员工编码</th>
-                            <th>姓名</th>
-                            <th>性别</th>
-                            <th>年龄</th>
-                            <th>民族</th>
-                            <th>岗位</th>
-                            <th>操作</th></tr>
+                            <th>补卡人编码</th>
+                            <th>补卡人姓名</th>
+                            <th>补卡日期</th>
+                        </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="item" items="${DataList }">
+                        <c:forEach var="item" items="${DataList}">
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" value="${item.empId}" lay-skin="primary">
+                                    <input type="checkbox" name="" value="${item.repairId}" lay-skin="primary">
                                 </td>
-                                <td>${item.empId}</td>
+                                <td>${item.repairId}</td>
                                 <td>${item.empCode}</td>
-                                <td>${item.empName}</td>
-                                <td>${item.sex}</td>
-                                <td>${item.age}</td>
-                                <td>${item.nation}</td>
-                                <td>${item.jobName}</td>
+                                <td>${item.date}</td>
+                                <td>${item.reason}</td>
                                     <%--<td class="td-status">
                                       <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
                                     <td class="td-manage">
-                                      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+                                      <a onclick="station_stop(this,'10001')" href="javascript:;"  title="启用">
                                         <i class="layui-icon">&#xe601;</i>
                                     </a>--%>
                                 <td class="td-manage">
-                                    <a title="编辑" onclick="xadmin.open('编辑[id=${item.empId}]','Employee?oper=update&empId=${item.empId}','800','500',false)"
+                                    <a title="编辑"
+                                       onclick="xadmin.open('编辑[id=${item.repairId}]','Station?oper=update&repairId=${item.repairId}','800','500',false)"
                                        href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
-                                    <a title="删除" onclick="station_del(this,${item.empId})" href="javascript:;">
+                                    <a title="删除" onclick="station_del(this,${item.repairId})" href="javascript:;">
                                         <i class="layui-icon">&#xe640;</i>
                                     </a>
                                 </td>
                             </tr>
                         </c:forEach>
-
                         </tbody>
                     </table>
                     <jsp:include page="__pager.jsp" flush="true"/>
@@ -112,6 +114,11 @@
 </div>
 </body>
 <script>
+
+    /*项目-增加*/
+    function item_add(title, url, w, h) {
+        layer_show(title, url, w, h)
+    }
 
     layui.use(['laydate', 'form'], function () {
         var laydate = layui.laydate;
@@ -143,7 +150,7 @@
     });
 
     /*用户-停用*/
-    function member_stop(obj, id) {
+    function station_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {
 
             if ($(obj).attr('title') == '启用') {
@@ -166,21 +173,21 @@
         });
     }
 
-    /*/!*用户-删除*!/
-    function member_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {icon: 1, time: 1000});
-        });
-    }*/
+    /*原本-删除*/
+    // function station_del(obj, id) {
+    //     layer.confirm('确认要删除吗？', function (index) {
+    //         //发异步删除数据
+    //         $(obj).parents("tr").remove();
+    //         layer.msg('已删除!', {icon: 1, time: 1000});
+    //     });
+    // }
 
     /*删除*/
     function station_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: 'Employee?oper=deleteDeal&empId=' + id,
+                url: 'Station?oper=deleteDeal&repairId=' + id,
                 //dataType: 'json',
                 success: function (data) {
                     if (data == "ok") {
@@ -192,7 +199,7 @@
                 },
                 error: function (data) {
                     console.log(data.msg);
-                }
+                },
             });
         });
     }
@@ -202,22 +209,22 @@
         layer_show(title, url, w, h);
     }
 
-    /*function delAll(argument) {
-        var ids = [];
-
-        // 获取选中的id
-        $('tbody input').each(function (index, el) {
-            if ($(this).prop('checked')) {
-                ids.push($(this).val())
-            }
-        });
-
-        layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-    }*/
+    // function delAll(argument) {
+    //     var ids = [];
+    //
+    //     // 获取选中的id
+    //     $('tbody input').each(function (index, el) {
+    //         if ($(this).prop('checked')) {
+    //             ids.push($(this).val())
+    //         }
+    //     });
+    //
+    //     layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
+    //         //捉到所有被选中的，发异步进行删除
+    //         layer.msg('删除成功', {icon: 1});
+    //         $(".layui-form-checked").not('.header').parents('tr').remove();
+    //     });
+    // }
 
     /*批量-删除*/
     function delAll() {
@@ -235,9 +242,9 @@
                     //Start : ajax方式，一行一行删除
                     $.ajax({
                         type: 'POST',
-                        url: 'Employee',
+                        url: 'Station',
                         async: false, //是否异步
-                        data: {"oper": "deleteDeal", "empId": id},
+                        data: {"oper": "deleteDeal", "repairId": id},
                         success: function (data) {
                             if (data = "ok") {
                                 $(obj).parents("tr").remove();
@@ -258,6 +265,7 @@
             });
         });
     }
+
 
 </script>
 </html>

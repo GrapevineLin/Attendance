@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserDao {
     //    List<UserDao> list();
-//    Long insert(UserDao bean);
+    Long insert(UserDao bean);
 //    Long delete(Long id);
 //    Long update(UserDao bean);
 //    UserDao Load(Long id);

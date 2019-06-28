@@ -1,335 +1,331 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.liuvei.edu</groupId>
-  <artifactId>edu-ssm-v36_area30</artifactId>
-  <packaging>war</packaging>
-  <version>1.0</version>
-  <name>edu-ssm-v36_area30</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-
-    <!-- ***** 0000.[compile plugin][props] -->
-    <jdk.source.version>1.8</jdk.source.version>
-    <jdk.target.version>1.8</jdk.target.version>
-    <maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
-
-    <!-- ***** 0001.[resource plugin][props] -->
-    <maven.resource.plugin.version>3.0.2</maven.resource.plugin.version>
-    <project.resource.encoding>UTF-8</project.resource.encoding>
-
-    <!-- ***** 0002. [web empty][props] -->
-    <maven.war.plugin.version>3.2.0</maven.war.plugin.version>
-    <project.war.config.version>3.1</project.war.config.version>
-
-    <!-- ***** 1000.[unit test][props] -->
-    <junit.version>4.12</junit.version>
-
-    <!-- ***** 1001.[javaee31][props] -->
-    <javaee31.servletapi.version>3.1.0</javaee31.servletapi.version>
-    <javaee31.jspapi.version>2.2</javaee31.jspapi.version>
-    <javaee31.jstl.version>1.2</javaee31.jstl.version>
-    <javaee31.taglibs.version>1.1.2</javaee31.taglibs.version>
-
-
-    <!-- ***** 1011. [log][props] -->
-    <log.framework.jcl.version>1.2</log.framework.jcl.version>
-    <log.framework.slf4j.version>1.7.26</log.framework.slf4j.version>
-    <log.system.log4j.version>1.2.17</log.system.log4j.version>
-    <log.system.log4j2.version>2.11.2</log.system.log4j2.version>
-
-
-    <!-- ***** 1021. [jdbc-mysql][props] -->
-    <jdbc.mysql.version>5.1.47</jdbc.mysql.version>
-
-
-    <!-- ***** 1031. [ds-dbcp2][props] -->
-    <ds.dbcp2.version>2.5.0</ds.dbcp2.version>
-
-    <!-- ***** 1032. [ds-c3p0][props] -->
-    <ds.c3p0.version>0.9.5.2</ds.c3p0.version>
-
-    <!-- ***** 1041. [dbutils][props] -->
-    <apache.dbutils.version>1.7</apache.dbutils.version>
-
-
-    <!-- ***** 2000. [spring app][props] -->
-    <spring.app.version>5.1.5.RELEASE</spring.app.version>
-    <aopalliance.version>1.0</aopalliance.version>
-    <asm.version>5.2</asm.version>
-    <cglib.version>3.2.10</cglib.version>
-
-    <!--***** 2001. [mybatis][props] -->
-    <mybatis.core.version>3.5.0</mybatis.core.version>
-    <mybatis.spring.version>2.0.0</mybatis.spring.version>
-
-    <!--***** 2002. [hibernate][props] -->
-    <hibernate.core.version>5.4.1.Final</hibernate.core.version>
-    <hibernate.jpa.version>1.0.2.Final</hibernate.jpa.version>
-
-    <!--***** 2003. [struts][props] -->
-    <struts.core.version>2.5.20</struts.core.version>
-
-  </properties>
-
-
-
-  <dependencies>
-    <!-- https://mvnrepository.com/artifact/junit/junit -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-
-
-
-    <!-- 指定scope为provided可以避免在发布的时候把servlet-api包拷到lib目录下。 -->
-    <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->
-    <dependency>
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>jsp-api</artifactId>
-      <version>2.2</version>
-      <scope>provided</scope>
-    </dependency>
-
-
-    <!-- https://mvnrepository.com/artifact/jstl/jstl -->
-    <dependency>
-      <groupId>jstl</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
-    </dependency>
-
-
-    <!-- https://mvnrepository.com/artifact/taglibs/standard -->
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
-      <version>1.1.2</version>
-    </dependency>
-
-
-    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.47</version>
-    </dependency>
-
-
-
-    <!-- 数据库连接池： dbcp2 -->
-    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-dbcp2</artifactId>
-      <version>2.5.0</version>
-    </dependency>
-
-    <!-- 数据库连接池： c3p0 v2 -->
-    <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
-    <dependency>
-      <groupId>com.mchange</groupId>
-      <artifactId>c3p0</artifactId>
-      <version>0.9.5.2</version>
-    </dependency>
-
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>${spring.app.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-jdbc</artifactId>
-      <version>${spring.app.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <version>${spring.app.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>${spring.app.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
-      <version>${spring.app.version}</version>
-    </dependency>
-
-
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-aspects</artifactId>
-      <version>${spring.app.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
-    <dependency>
-      <groupId>aopalliance</groupId>
-      <artifactId>aopalliance</artifactId>
-      <version>1.0</version>
-    </dependency>
-
-
-    <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
-    <dependency>
-      <groupId>org.mybatis</groupId>
-      <artifactId>mybatis</artifactId>
-      <version>3.5.0</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
-    <dependency>
-      <groupId>org.mybatis</groupId>
-      <artifactId>mybatis-spring</artifactId>
-      <version>2.0.0</version>
-    </dependency>
-
-    <!-- ********************************************************************** -->
-    <!-- ***** 3000. [third liuvei common][jar] -->
-    <!-- ********************************************************************** -->
-    <!-- 说明1：本jar包是第三方包，需要先以命令行形式安装在本地仓库； -->
-    <!-- 说明2：如使私服，且已在私服部署本包，则直接依赖即可。 -->
-    <dependency>
-      <groupId>com.liuvei.common</groupId>
-      <artifactId>liuvei-common</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-
-    <!-- ********************************************************************** -->
-
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-      <version>1.2.47</version>
-    </dependency>
-
-  </dependencies>
-
-
-  <build>
-
-    <plugins>
-
-
-      <!-- ********************************************************************** -->
-      <!-- ***** 0000.[compile plugin][plugin] -->
-      <!-- ********************************************************************** -->
-      <!-- 0. maven运行的时候都是依赖于插件 -->
-      <!-- maven编译插件是org.apache.maven.plugins(该插件来自本地仓库); -->
-      <!-- 配置maven编译时的jdk版本和编码，不配置编码则cli下mvn编译会提示错误。 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.compiler.plugin.version}</version>
-        <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
-          <encoding>${project.build.sourceEncoding}</encoding>
-        </configuration>
-      </plugin>
-
-      <!-- ********************************************************************** -->
-
-
-      <!-- ********************************************************************** -->
-      <!-- ***** 0001.[resource plugin][plugin] -->
-      <!-- ********************************************************************** -->
-      <!-- 空资源处理 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>${maven.resource.plugin.version}</version>
-        <configuration>
-          <encoding>${project.resource.encoding}</encoding>
-          <includeEmptyDirs>true</includeEmptyDirs>
-        </configuration>
-      </plugin>
-      <!-- ********************************************************************** -->
-
-
-
-      <!-- ********************************************************************** -->
-      <!-- ***** 0002. [web empty][plugin] -->
-      <!-- ********************************************************************** -->
-      <!-- web空处理——空目录处理和无web.xml处理 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>${maven.war.plugin.version}</version>
-        <!-- 解决Cannot detect Web Project version. -->
-        <!-- Please specify version of Web Project through Maven project property. -->
-        <configuration>
-          <!--<version>${project.war.config.version}</version>-->
-          <includeEmptyDirectories>true</includeEmptyDirectories>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-      </plugin>
-      <!-- ********************************************************************** -->
-
-
-      <!-- ********************************************************************** -->
-      <!-- ***** 0003. [jetty run web app][plugin] -->
-      <!-- ********************************************************************** -->
-      <!-- 说明1：默认端口号为8300（可自行修改） -->
-      <!-- 说明1：默认上下文目录 是项目的artifactId（也可自行修改） -->
-      <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>9.4.14.v20181114</version>
-        <configuration>
-          <webApp>
-            <contextPath>/${project.artifactId}</contextPath>
-            <descriptor>${basedir}/src/main/webapp/WEB-INF/web.xml</descriptor>
-          </webApp>
-          <webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
-          <scanIntervalSeconds>1</scanIntervalSeconds>
-          <httpConnector>
-            <port>8300</port>
-          </httpConnector>
-        </configuration>
-      </plugin>
-      <!-- ********************************************************************** -->
-
-
-    </plugins>
-
-    <pluginManagement>
-      <plugins>
-
-      </plugins>
-    </pluginManagement>
-
-  </build>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.liuvei.edu</groupId>
+    <artifactId>edu-ssm-v36_area30</artifactId>
+    <packaging>war</packaging>
+    <version>1.0</version>
+    <name>edu-ssm-v36_area30</name>
+    <url>http://maven.apache.org</url>
+    <properties>
+
+        <!-- ***** 0000.[compile plugin][props] -->
+        <jdk.source.version>1.8</jdk.source.version>
+        <jdk.target.version>1.8</jdk.target.version>
+        <maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+
+        <!-- ***** 0001.[resource plugin][props] -->
+        <maven.resource.plugin.version>3.0.2</maven.resource.plugin.version>
+        <project.resource.encoding>UTF-8</project.resource.encoding>
+
+        <!-- ***** 0002. [web empty][props] -->
+        <maven.war.plugin.version>3.2.0</maven.war.plugin.version>
+        <project.war.config.version>3.1</project.war.config.version>
+
+        <!-- ***** 1000.[unit test][props] -->
+        <junit.version>4.12</junit.version>
+
+        <!-- ***** 1001.[javaee31][props] -->
+        <javaee31.servletapi.version>3.1.0</javaee31.servletapi.version>
+        <javaee31.jspapi.version>2.2</javaee31.jspapi.version>
+        <javaee31.jstl.version>1.2</javaee31.jstl.version>
+        <javaee31.taglibs.version>1.1.2</javaee31.taglibs.version>
+
+
+        <!-- ***** 1011. [log][props] -->
+        <log.framework.jcl.version>1.2</log.framework.jcl.version>
+        <log.framework.slf4j.version>1.7.26</log.framework.slf4j.version>
+        <log.system.log4j.version>1.2.17</log.system.log4j.version>
+        <log.system.log4j2.version>2.11.2</log.system.log4j2.version>
+
+
+        <!-- ***** 1021. [jdbc-mysql][props] -->
+        <jdbc.mysql.version>5.1.47</jdbc.mysql.version>
+
+
+        <!-- ***** 1031. [ds-dbcp2][props] -->
+        <ds.dbcp2.version>2.5.0</ds.dbcp2.version>
+
+        <!-- ***** 1032. [ds-c3p0][props] -->
+        <ds.c3p0.version>0.9.5.2</ds.c3p0.version>
+
+        <!-- ***** 1041. [dbutils][props] -->
+        <apache.dbutils.version>1.7</apache.dbutils.version>
+
+
+        <!-- ***** 2000. [spring app][props] -->
+        <spring.app.version>5.1.5.RELEASE</spring.app.version>
+        <aopalliance.version>1.0</aopalliance.version>
+        <asm.version>5.2</asm.version>
+        <cglib.version>3.2.10</cglib.version>
+
+        <!--***** 2001. [mybatis][props] -->
+        <mybatis.core.version>3.5.0</mybatis.core.version>
+        <mybatis.spring.version>2.0.0</mybatis.spring.version>
+
+        <!--***** 2002. [hibernate][props] -->
+        <hibernate.core.version>5.4.1.Final</hibernate.core.version>
+        <hibernate.jpa.version>1.0.2.Final</hibernate.jpa.version>
+
+        <!--***** 2003. [struts][props] -->
+        <struts.core.version>2.5.20</struts.core.version>
+
+    </properties>
+
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- 指定scope为provided可以避免在发布的时候把servlet-api包拷到lib目录下。 -->
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/jstl/jstl -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/taglibs/standard -->
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.47</version>
+        </dependency>
+
+
+        <!-- 数据库连接池： dbcp2 -->
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <!-- 数据库连接池： c3p0 v2 -->
+        <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5.2</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.app.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.app.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.app.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.app.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.app.version}</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.app.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
+        <dependency>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
+        <!-- ********************************************************************** -->
+        <!-- ***** 3000. [third liuvei common][jar] -->
+        <!-- ********************************************************************** -->
+        <!-- 说明1：本jar包是第三方包，需要先以命令行形式安装在本地仓库； -->
+        <!-- 说明2：如使私服，且已在私服部署本包，则直接依赖即可。 -->
+        <dependency>
+            <groupId>com.liuvei.common</groupId>
+            <artifactId>liuvei-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- ********************************************************************** -->
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.58</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+
+        <plugins>
+
+
+            <!-- ********************************************************************** -->
+            <!-- ***** 0000.[compile plugin][plugin] -->
+            <!-- ********************************************************************** -->
+            <!-- 0. maven运行的时候都是依赖于插件 -->
+            <!-- maven编译插件是org.apache.maven.plugins(该插件来自本地仓库); -->
+            <!-- 配置maven编译时的jdk版本和编码，不配置编码则cli下mvn编译会提示错误。 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- ********************************************************************** -->
+
+
+            <!-- ********************************************************************** -->
+            <!-- ***** 0001.[resource plugin][plugin] -->
+            <!-- ********************************************************************** -->
+            <!-- 空资源处理 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resource.plugin.version}</version>
+                <configuration>
+                    <encoding>${project.resource.encoding}</encoding>
+                    <includeEmptyDirs>true</includeEmptyDirs>
+                </configuration>
+            </plugin>
+            <!-- ********************************************************************** -->
+
+
+            <!-- ********************************************************************** -->
+            <!-- ***** 0002. [web empty][plugin] -->
+            <!-- ********************************************************************** -->
+            <!-- web空处理——空目录处理和无web.xml处理 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven.war.plugin.version}</version>
+                <!-- 解决Cannot detect Web Project version. -->
+                <!-- Please specify version of Web Project through Maven project property. -->
+                <configuration>
+                    <!--<version>${project.war.config.version}</version>-->
+                    <includeEmptyDirectories>true</includeEmptyDirectories>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <!-- ********************************************************************** -->
+
+
+            <!-- ********************************************************************** -->
+            <!-- ***** 0003. [jetty run web app][plugin] -->
+            <!-- ********************************************************************** -->
+            <!-- 说明1：默认端口号为8300（可自行修改） -->
+            <!-- 说明1：默认上下文目录 是项目的artifactId（也可自行修改） -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.14.v20181114</version>
+                <configuration>
+                    <webApp>
+                        <contextPath>/${project.artifactId}</contextPath>
+                        <descriptor>${basedir}/src/main/webapp/WEB-INF/web.xml</descriptor>
+                    </webApp>
+                    <webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
+                    <scanIntervalSeconds>1</scanIntervalSeconds>
+                    <httpConnector>
+                        <port>8300</port>
+                    </httpConnector>
+                </configuration>
+            </plugin>
+            <!-- ********************************************************************** -->
+
+
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+
+            </plugins>
+        </pluginManagement>
+
+    </build>
 
 </project>

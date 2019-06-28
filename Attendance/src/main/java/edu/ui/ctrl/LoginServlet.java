@@ -127,7 +127,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         //业务处理
-        //将用户信息放入会话中，一边进行登录检测时使用
+        //将用户信息放入会话中，一边进行登录检测时使用（用于显示登陆者的相关信息）
         session.setAttribute(UIConst.BG_LOGINUSER_KEY, bean);
 
         //登录成功，重定向

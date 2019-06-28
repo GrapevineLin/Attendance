@@ -52,7 +52,7 @@
                         </div>
                         <div class="layui-card-header">
                             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                            <button class="layui-btn" onclick="xadmin.open('添加用户','Classes?oper=insert',600,400)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加用户','Classes?oper=insert',600,500)"><i class="layui-icon"></i>添加</button>
                             <span class="r">共有数据：<strong>${pagerItem.rowCount}</strong> 条</span>
                         </div>
                         <div class="layui-card-body layui-table-body layui-table-main">
@@ -84,7 +84,7 @@
                                             <td>${item.pm}</td>
                                             <td>${item.remark}</td>
                                             <td class="td-manage">
-                                                <a title="编辑"  onclick="xadmin.open('编辑[id=${item.classId}]','Classes?oper=update&id=${item.classId}',600,400)" href="javascript:;">
+                                                <a title="编辑"  onclick="xadmin.open('编辑[id=${item.classId}]','Classes?oper=update&id=${item.classId}',600,500)" href="javascript:;">
                                                     <i class="layui-icon">&#xe642;</i>
                                                 </a>
                                                 <a title="删除" onclick="class_del(this, ${item.classId})" href="javascript:;">
