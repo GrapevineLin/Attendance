@@ -37,33 +37,18 @@
                     </select>
                 </div>
             </div>
-            <%--<div class="layui-form-item">
-                <label for="beginDate" class="layui-form-label">领薪区间</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="beginDate" name="beginDate" value="${beginDate}" required=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>--%>
-            <%--<div class="layui-form-item">
-                <label for="endDate" class="layui-form-label">
-                    <span class="x-red">
-                <div class="layui-input-inline">
-                    <input type="text" id="endDate" name="endDate" value="${endDate}" required=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>--%>
             <div class="layui-form-item">
                 <label class="layui-form-label" for="beginDate">领薪区间</label>
                 <div class="layui-input-inline">
-                    <input type="datetime-local" name="beginDate" id="beginDate" value="${beginDate}"
-                           placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input">
+                    <input type="text" name="beginDate" id="beginDate" value="${beginDate}"
+                           placeholder="-" class="layui-input" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label" for="beginDate"></label>
                 <div class="layui-input-inline">
-                    <input type="datetime-local" name="endDate" id="endDate" value="${endDate}"
-                           placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input">
+                    <input type="text" name="endDate" id="endDate" value="${endDate}"
+                           placeholder="-" class="layui-input" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -82,19 +67,25 @@
     </div>
 </div>
 
-<script>
-    //执行一个laydate实例
-    laydate.render({
-        elem: '#test1', //指定元素
-        type: 'datetime'
-    });
-</script>
-
-<script>layui.use(['form', 'layer', 'jquery'],
+<script>layui.use(['form', 'layer', 'jquery','laydate'],
     function () {
         $ = layui.jquery;
         var form = layui.form,
-            layer = layui.layer;
+            layer = layui.layer,
+            laydate = layui.laydate;
+
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#beginDate', //指定元素
+            type: 'datetime'
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#endDate', //指定元素
+            type: 'datetime'
+        });
 
         //自定义验证规则
         form.verify({

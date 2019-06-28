@@ -238,11 +238,7 @@ public class PaySalaryServlet extends HttpServlet {
         }
 
         //类型转换
-        beginDate=beginDate.replace("T"," ");
-        endDate=endDate.replace("T"," ");
-        beginDate=beginDate+":00";
-        endDate=endDate+":00";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date bDate = sdf.parse(beginDate);
         Date eDate = sdf.parse(endDate);
         Long sId = SysFun.parseLong(empId);
@@ -322,8 +318,6 @@ public class PaySalaryServlet extends HttpServlet {
         request.setAttribute("endDate", endDate);
         request.setAttribute("salary", salary);
 
-        System.out.println("sssssssssssssssssss"+vId);
-
         // (1) 服务端验证
         String vMsg = "";
         if (SysFun.isNullOrEmpty(vId)) {
@@ -373,11 +367,7 @@ public class PaySalaryServlet extends HttpServlet {
         }
 
         //类型转换
-        beginDate=beginDate.replace("T"," ");
-        endDate=endDate.replace("T"," ");
-        beginDate=beginDate+":00";
-        endDate=endDate+":00";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date bDate = sdf.parse(beginDate);
         Date eDate = sdf.parse(endDate);
         Long sId = SysFun.parseLong(empId);

@@ -21,6 +21,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/lib/layui/layui.js"
             charset="utf-8"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/js/xadmin.js"></script>
+    <script src="${pageContext.request.contextPath}/static/X-admin/laydate/laydate.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -49,15 +50,15 @@
             <div class="layui-form-item">
                 <label class="layui-form-label" for="beginDate">领薪区间</label>
                 <div class="layui-input-inline">
-                    <input type="datetime-local" name="beginDate" id="beginDate" value="${beginDate}"
-                           placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input">
+                    <input type="text" name="beginDate" id="beginDate" value="${beginDate}"
+                           placeholder="-" class="layui-input" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label" for="beginDate"></label>
                 <div class="layui-input-inline">
-                    <input type="datetime-local" name="endDate" id="endDate" value="${endDate}"
-                           placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input">
+                    <input type="text" name="endDate" id="endDate" value="${endDate}"
+                           placeholder="-" class="layui-input" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -77,12 +78,27 @@
     </div>
 </div>
 <script>layui.use(['form', 'layer'],
-    function () {
-        $ = layui.jquery;
-        var form = layui.form,
-            layer = layui.layer;
+        function () {
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer,
+                laydate = layui.laydate;
 
-        //自定义验证规则
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#beginDate', //指定元素
+                type: 'datetime'
+            });
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#endDate', //指定元素
+                type: 'datetime'
+            });
+
+
+            //自定义验证规则
         form.verify({
             nikename: function (value) {
                 if (value.length < 5) {
