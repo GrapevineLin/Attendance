@@ -24,12 +24,29 @@ public class RepairCardDaoImpl implements RepairCardDao {
         return bean;
     }
 
+    private RepairCard toBeanEX(ResultSet rs) {
+        RepairCard bean = new RepairCard();
+        try {
+            bean.setRepairId(rs.getLong("repairId"));
+            bean.setEmpCode(rs.getString("empCode"));
+            bean.setDate(rs.getDate("date"));
+            bean.setReason(rs.getString("reason"));
+            bean.setEmpName(rs.getString("empName"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return bean;
+    }
+
     @Override
     public List<RepairCard> list() {
         List<RepairCard> list = new ArrayList<RepairCard>();
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
-        sbSQL.append("select * from RepairCard");
+        sbSQL.append(" select R.*,E.empName from RepairCard R");
+        sbSQL.append(" left join Employee E on E.empCode=R.empCode");
+        sbSQL.append(" order by repairId asc");
         String sql = sbSQL.toString();
         Object[] params = paramsList.toArray();
         Connection conn = null;
@@ -38,7 +55,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
             conn = DbUtil.getConn();
             rs = DbFun.query(conn, sql, params);
             while (rs.next()) {
-                list.add(toBean(rs));
+                list.add(toBeanEX(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +68,22 @@ public class RepairCardDaoImpl implements RepairCardDao {
 
     @Override
     public Long insert(RepairCard bean) {
-        return null;
+        Connection con = DbUtil.getConn();
+        //获取预编译对象
+        PreparedStatement pstm = null;
+        //执行SQL操作
+        try {
+            pstm = con.prepareStatement("insert into repairCard  (empCode, date, reason) values(?,?,?)");
+            pstm.setString(1, bean.getEmpCode());
+            pstm.setDate(2, bean.getDate());
+            pstm.setString(3, bean.getReason());
+            //设置完参数就执行返回结果
+            int rs = pstm.executeUpdate();
+            return Integer.toUnsignedLong(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0L;
     }
 
     @Override
@@ -94,7 +126,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
             pstm.setLong(4, bean.getRepairId());
             //设置完参数就执行返回结果
             int rs = pstm.executeUpdate();
-            System.out.println("rs:"+rs);
+            System.out.println("rs:" + rs);
             return Integer.toUnsignedLong(rs);
         } catch (
                 SQLException e) {
@@ -166,7 +198,8 @@ public class RepairCardDaoImpl implements RepairCardDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
 
-        sbSQL.append(" select * from RepairCard");
+        sbSQL.append(" select R.*,E.empName from RepairCard R");
+        sbSQL.append(" left join Employee E on E.empCode=R.empCode");
         sbSQL.append(" order by repairId asc");
 
         if (pageNum < 1) {
@@ -188,7 +221,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
             conn = DbUtil.getConn();
             rs = DbFun.query(conn, sql, params);
             while (rs.next()) {
-                list.add(toBean(rs));
+                list.add(toBeanEX(rs));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,6 +239,30 @@ public class RepairCardDaoImpl implements RepairCardDao {
 
     @Override
     public List<RepairCard> pagerByName(String name, Long pageNum, Long pageSize) {
-        return null;
+        List<RepairCard> repairCards = new ArrayList<RepairCard>();
+        StringBuffer sbSQL = new StringBuffer();
+        List<Object> paramsList = new ArrayList<Object>();
+        sbSQL.append(" select R.*,E.empName from RepairCard R");
+        sbSQL.append(" left join Employee E on E.empCode=R.empCode");
+        sbSQL.append(" where R.empCode like ?");
+        sbSQL.append(" or E.empName like ?");
+        sbSQL.append(" order by repairId asc");
+        String sql = sbSQL.toString();
+        Object[] params = paramsList.toArray();
+        Connection conn = null;
+        ResultSet rs = null;
+        try {
+            conn = DbUtil.getConn();
+            rs = DbFun.query(conn, sql, params);
+            while (rs.next()) {
+                repairCards.add(toBeanEX(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            DbUtil.close(conn);
+        }
+        return repairCards;
     }
 }

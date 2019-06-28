@@ -17,7 +17,7 @@ public class RepairCardServiceImpl implements RepairCardService {
 
     @Override
     public Long insert(RepairCard bean) {
-        return null;
+        return repairCardDao.insert(bean);
     }
 
     @Override

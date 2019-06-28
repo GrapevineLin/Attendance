@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: 31660
   Date: 2019/6/28 0028
-  Time: 14:07
+  Time: 16:12
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <title>更新</title>
+    <title>添加补卡单</title>
     <%--想要使用 xadmin 要导入这么些 --%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/css/font.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/css/xadmin.css">
@@ -20,7 +20,6 @@
 </head>
 <body>
 <form class="layui-form">
-    <input type="hidden" name="repairId" value="${repairId}"/>
     <div class="layui-form-item">
         <label class="layui-form-label">补卡人</label>
         <div class="layui-input-inline">
@@ -38,25 +37,24 @@
         <label class="layui-form-label">补卡时间</label>
         <div class="layui-input-block">
             <input type="date" name="date" required lay-verify="required" placeholder="请输入补卡时间" autocomplete="off"
-                   class="layui-input" value="${date}">
+                   class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">补卡原因</label>
         <div style="margin-left:110px;top:-5px;padding:0">
                     <textarea id="reason" name="reason" rows="4" cols="4" class="layui-textarea"
-                              value="${reason}">${reason}</textarea>
+                    ></textarea>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即添加</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
 </form>
 <script>
-    //Demo
     /*表单监听*/
     layui.use('form', function () {
         var form = layui.form;
@@ -68,8 +66,7 @@
                 type: 'POST',
                 url: 'RepairCard',
                 data: {
-                    'oper': 'updateDeal',
-                    'repairId': data.field.repairId,
+                    'oper': 'addDeal',
                     'empCode': data.field.empCode,
                     'date': data.field.date,
                     'reason': data.field.reason
@@ -82,7 +79,7 @@
                         xadmin.close();
                         xadmin.father_reload();
                     } else {
-                        layer.msg("对不起 更新失败了！");
+                        layer.msg("对不起 添加失败了！");
                     }
                 }
             })

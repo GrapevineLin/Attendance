@@ -27,14 +27,14 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="Station" method="get">
-                        <input type="hidden" name="oper" value="listDeal"/>
+                    <form class="layui-form layui-col-space5" action="RepairCard" method="get">
+<%--                        <input type="hidden" name="oper" value="listDeal"/>--%>
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="searchName" placeholder="请输入人员编码或者名称" autocomplete="off"
+                            <input type="text" name="searchName" placeholder="请输入人员编码" autocomplete="off"
                                    class="layui-input" value="${searchName}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i
+                            <button class="layui-btn" lay-submit="" lay-filter="sreach" ><i
                                     class="layui-icon">&#xe615;</i>
                             </button>
                         </div>
@@ -44,7 +44,7 @@
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
                     <button href="javascript:;" class="layui-btn"
-                            onclick="xadmin.open('添加','Station?oper=insert',600,500,false)"><i
+                            onclick="xadmin.open('添加','RepairCard?oper=add',500,400,false)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -111,7 +111,8 @@
             , cols: [[ //表头
                 {type: 'checkbox', width: "5%", fixed: 'left'}
                 , {field: 'repairId', title: 'ID', width: "5%", sort: true, fixed: 'left'}
-                , {field: 'empCode', title: '补卡人编码', width: "20%"}
+                , {field: 'empCode', title: '补卡人编码', width: "10%"}
+                , {field: 'empName', title: '补卡人姓名', width: "10%"}
                 , {field: 'date', title: '补卡日期', width: "20%", sort: true}
                 , {field: 'reason', title: '原因', width: "35%"}
                 , {fixed: 'right', title: '操作', toolbar: '#bar', width: "15%"}

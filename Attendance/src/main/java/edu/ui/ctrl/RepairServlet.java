@@ -2,8 +2,11 @@ package edu.ui.ctrl;
 
 import com.alibaba.fastjson.JSON;
 import com.liuvei.common.SysFun;
+import edu.bean.Employee;
 import edu.bean.RepairCard;
+import edu.service.impl.EmployeeService;
 import edu.service.impl.RepairCardService;
+import edu.service.impl.impl.EmployeeServiceImpl;
 import edu.service.impl.impl.RepairCardServiceImpl;
 
 import javax.servlet.ServletException;
@@ -61,9 +64,12 @@ public class RepairServlet extends HttpServlet {
             case "delete":
                 delete(request, response);
                 break;
-            //case "listdeal":
-            //    listDeal(request, response); // 列表处理
-            //    break;
+            case "add":
+                addView(request, response);
+                break;
+            case "adddeal":
+                addDeal(request, response);
+                break;
             //case "insert":
             //    insertView(request, response); // 添加页面
             //    break;
@@ -87,6 +93,49 @@ public class RepairServlet extends HttpServlet {
                 System.out.println("oper不存在" + oper);
                 break;
         }
+    }
+
+    private void addDeal(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String empCode = request.getParameter("empCode");
+        String date = request.getParameter("date");
+        String reason = request.getParameter("reason");
+        System.out.println("date:" + date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");//设置时间格式
+        Date ts = null;//创建Date对象
+        try {
+            ts = sdf.parse(date);//转换为Date类型 这里要抛一个异常
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        RepairCard repairCard = new RepairCard();
+        repairCard.setEmpCode(empCode);
+        assert ts != null;
+        repairCard.setDate(new java.sql.Date(ts.getTime()));
+        repairCard.setReason(reason);
+        Map<String, Object> map = new HashMap<>();
+        Long result = 0L;
+        result = repairCardService.insert(repairCard);
+        if (result > 0L) {
+            map.put("code", 200);
+            map.put("msg", "success");
+            response.getWriter().print(JSON.toJSONString(map));
+        } else {
+            map.put("code", 500);
+            map.put("msg", "fail");
+            response.getWriter().print(JSON.toJSONString(map));
+        }
+
+
+    }
+
+    private void addView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        EmployeeService employeeService = new EmployeeServiceImpl();
+        List<Employee> employeeList = employeeService.list();
+        request.setAttribute("employeeList", employeeList);
+
+        String toPage = UIConst.VIEWPATH + "/RepairCard_add.jsp";
+        request.getRequestDispatcher(toPage).forward(request, response);
     }
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -165,12 +214,12 @@ public class RepairServlet extends HttpServlet {
     }
 
     protected void updateView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //DepartmentService departmentService = new DepartmentServiceImpl();
-        //List<Department> departmentList = departmentService.list();
-        //request.setAttribute("departmentList", departmentList);
+        List<RepairCard> repairCards = repairCardService.list();
+        request.setAttribute("repairCards", repairCards);
 
-        //List<RepairCard> RepairCardList = repairCardService.list();
-        //request.setAttribute("RepairCardList", RepairCardList);
+        EmployeeService employeeService = new EmployeeServiceImpl();
+        List<Employee> employeeList = employeeService.list();
+        request.setAttribute("employeeList", employeeList);
 
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
