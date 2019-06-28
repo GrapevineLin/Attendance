@@ -1,5 +1,7 @@
 package edu.ui.ctrl;
 
+import edu.bean.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,6 +38,10 @@ public class MainServlet extends HttpServlet {
             response.sendRedirect(toURL);
             return;
         }
+
+        //取得session对象,并取出其username转发到相应页面
+        User user = (User) session.getAttribute(UIConst.BG_LOGINUSER_KEY);
+        request.setAttribute("loginUser", user.getUserName());
 
         //取得操作类型
         String oper = request.getParameter("oper");
