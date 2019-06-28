@@ -5,9 +5,7 @@ import edu.bean.RepairCard;
 import edu.dao.RepairCardDao;
 import edu.util.DbUtil.DbUtil;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +55,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
     }
 
     @Override
-    public Long delete(Long id){
+    public Long delete(Long id) {
         Long result = 0L;
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
@@ -86,11 +84,47 @@ public class RepairCardDaoImpl implements RepairCardDao {
 
     @Override
     public Long update(RepairCard bean) {
-        return null;
+        Connection con = DbFun.getConn();
+        PreparedStatement pstm = null;
+        try {
+            pstm = con.prepareStatement("update RepairCard set empCode=? ,date=?,reason=? where repairId=?");
+            pstm.setString(1, bean.getEmpCode());
+            pstm.setDate(2, bean.getDate());
+            pstm.setString(3, bean.getReason());
+            pstm.setLong(4, bean.getRepairId());
+            //设置完参数就执行返回结果
+            int rs = pstm.executeUpdate();
+            System.out.println("rs:"+rs);
+            return Integer.toUnsignedLong(rs);
+        } catch (
+                SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0L;
     }
 
     @Override
     public RepairCard load(Long id) {
+        Connection con = DbUtil.getConn();
+        PreparedStatement pstm = null;
+        RepairCard repairCard = new RepairCard();
+        try {
+            pstm = con.prepareStatement("select * from repairCard where repairId=?");
+            pstm.setLong(1, id);
+            //执行查询
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                repairCard.setRepairId(rs.getLong(1));
+                repairCard.setEmpCode(rs.getString(2));
+                repairCard.setDate(rs.getDate(3));
+                repairCard.setReason(rs.getString(4));
+                return repairCard;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -126,7 +160,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
     }
 
     @Override
-    public List<RepairCard> pager(Long pageNum, Long pageSize){
+    public List<RepairCard> pager(Long pageNum, Long pageSize) {
         List<RepairCard> list = new ArrayList<RepairCard>();
 
         StringBuffer sbSQL = new StringBuffer();

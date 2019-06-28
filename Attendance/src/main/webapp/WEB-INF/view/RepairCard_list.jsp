@@ -1,14 +1,29 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 31660
+  Date: 2019/6/27 0027
+  Time: 11:45
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html class="x-admin-sm">
 <head>
-    <meta charset="utf-8">
-    <title>补卡单</title>
+    <meta charset="UTF-8">
+    <title>补卡单页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/css/font.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/css/xadmin.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/lib/layui/css/layui.css" media="all">
     <script src="${pageContext.request.contextPath}/static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/js/xadmin.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 <div class="x-nav">
@@ -44,171 +59,213 @@
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
                     <button href="javascript:;" class="layui-btn"
-                            onclick="xadmin.open('添加','Station?oper=insert',600,500,false)"><i
+                            onclick="xadmin.open('添加补卡单','Station?oper=insert',600,500,false)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
-                    <table class="layui-table layui-form" id="showlist" lay-filter="oper"></table>
+                    <table class="layui-table layui-form" id="datalist">
+                        <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
+                            </th>
+                            <th>ID</th>
+                            <th>补卡人编码</th>
+                            <th>补卡人姓名</th>
+                            <th>补卡日期</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="item" items="${DataList}">
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="" value="${item.repairId}" lay-skin="primary">
+                                </td>
+                                <td>${item.repairId}</td>
+                                <td>${item.empCode}</td>
+                                <td>${item.date}</td>
+                                <td>${item.reason}</td>
+                                    <%--<td class="td-status">
+                                      <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
+                                    <td class="td-manage">
+                                      <a onclick="station_stop(this,'10001')" href="javascript:;"  title="启用">
+                                        <i class="layui-icon">&#xe601;</i>
+                                    </a>--%>
+                                <td class="td-manage">
+                                    <a title="编辑"
+                                       onclick="xadmin.open('编辑[id=${item.repairId}]','Station?oper=update&repairId=${item.repairId}','800','500',false)"
+                                       href="javascript:;">
+                                        <i class="layui-icon">&#xe642;</i>
+                                    </a>
+                                    <a title="删除" onclick="station_del(this,${item.repairId})" href="javascript:;">
+                                        <i class="layui-icon">&#xe640;</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <jsp:include page="__pager.jsp" flush="true"/>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<%--编辑页面--%>
-<div class="layui-row" id="Update" style="display:none;">
-    <div class="layui-col-md10">
-        <form class="layui-form layui-from-pane" action="" style="margin-top:20px">
-            <div class="layui-form-item">
-                <label class="layui-form-label">补卡人</label>
-                <div class="layui-input-block">
-                    <input type="text" name="empCode" required lay-verify="required" autocomplete="off"
-                           placeholder="请输入补卡人编码" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">补卡时间</label>
-                <div class="layui-input-block">
-                    <input type="date" name="date" required autocomplete="off" placeholder="请输入补卡时间"
-                           class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">补卡原因</label>
-                <div class="layui-input-block">
-                    <div style="margin-left:0px;top:-5px;padding:0">
-                    <textarea id="reason" name="reason" rows="4" cols="4" class="layui-textarea"
-                              value=""></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="layui-form-item" style="margin-top:40px">
-                <div class="layui-input-block">
-                    <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="demo11">确认修改</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<%--操作工具栏--%>
-<script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
-    <%-- lay-event="del" 识别事件 lay-event --%>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
-
+</body>
 <script>
-    layui.use('table', function () {
-        var table = layui.table;
-        table.render({
-            elem: '#showlist'
-            , height: 312
-            , url: 'RepairCard?oper=getList' //数据接口
-            , page: true //开启分页
-            , cols: [[ //表头
-                {field: 'repairId', title: 'ID', width: "10%", sort: true, fixed: 'left'}
-                , {field: 'empCode', title: '补卡人编码', width: "20%"}
-                , {field: 'date', title: '补卡日期', width: "20%", sort: true}
-                , {field: 'reason', title: '原因', width: "30%"}
-                , {fixed: 'right', title: '操作', toolbar: '#bar', width: "20%"}
-            ]]
-        });
-        /*仍然利用table组件 对操作栏进行监听*/
-        //监听行工具事件
-        table.on('tool(oper)', function (obj) {
-            //obj obj代表选中的整行表格
-            var data = obj.data; //obj.data 代表是这行表格的数据
-            //console.log(obj)
-            if (obj.event === 'del') {
-                layer.confirm('真的删除这行么', function (index) {
-                    /* 弹出确认框,如果你点击确定 就会执行这下面的内容*/
-                    $.ajax({
-                        type: 'GET',
-                        url: 'RepairCard?oper=delete',
-                        data: {
-                            "repairId": data.repairId
-                        },
-                        dataType: 'JSON',
-                        success: function (info) {
-                            if (info.code == 200) {
-                                //如果后台删除成功了，我前台才删除
-                                obj.del();
-                            } else {
-                                layer.msg("这回删除失败了");
-                            }
-                        }
 
-                    });
-                    layer.close(index);
-                });
-            } else if (obj.event === 'edit') {
-                //编辑先忽略
-                layer.open({
-                    //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                    type: 1,
-                    area: [500 + 'px', 600 + 'px'],
-                    fix: false, //不固定
-                    maxmin: true,
-                    shadeClose: true,
-                    shade: 0.4,
-                    btn: ['按钮一', '按钮二', '按钮三'],
-                    title: "编辑补卡单",
-                    // content: 'RepairCard?oper=update&repairId=' + data.repairId
-                    content: $("#Update")
-                });
-                // setFormValue(obj, data);
-                // layer.prompt({
-                //     formType: 2
-                //     , value: data.reason
-                // }, function (value, index) {
-                //     obj.update({
-                //         email: value
-                //     });
-                //     layer.close(index);
-                // });
+    /*项目-增加*/
+    function item_add(title, url, w, h) {
+        layer_show(title, url, w, h)
+    }
+
+    layui.use(['laydate', 'form'], function () {
+        var laydate = layui.laydate;
+        var form = layui.form;
+
+
+        // 监听全选
+        form.on('checkbox(checkall)', function (data) {
+
+            if (data.elem.checked) {
+                $('tbody input').prop('checked', true);
+            } else {
+                $('tbody input').prop('checked', false);
             }
+            form.render('checkbox');
         });
 
-        // function setFormValue(obj, data) {
-        //     form.on('submit(demo11)', function (massage) {
-        //         $.ajax({
-        //             url: 'RepairCard?oper=delete',
-        //             type: 'POST',
-        //             data: {
-        //                 repairId: data.repairId,
-        //                 // empCode: data.empCode,
-        //                 // date: data.date,
-        //                 // reason: data.reason
-        //             },
-        //             success: function (msg) {
-        //                 var returnCode = msg.returnCode;//取得返回数据（Sting类型的字符串）的信息进行取值判断
-        //                 if (returnCode == 200) {
-        //                     layer.closeAll('loading');
-        //                     layer.load(2);
-        //                     layer.msg("修改成功", {icon: 6});
-        //                     setTimeout(function () {
-        //                         obj.update({
-        //                             eqptType: massage.field.neweqptType,
-        //                             eqptIdCode: massage.field.neweqptIdCode,
-        //                             eqptName: massage.field.neweqptName
-        //                         });//修改成功修改表格数据不进行跳转
-        //                         layer.closeAll();//关闭所有的弹出层
-        //                     }, 1000);
-        //                     加载层 - 风格
-        //                 } else {
-        //                     layer.msg("修改失败", {icon: 5});
-        //                 }
-        //             }
-        //         })
-        //     })
-        //
-        // }
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+
 
     });
 
+    /*用户-停用*/
+    function station_stop(obj, id) {
+        layer.confirm('确认要停用吗？', function (index) {
+
+            if ($(obj).attr('title') == '启用') {
+
+                //发异步把用户状态进行更改
+                $(obj).attr('title', '停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!', {icon: 5, time: 1000});
+
+            } else {
+                $(obj).attr('title', '启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!', {icon: 5, time: 1000});
+            }
+
+        });
+    }
+
+    /*原本-删除*/
+    // function station_del(obj, id) {
+    //     layer.confirm('确认要删除吗？', function (index) {
+    //         //发异步删除数据
+    //         $(obj).parents("tr").remove();
+    //         layer.msg('已删除!', {icon: 1, time: 1000});
+    //     });
+    // }
+
+    /*删除*/
+    function station_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                type: 'POST',
+                url: 'Station?oper=deleteDeal&repairId=' + id,
+                //dataType: 'json',
+                success: function (data) {
+                    if (data == "ok") {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    } else {
+                        layer.msg('删除失败', {icon: 1, time: 100});
+                    }
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
+
+    /*项目-查看*/
+    function item_detail(title, url, id, w, h) {
+        layer_show(title, url, w, h);
+    }
+
+    // function delAll(argument) {
+    //     var ids = [];
+    //
+    //     // 获取选中的id
+    //     $('tbody input').each(function (index, el) {
+    //         if ($(this).prop('checked')) {
+    //             ids.push($(this).val())
+    //         }
+    //     });
+    //
+    //     layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
+    //         //捉到所有被选中的，发异步进行删除
+    //         layer.msg('删除成功', {icon: 1});
+    //         $(".layui-form-checked").not('.header').parents('tr').remove();
+    //     });
+    // }
+
+    /*批量-删除*/
+    function delAll() {
+        layer.confirm("确认要删除选中的数据", function (index) {
+            var num = 0;      //删除成功的行数
+            var total = 0;    //要删除的总行数
+            var obj = null;   //当前对象
+            var id = 0;       //当前要删除的主键值
+            $('#datalist input[type=checkbox]:checked').each(function () {
+                obj = this;
+                id = $(this).val();     //取得，当前复选框代表的主键值
+                //排除全选或反选的复选框
+                if (id != null && id != "" && id != 0) {
+                    total++;    //总行数
+                    //Start : ajax方式，一行一行删除
+                    $.ajax({
+                        type: 'POST',
+                        url: 'Station',
+                        async: false, //是否异步
+                        data: {"oper": "deleteDeal", "repairId": id},
+                        success: function (data) {
+                            if (data = "ok") {
+                                $(obj).parents("tr").remove();
+                                num++;  //删除成功的数+1
+                            } else {
+
+                            }
+                        },
+                        error: function (data) {
+                        }
+                    });
+                    //End ： ajax方式，一行一行删除
+                }
+            });
+            layer.msg("要删除" + total + "行记录，成功删除" + num + "行记录。", {
+                icon: 1,
+                time: 1000
+            });
+        });
+    }
+
+
 </script>
-</body>
 </html>

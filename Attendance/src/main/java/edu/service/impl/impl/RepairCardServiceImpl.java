@@ -27,12 +27,12 @@ public class RepairCardServiceImpl implements RepairCardService {
 
     @Override
     public Long update(RepairCard bean) {
-        return null;
+        return repairCardDao.update(bean);
     }
 
     @Override
     public RepairCard load(Long id) {
-        return null;
+        return repairCardDao.load(id);
     }
 
     @Override
