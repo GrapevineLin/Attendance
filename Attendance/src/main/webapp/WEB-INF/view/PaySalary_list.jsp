@@ -108,12 +108,17 @@
         </div>
     </div>
 </div>
+
+
+<table id="demo" lay-filter="test"></table>
+
 </body>
 <script>
 
-    layui.use(['laydate', 'form'], function () {
+    layui.use(['laydate', 'form' ,'table'], function () {
         var laydate = layui.laydate;
         var form = layui.form;
+        var table = layui.table;
 
 
         // 监听全选
@@ -137,6 +142,20 @@
             elem: '#end' //指定元素
         });
 
+        table.render({
+            elem: '#demo'
+            ,height: 312
+            ,url: 'listDeal' //数据接口
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {field: 'payId', title: 'ID', width:80, sort: true, fixed: 'left'}
+                ,{field: 'empCode', title: '领薪人编码', width:80}
+                ,{field: 'empName', title: '领薪人姓名', width:80, sort: true}
+                ,{field: 'salary', title: '薪水', width:80}
+                ,{field: 'beginDate', title: '计算开始日期', width: 177}
+                ,{field: 'endDate', title: '计算结束日期', width: 80, sort: true}
+            ]]
+        });
 
     });
 
