@@ -217,7 +217,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
             rs = DbFun.query(conn, sql, params);
 
             if (rs.next()) {
-                bean = toBean(rs);
+                bean = toBeanEmp(rs);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -366,7 +366,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
             while (rs.next()) {
                 bean.add(toBeanEmp(rs));
             }
-        } catch (SQLException e) {
+        } catch (SQLException e)    {
             e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
@@ -381,8 +381,8 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
         try {
             bean.setPayId(rs.getLong("payId"));
             bean.setEmpId(rs.getLong("empId"));
-            bean.setBeginDate(rs.getDate("beginDate"));
-            bean.setEndDate(rs.getDate("endDate"));
+            bean.setBeginDate(rs.getTimestamp("beginDate"));
+            bean.setEndDate(rs.getTimestamp("endDate"));
             bean.setSalary(rs.getLong("salary"));
 
         } catch (SQLException e) {
@@ -399,8 +399,8 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
         try {
             bean.setPayId(rs.getLong("payId"));
             bean.setEmpId(rs.getLong("empId"));
-            bean.setBeginDate(rs.getDate("beginDate"));
-            bean.setEndDate(rs.getDate("endDate"));
+            bean.setBeginDate(rs.getTimestamp("beginDate"));
+            bean.setEndDate(rs.getTimestamp("endDate"));
             bean.setSalary(rs.getLong("salary"));
 
             bean.setEmpName(rs.getString("empName"));

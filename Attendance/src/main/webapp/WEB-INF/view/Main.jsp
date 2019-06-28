@@ -186,6 +186,11 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
+                                <a onclick="xadmin.add_tab('派薪单','Pay?oper=list')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>派薪单new</cite></a>
+                            </li>
+                            <li>
                                 <a onclick="xadmin.add_tab('派薪单','PaySalary?oper=list')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>派薪单</cite></a>

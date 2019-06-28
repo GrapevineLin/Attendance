@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
@@ -81,14 +82,8 @@
                                 <td>${item.empCode}</td>
                                 <td>${item.empName}</td>
                                 <td>${item.salary}</td>
-                                <td>${item.beginDate}</td>
-                                <td>${item.endDate}</td>
-                                    <%--<td class="td-status">
-                                      <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
-                                    <td class="td-manage">
-                                      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                                        <i class="layui-icon">&#xe601;</i>
-                                    </a>--%>
+                                <td><fmt:formatDate value="${item.beginDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                <td><fmt:formatDate value="${item.endDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                                 <td class="td-manage">
                                     <a title="编辑" onclick="xadmin.open('编辑[id=${item.payId}]','PaySalary?oper=update&id=${item.payId}','800','500',false)"
                                        href="javascript:;">
@@ -109,16 +104,12 @@
     </div>
 </div>
 
-
-<table id="demo" lay-filter="test"></table>
-
 </body>
 <script>
 
-    layui.use(['laydate', 'form' ,'table'], function () {
+    layui.use(['laydate', 'form'], function () {
         var laydate = layui.laydate;
         var form = layui.form;
-        var table = layui.table;
 
 
         // 监听全选
@@ -142,23 +133,7 @@
             elem: '#end' //指定元素
         });
 
-        table.render({
-            elem: '#demo'
-            ,height: 312
-            ,url: 'listDeal' //数据接口
-            ,page: true //开启分页
-            ,cols: [[ //表头
-                {field: 'payId', title: 'ID', width:80, sort: true, fixed: 'left'}
-                ,{field: 'empCode', title: '领薪人编码', width:80}
-                ,{field: 'empName', title: '领薪人姓名', width:80, sort: true}
-                ,{field: 'salary', title: '薪水', width:80}
-                ,{field: 'beginDate', title: '计算开始日期', width: 177}
-                ,{field: 'endDate', title: '计算结束日期', width: 80, sort: true}
-            ]]
-        });
-
     });
-
     /*用户-停用*/
     function member_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {
@@ -182,15 +157,6 @@
 
         });
     }
-
-    /*/!*用户-删除*!/
-    function member_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {icon: 1, time: 1000});
-        });
-    }*/
 
     /*删除*/
     function paySalary_del(obj, id) {
@@ -219,22 +185,6 @@
         layer_show(title, url, w, h);
     }
 
-    /*function delAll(argument) {
-        var ids = [];
-
-        // 获取选中的id 
-        $('tbody input').each(function (index, el) {
-            if ($(this).prop('checked')) {
-                ids.push($(this).val())
-            }
-        });
-
-        layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-    }*/
 
     /*批量-删除*/
     function delAll() {
@@ -275,6 +225,13 @@
             });
         });
     }
+
+    var bDate = document.getElementById("bDate");
+    var eDate = document.getElementById("eDate");
+    var bd = bDate.replaceAll(".0", "");
+    var ed = eDate.replaceAll(".0", "");
+    document.getElementById("bDate").innerHTML = bd;
+    document.getElementById("eDate").innerHTML = ed;
 
 </script>
 </html>

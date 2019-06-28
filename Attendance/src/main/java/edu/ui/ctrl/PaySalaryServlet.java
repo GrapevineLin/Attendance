@@ -174,16 +174,6 @@ public class PaySalaryServlet extends HttpServlet {
         // ------------------------------------------------------------------------// 转发到页面
         String toPage = UIConst.VIEWPATH + "/PaySalary_list.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
-        Map<String,Object> rs = new HashMap<>();
-        rs.put("code", 0);
-        rs.put("count", 10);//返回的数据有多少条  --> 分页
-        rs.put("msg", "success");
-        rs.put("data", vDataList);
-        //做一个中文乱码的处理
-        response.setContentType("text/html;charset=uft-8");
-        response.setCharacterEncoding("UTF-8");
-        //按照要求完成返回数据之后  就可以转换成JSON字符串
-        response.getWriter().print(JSON.toJSONString(rs));
     }
 
     protected void insertView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
