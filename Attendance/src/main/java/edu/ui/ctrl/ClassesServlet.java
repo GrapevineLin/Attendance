@@ -46,6 +46,16 @@ public class ClassesServlet extends HttpServlet {
         java.io.PrintWriter out = response.getWriter();
         /* ----------------------------------------------------------------- */
 
+
+
+        //检测是否登陆
+        String toURL = checkLogin(request, response);
+        if(toURL != null){
+            response.sendRedirect(toURL);
+            return;
+        }
+
+
         String oper = request.getParameter("oper");
         if(oper == null){
             oper = "";
@@ -452,5 +462,15 @@ public class ClassesServlet extends HttpServlet {
         }
         out.print("nook");
 
+    }
+
+    protected String checkLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        javax.servlet.http.HttpSession session = request.getSession();
+        String toURL = null;
+        Object obj = session.getAttribute(UIConst.BG_LOGINUSER_KEY);
+        if (obj == null) {
+            toURL = request.getContextPath() + UIConst.AREAPATH + "/Login";
+        }
+        return toURL;
     }
 }
