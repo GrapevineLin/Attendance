@@ -140,7 +140,8 @@ public class RepairServlet extends HttpServlet {
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //获取参数
-        String repairId = request.getParameter("repairId");
+        String repairId = request.getParameter("repairIdList");
+        System.out.println("repairId:" + request.getParameter("repairIdList"));
         //从数据库获取封装好的模型
         Long result = repairCardService.delete(Long.parseLong(repairId));
         //返回结果给前台或者请求转发
