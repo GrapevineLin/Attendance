@@ -17,7 +17,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
         try {
             bean.setRepairId(rs.getLong("repairId"));
             bean.setEmpCode(rs.getString("empCode"));
-            bean.setDate(rs.getDate("date"));
+            bean.setDate(rs.getTimestamp("date"));
             bean.setReason(rs.getString("reason"));
         } catch (SQLException e) {
             e.printStackTrace();
