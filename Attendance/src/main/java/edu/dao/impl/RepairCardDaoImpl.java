@@ -8,6 +8,7 @@ import edu.util.DbUtil.DbUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class RepairCardDaoImpl implements RepairCardDao {
     private RepairCard toBean(ResultSet rs) {
@@ -15,7 +16,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
         try {
             bean.setRepairId(rs.getLong("repairId"));
             bean.setEmpCode(rs.getString("empCode"));
-            bean.setDate(rs.getDate("date"));
+            bean.setDate(rs.getTimestamp("date"));
             bean.setReason(rs.getString("reason"));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -29,7 +30,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
         try {
             bean.setRepairId(rs.getLong("repairId"));
             bean.setEmpCode(rs.getString("empCode"));
-            bean.setDate(rs.getDate("date"));
+            bean.setDate(rs.getTimestamp("date"));
             bean.setReason(rs.getString("reason"));
             bean.setEmpName(rs.getString("empName"));
         } catch (SQLException e) {
@@ -75,7 +76,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
         try {
             pstm = con.prepareStatement("insert into repairCard  (empCode, date, reason) values(?,?,?)");
             pstm.setString(1, bean.getEmpCode());
-            pstm.setDate(2, bean.getDate());
+            pstm.setDate(2, (java.sql.Date) bean.getDate());
             pstm.setString(3, bean.getReason());
             //设置完参数就执行返回结果
             int rs = pstm.executeUpdate();
@@ -121,7 +122,7 @@ public class RepairCardDaoImpl implements RepairCardDao {
         try {
             pstm = con.prepareStatement("update RepairCard set empCode=? ,date=?,reason=? where repairId=?");
             pstm.setString(1, bean.getEmpCode());
-            pstm.setDate(2, bean.getDate());
+            pstm.setDate(2, (java.sql.Date) bean.getDate());
             pstm.setString(3, bean.getReason());
             pstm.setLong(4, bean.getRepairId());
             //设置完参数就执行返回结果
@@ -243,10 +244,24 @@ public class RepairCardDaoImpl implements RepairCardDao {
         StringBuffer sbSQL = new StringBuffer();
         List<Object> paramsList = new ArrayList<Object>();
         sbSQL.append(" select R.*,E.empName from RepairCard R");
-        sbSQL.append(" left join Employee E on E.empCode=R.empCode");
+        sbSQL.append(" left join Employee E on R.empCode=E.empCode");
         sbSQL.append(" where R.empCode like ?");
         sbSQL.append(" or E.empName like ?");
         sbSQL.append(" order by repairId asc");
+
+        if (pageNum < 1) {
+            pageNum = 1L;
+        }
+        if (pageSize < 1) {
+            pageSize = 10L;
+        }
+        Long startIndex = (pageNum - 1) * pageSize;
+        sbSQL.append(" limit " + startIndex + "," + pageSize);
+
+        name = "%" + name + "%";
+        paramsList.add(name);
+        paramsList.add(name);
+
         String sql = sbSQL.toString();
         Object[] params = paramsList.toArray();
         Connection conn = null;

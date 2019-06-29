@@ -1,7 +1,7 @@
 package edu.bean;
 
 
-import java.sql.Date;
+import java.util.Date;
 
 public class RepairCard {
     private Long repairId;

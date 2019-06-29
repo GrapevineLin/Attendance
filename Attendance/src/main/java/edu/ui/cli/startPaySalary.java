@@ -1,8 +1,11 @@
 package edu.ui.cli;
 
 import edu.bean.PaySalary;
+import edu.bean.RepairCard;
 import edu.service.impl.PaySalaryService;
+import edu.service.impl.RepairCardService;
 import edu.service.impl.impl.PaySalaryServiceImpl;
+import edu.service.impl.impl.RepairCardServiceImpl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,18 +16,18 @@ import java.util.List;
 public class startPaySalary {
 
     public static void main(String[] args) throws ParseException {
-        SimpleDateFormat df = new SimpleDateFormat("HH");//设置日期格式
-        Long beginTime = df.parse("06:00").getTime();
-        Long endTime = df.parse("22:00").getTime();
-        Long time = 10*(endTime-beginTime)/3600000/8;
-        System.out.println(time);
-
+        List<RepairCard> list=repairCardService.pagerByName("admin",1L,10L);
+        for (RepairCard item:
+             list) {
+            System.out.println(item.getDate());
+        }
     }
 
+    private static RepairCardService repairCardService = new RepairCardServiceImpl();
     private static PaySalaryService paySalaryService = new PaySalaryServiceImpl();
 
     private static void list() {
-        List<PaySalary> list = paySalaryService.list();
+        List<PaySalary> list = paySalaryService.pagerByName("admin",1L,100L);
         for (PaySalary item : list) {
             System.out.println(item.getPayId() + " " + item.getEmpId() + " " + item.getBeginDate() + " " + item.getEndDate() + " " + item.getSalary());
         }

@@ -203,7 +203,7 @@
     /*function delAll(argument) {
         var ids = [];
 
-        // 获取选中的id 
+        // 获取选中的id
         $('tbody input').each(function (index, el) {
             if ($(this).prop('checked')) {
                 ids.push($(this).val())
