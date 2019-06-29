@@ -47,7 +47,9 @@ public class LoginServlet extends HttpServlet {
         String oper = request.getParameter("oper");
         if (oper != null && oper.equalsIgnoreCase("loginDeal")) {
             loginDeal(request, response);
-        } else {
+        }else if(oper != null && oper.equalsIgnoreCase("logoutDeal")) {
+            logoutDeal(request, response);
+        }else {
             loginView(request, response);
         }
     }
@@ -128,6 +130,7 @@ public class LoginServlet extends HttpServlet {
 
         //业务处理
         //将用户信息放入会话中，一边进行登录检测时使用（用于显示登陆者的相关信息）
+
         session.setAttribute(UIConst.BG_LOGINUSER_KEY, bean);
 
         //登录成功，重定向

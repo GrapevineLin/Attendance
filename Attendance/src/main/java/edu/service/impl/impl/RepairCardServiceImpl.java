@@ -9,6 +9,7 @@ import java.util.List;
 
 public class RepairCardServiceImpl implements RepairCardService {
     private RepairCardDao repairCardDao = new RepairCardDaoImpl();
+
     @Override
     public List<RepairCard> list() {
         return repairCardDao.list();
@@ -16,7 +17,7 @@ public class RepairCardServiceImpl implements RepairCardService {
 
     @Override
     public Long insert(RepairCard bean) {
-        return null;
+        return repairCardDao.insert(bean);
     }
 
     @Override
@@ -26,12 +27,12 @@ public class RepairCardServiceImpl implements RepairCardService {
 
     @Override
     public Long update(RepairCard bean) {
-        return null;
+        return repairCardDao.update(bean);
     }
 
     @Override
     public RepairCard load(Long id) {
-        return null;
+        return repairCardDao.load(id);
     }
 
     @Override
@@ -41,12 +42,13 @@ public class RepairCardServiceImpl implements RepairCardService {
 
     @Override
     public Long count() {
-        return null;
+        return repairCardDao.count();
     }
 
     @Override
     public List<RepairCard> pager(Long pageNum, Long pageSize) {
-        return null;
+
+        return repairCardDao.pager(pageNum, pageSize);
     }
 
     @Override

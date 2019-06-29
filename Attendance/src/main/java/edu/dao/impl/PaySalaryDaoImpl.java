@@ -160,10 +160,10 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
 
         //组合SQL
         //连接Station和Employee表
-        sbSQL.append(" Select P.*,E.empName from PaySalary P");
+        sbSQL.append(" Select P.*,E.empName,E.empCode from PaySalary P");
         sbSQL.append(" left join Employee E on P.empId=E.empId");
-        sbSQL.append(" where P.empId= ? ");
-        sbSQL.append(" order by P.empId asc");
+        sbSQL.append(" where P.payId= ? ");
+        sbSQL.append(" order by P.payId asc");
 
         paramsList.add(id);
 
@@ -198,7 +198,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
 
         //组合SQL
         //连接Station和Employee表
-        sbSQL.append(" Select P.*,E.empName from PaySalary P");
+        sbSQL.append(" Select P.*,E.empName,E.empCode from PaySalary P");
         sbSQL.append(" left join Employee E on P.empId=E.empId");
         sbSQL.append(" where E.empName like ? ");
         sbSQL.append(" or E.empCode like ?");
@@ -217,7 +217,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
             rs = DbFun.query(conn, sql, params);
 
             if (rs.next()) {
-                bean = toBean(rs);
+                bean = toBeanEmp(rs);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -261,7 +261,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
 
         //组合SQL
         //连接Station和Employee表
-        sbSQL.append(" Select P.*,E.empName from PaySalary P");
+        sbSQL.append(" Select P.*,E.empName,E.empCode from PaySalary P");
         sbSQL.append(" left join Employee E on P.empId=E.empId");
         sbSQL.append(" order by P.payId asc");
 
@@ -336,7 +336,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
 
         //组合SQL
         //连接Station和Employee表
-        sbSQL.append(" Select P.*,E.empName from PaySalary P");
+        sbSQL.append(" Select P.*,E.empName,E.empCode from PaySalary P");
         sbSQL.append(" left join Employee E on P.empId=E.empId");
         sbSQL.append(" where E.empName like ?");
         sbSQL.append(" or E.empCode like ?");
@@ -366,7 +366,7 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
             while (rs.next()) {
                 bean.add(toBeanEmp(rs));
             }
-        } catch (SQLException e) {
+        } catch (SQLException e)    {
             e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
@@ -381,8 +381,8 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
         try {
             bean.setPayId(rs.getLong("payId"));
             bean.setEmpId(rs.getLong("empId"));
-            bean.setBeginDate(rs.getDate("beginDate"));
-            bean.setEndDate(rs.getDate("endDate"));
+            bean.setBeginDate(rs.getTimestamp("beginDate"));
+            bean.setEndDate(rs.getTimestamp("endDate"));
             bean.setSalary(rs.getLong("salary"));
 
         } catch (SQLException e) {
@@ -399,11 +399,12 @@ public class PaySalaryDaoImpl implements PaySalaryDao {
         try {
             bean.setPayId(rs.getLong("payId"));
             bean.setEmpId(rs.getLong("empId"));
-            bean.setBeginDate(rs.getDate("beginDate"));
-            bean.setEndDate(rs.getDate("endDate"));
+            bean.setBeginDate(rs.getTimestamp("beginDate"));
+            bean.setEndDate(rs.getTimestamp("endDate"));
             bean.setSalary(rs.getLong("salary"));
 
             bean.setEmpName(rs.getString("empName"));
+            bean.setEmpCode(rs.getString("empCode"));
 
         } catch (SQLException e) {
             e.printStackTrace();

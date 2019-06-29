@@ -51,6 +51,15 @@ public class PunchCardServlet extends HttpServlet {
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
         /* ----------------------------------------------------------------- */
+
+        // 检测是否登录
+        String toURL = checkLogin(request, response);
+        if (toURL != null) {
+            response.sendRedirect(toURL);
+            return;
+        }
+
+
         String oper = request.getParameter("oper");
         if(oper == null){
             oper = "";
@@ -270,5 +279,14 @@ public class PunchCardServlet extends HttpServlet {
             insertView(request, response);
         }
 
+    }
+    protected String checkLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        javax.servlet.http.HttpSession session = request.getSession();
+        String toURL = null;
+        Object obj = session.getAttribute(UIConst.BG_LOGINUSER_KEY);
+        if (obj == null) {
+            toURL = request.getContextPath() + UIConst.AREAPATH + "/Login";
+        }
+        return toURL;
     }
 }

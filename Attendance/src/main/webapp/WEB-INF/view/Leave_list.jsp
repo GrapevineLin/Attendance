@@ -1,10 +1,17 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: 31660
+  Date: 2019/6/29 0029
+  Time: 8:50
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.2</title>
+    <title>请假单页面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -22,7 +29,7 @@
 <div class="x-nav">
           <span class="layui-breadcrumb">
             <a href="">首页</a>
-            <a href="">部门</a>
+            <a href="">请假单</a>
             <a>
               <cite>清单</cite></a>
           </span>
@@ -35,10 +42,10 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="Department" method="get">
+                    <form class="layui-form layui-col-space5" action="" method="get">
                         <input type="hidden" name="oper" value="listDeal"/>
-                        <div class="layui-inline layui-show-xs-block" >
-                            <input type="text" name="searchName" placeholder="请输入编码或者名称" autocomplete="off"
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="searchName" placeholder="请输入人员编码或名称" autocomplete="off"
                                    class="layui-input" value="${searchName}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
@@ -51,7 +58,8 @@
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','Department?oper=insert',800,600)"><i
+                    <button href="javascript:;" class="layui-btn"
+                            onclick="xadmin.open('添加','Leave?oper=insert',600,500,false)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -62,39 +70,32 @@
                             <th>
                                 <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
                             </th>
-                            <th>部门ID</th>
-                            <th>部门编码</th>
-                            <th>部门名</th>
-                            <th>部门负责人</th>
-                            <th>部门职责</th>
-                            <th>上级部门</th>
+                            <th>ID</th>
+                            <th>员工编码</th>
+                            <th>员工姓名</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="item" items="${DataList }">
+                        <c:forEach var="item" items="${leaveList}">
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" value="${item.depId}" lay-skin="primary">
+                                    <input type="checkbox" name="" value="${item.leaveId}" lay-skin="primary">
                                 </td>
-                                <td>${item.depId}</td>
-                                <td>${item.depCode}</td>
-                                <td>${item.depName}</td>
-                                <td>${item.depHead}</td>
-                                <td>${item.depResp}</td>
-                                <td>${item.supDepName}</td>
-                                    <%--<td class="td-status">
-                                      <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
-                                    <td class="td-manage">
-                                      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                                        <i class="layui-icon">&#xe601;</i>
-                                    </a>--%>
+                                <td>${item.leaveId}</td>
+                                <td>${item.empCode}</td>
+                                <td>${item.empName}</td>
+                                <td>${item.beginDate}</td>
+                                <td>${item.endDate}</td>
                                 <td class="td-manage">
-                                    <a title="编辑" onclick="xadmin.open('编辑[id=${item.depId}]','Department?oper=update&id=${item.depId}','800','500',false)"
+                                    <a title="编辑"
+                                       onclick="xadmin.open('编辑[leaveId=${item.leaveId}]','Station?oper=update&leaveId=${item.leaveId}','800','500',false)"
                                        href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
-                                    <a title="删除" onclick="department_del(this,${item.depId})" href="javascript:;">
+                                    <a title="删除" onclick="station_del(this,${item.leaveId})" href="javascript:;">
                                         <i class="layui-icon">&#xe640;</i>
                                     </a>
                                 </td>
@@ -110,6 +111,11 @@
 </div>
 </body>
 <script>
+
+    /*项目-增加*/
+    function item_add(title, url, w, h) {
+        layer_show(title, url, w, h)
+    }
 
     layui.use(['laydate', 'form'], function () {
         var laydate = layui.laydate;
@@ -141,7 +147,7 @@
     });
 
     /*用户-停用*/
-    function member_stop(obj, id) {
+    function station_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {
 
             if ($(obj).attr('title') == '启用') {
@@ -164,21 +170,21 @@
         });
     }
 
-    /*/!*用户-删除*!/
-    function member_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {icon: 1, time: 1000});
-        });
-    }*/
+    /*原本-删除*/
+    // function station_del(obj, id) {
+    //     layer.confirm('确认要删除吗？', function (index) {
+    //         //发异步删除数据
+    //         $(obj).parents("tr").remove();
+    //         layer.msg('已删除!', {icon: 1, time: 1000});
+    //     });
+    // }
 
     /*删除*/
-    function department_del(obj, id) {
+    function station_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: 'Department?oper=deleteDeal&depId=' + id,
+                url: 'Station?oper=deleteDeal&leaveId=' + id,
                 //dataType: 'json',
                 success: function (data) {
                     if (data == "ok") {
@@ -200,22 +206,22 @@
         layer_show(title, url, w, h);
     }
 
-    /*function delAll(argument) {
-        var ids = [];
-
-        // 获取选中的id 
-        $('tbody input').each(function (index, el) {
-            if ($(this).prop('checked')) {
-                ids.push($(this).val())
-            }
-        });
-
-        layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-    }*/
+    // function delAll(argument) {
+    //     var ids = [];
+    //
+    //     // 获取选中的id
+    //     $('tbody input').each(function (index, el) {
+    //         if ($(this).prop('checked')) {
+    //             ids.push($(this).val())
+    //         }
+    //     });
+    //
+    //     layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
+    //         //捉到所有被选中的，发异步进行删除
+    //         layer.msg('删除成功', {icon: 1});
+    //         $(".layui-form-checked").not('.header').parents('tr').remove();
+    //     });
+    // }
 
     /*批量-删除*/
     function delAll() {
@@ -233,9 +239,9 @@
                     //Start : ajax方式，一行一行删除
                     $.ajax({
                         type: 'POST',
-                        url: 'Department',
+                        url: 'Station',
                         async: false, //是否异步
-                        data: {"oper": "deleteDeal", "depId": id},
+                        data: {"oper": "deleteDeal", "leaveId": id},
                         success: function (data) {
                             if (data = "ok") {
                                 $(obj).parents("tr").remove();
@@ -256,6 +262,7 @@
             });
         });
     }
+
 
 </script>
 </html>

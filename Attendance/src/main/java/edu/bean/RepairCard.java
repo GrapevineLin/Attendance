@@ -1,12 +1,14 @@
 package edu.bean;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 public class RepairCard {
     private Long repairId;
     private String empCode;
     private Date date;
     private String reason;
+    private String empName;
 
     public Long getRepairId() {
         return repairId;
@@ -38,6 +40,14 @@ public class RepairCard {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
     }
 }
 

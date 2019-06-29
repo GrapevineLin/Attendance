@@ -10,6 +10,7 @@ public class PaySalary {
     private Long salary;//薪水
 
     private String empName;//员工名称
+    private String empCode;//员工编码
 
     public Long getPayId() {
         return payId;
@@ -57,5 +58,13 @@ public class PaySalary {
 
     public void setEmpName(String empName) {
         this.empName = empName;
+    }
+
+    public String getEmpCode() {
+        return empCode;
+    }
+
+    public void setEmpCode(String empCode) {
+        this.empCode = empCode;
     }
 }
