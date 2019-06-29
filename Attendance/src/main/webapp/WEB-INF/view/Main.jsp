@@ -128,6 +128,11 @@
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>补卡单</cite></a>
                             </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('请假单','Leave?oper=list')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>请假单</cite></a>
+                            </li>
                         </ul>
                     </li>
                     <li>
