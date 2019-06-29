@@ -47,9 +47,9 @@ public class LoginServlet extends HttpServlet {
         String oper = request.getParameter("oper");
         if (oper != null && oper.equalsIgnoreCase("loginDeal")) {
             loginDeal(request, response);
-        }else if(oper != null && oper.equalsIgnoreCase("logoutDeal")) {
+        } else if (oper != null && oper.equalsIgnoreCase("logoutDeal")) {
             logoutDeal(request, response);
-        }else {
+        } else {
             loginView(request, response);
         }
     }
