@@ -6,27 +6,32 @@ import edu.service.impl.impl.PaySalaryServiceImpl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class startPaySalary {
 
-    public static void main(String[] args){
-        System.out.println(paySalaryService.countByName("张三"));
-        load();
+    public static void main(String[] args) throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("HH");//设置日期格式
+        Long beginTime = df.parse("06:00").getTime();
+        Long endTime = df.parse("22:00").getTime();
+        Long time = 10*(endTime-beginTime)/3600000/8;
+        System.out.println(time);
+
     }
 
     private static PaySalaryService paySalaryService = new PaySalaryServiceImpl();
 
     private static void list() {
-        List<PaySalary> list = paySalaryService.pagerByName("z",1L,1L);
+        List<PaySalary> list = paySalaryService.list();
         for (PaySalary item : list) {
             System.out.println(item.getPayId() + " " + item.getEmpId() + " " + item.getBeginDate() + " " + item.getEndDate() + " " + item.getSalary());
         }
     }
 
     private static void load() {
-        PaySalary item = paySalaryService.loadByName("z");
+        PaySalary item = paySalaryService.load(7L);
         System.out.println(item.getPayId() + " " + item.getEmpId() + " " + item.getBeginDate() + " " + item.getEndDate() + " " + item.getSalary());
     }
 
@@ -46,6 +51,49 @@ public class startPaySalary {
         List<PaySalary> list = paySalaryService.list();
         for (PaySalary item : list) {
             System.out.println(item.getPayId() + " " + item.getEmpId() + " " + item.getBeginDate() + " " + item.getEndDate() + " " + item.getSalary());
+        }
+    }
+
+    public static void isBelong(){
+
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");//设置日期格式
+        Date now =null;
+        Date beginTime = null;
+        Date endTime = null;
+        try {
+            now = df.parse(df.format(new Date()));
+            beginTime = df.parse("06:00");
+            endTime = df.parse("22:00");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Boolean flag = belongCalendar(now, beginTime, endTime);
+        System.out.println(flag);
+    }
+
+
+    /**
+     * 判断时间是否在时间段内
+     * @param nowTime
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    public static boolean belongCalendar(Date nowTime, Date beginTime, Date endTime) {
+        Calendar date = Calendar.getInstance();
+        date.setTime(nowTime);
+
+        Calendar begin = Calendar.getInstance();
+        begin.setTime(beginTime);
+
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+
+        if (date.after(begin) && date.before(end)) {
+            return true;
+        } else {
+            return false;
         }
     }
 

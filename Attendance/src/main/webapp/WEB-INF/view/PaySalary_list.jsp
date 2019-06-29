@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
@@ -35,7 +36,7 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="Department" method="get">
+                    <form class="layui-form layui-col-space5" action="PaySalary" method="get">
                         <input type="hidden" name="oper" value="listDeal"/>
                         <div class="layui-inline layui-show-xs-block" >
                             <input type="text" name="searchName" placeholder="请输入编码或者名称" autocomplete="off"
@@ -51,7 +52,7 @@
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','Department?oper=insert',800,600)"><i
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','PaySalary?oper=insert',800,600)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -62,12 +63,12 @@
                             <th>
                                 <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
                             </th>
-                            <th>部门ID</th>
-                            <th>部门编码</th>
-                            <th>部门名</th>
-                            <th>部门负责人</th>
-                            <th>部门职责</th>
-                            <th>上级部门</th>
+                            <th>ID</th>
+                            <th>领薪人编码</th>
+                            <th>领薪人姓名</th>
+                            <th>薪水</th>
+                            <th>计算开始日期</th>
+                            <th>计算结束日期</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -75,26 +76,20 @@
                         <c:forEach var="item" items="${DataList }">
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" value="${item.depId}" lay-skin="primary">
+                                    <input type="checkbox" name="" value="${item.payId}" lay-skin="primary">
                                 </td>
-                                <td>${item.depId}</td>
-                                <td>${item.depCode}</td>
-                                <td>${item.depName}</td>
-                                <td>${item.depHead}</td>
-                                <td>${item.depResp}</td>
-                                <td>${item.supDepName}</td>
-                                    <%--<td class="td-status">
-                                      <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
-                                    <td class="td-manage">
-                                      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                                        <i class="layui-icon">&#xe601;</i>
-                                    </a>--%>
+                                <td>${item.payId}</td>
+                                <td>${item.empCode}</td>
+                                <td>${item.empName}</td>
+                                <td>${item.salary}</td>
+                                <td><fmt:formatDate value="${item.beginDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                <td><fmt:formatDate value="${item.endDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                                 <td class="td-manage">
-                                    <a title="编辑" onclick="xadmin.open('编辑[id=${item.depId}]','Department?oper=update&id=${item.depId}','800','500',false)"
+                                    <a title="编辑" onclick="xadmin.open('编辑[id=${item.payId}]','PaySalary?oper=update&id=${item.payId}','800','500',false)"
                                        href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
-                                    <a title="删除" onclick="department_del(this,${item.depId})" href="javascript:;">
+                                    <a title="删除" onclick="paySalary_del(this,${item.payId})" href="javascript:;">
                                         <i class="layui-icon">&#xe640;</i>
                                     </a>
                                 </td>
@@ -108,6 +103,7 @@
         </div>
     </div>
 </div>
+
 </body>
 <script>
 
@@ -137,9 +133,7 @@
             elem: '#end' //指定元素
         });
 
-
     });
-
     /*用户-停用*/
     function member_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {
@@ -164,21 +158,12 @@
         });
     }
 
-    /*/!*用户-删除*!/
-    function member_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {icon: 1, time: 1000});
-        });
-    }*/
-
     /*删除*/
-    function department_del(obj, id) {
+    function paySalary_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: 'Department?oper=deleteDeal&depId=' + id,
+                url: 'PaySalary?oper=deleteDeal&payId=' + id,
                 //dataType: 'json',
                 success: function (data) {
                     if (data == "ok") {
@@ -200,22 +185,6 @@
         layer_show(title, url, w, h);
     }
 
-    /*function delAll(argument) {
-        var ids = [];
-
-        // 获取选中的id 
-        $('tbody input').each(function (index, el) {
-            if ($(this).prop('checked')) {
-                ids.push($(this).val())
-            }
-        });
-
-        layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-    }*/
 
     /*批量-删除*/
     function delAll() {
@@ -233,9 +202,9 @@
                     //Start : ajax方式，一行一行删除
                     $.ajax({
                         type: 'POST',
-                        url: 'Department',
+                        url: 'PaySalary',
                         async: false, //是否异步
-                        data: {"oper": "deleteDeal", "depId": id},
+                        data: {"oper": "deleteDeal", "payId": id},
                         success: function (data) {
                             if (data = "ok") {
                                 $(obj).parents("tr").remove();
@@ -256,6 +225,13 @@
             });
         });
     }
+
+    var bDate = document.getElementById("bDate");
+    var eDate = document.getElementById("eDate");
+    var bd = bDate.replaceAll(".0", "");
+    var ed = eDate.replaceAll(".0", "");
+    document.getElementById("bDate").innerHTML = bd;
+    document.getElementById("eDate").innerHTML = ed;
 
 </script>
 </html>

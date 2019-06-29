@@ -1,12 +1,15 @@
 package edu.ui.ctrl;
 
+
+import com.alibaba.fastjson.JSON;
+
 import com.liuvei.common.PagerItem;
 import com.liuvei.common.SysFun;
-import edu.bean.Department;
+import edu.bean.PaySalary;
 import edu.bean.Employee;
-import edu.service.impl.DepartmentService;
+import edu.service.impl.PaySalaryService;
 import edu.service.impl.EmployeeService;
-import edu.service.impl.impl.DepartmentServiceImpl;
+import edu.service.impl.impl.PaySalaryServiceImpl;
 import edu.service.impl.impl.EmployeeServiceImpl;
 
 import javax.servlet.ServletException;
@@ -15,12 +18,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@WebServlet(UIConst.AREAPATH + "/Department")
-public class DepartmentServlet extends HttpServlet {
-
-    private DepartmentService departmentService = new DepartmentServiceImpl();
+@WebServlet(UIConst.AREAPATH + "/PaySalary")
+public class PaySalaryServlet extends HttpServlet {
+    private PaySalaryService paysalaryService = new PaySalaryServiceImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -73,13 +80,21 @@ public class DepartmentServlet extends HttpServlet {
                 insertView(request, response); // 添加页面
                 break;
             case "insertdeal":
-                insertDeal(request, response); // 添加处理
+                try {
+                    insertDeal(request, response); // 添加处理
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "update":
                 updateView(request, response); // 修改页面
                 break;
             case "updatedeal":
-                updateDeal(request, response); // 修改处理
+                try {
+                    updateDeal(request, response); // 修改处理
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "detail":
                 detailView(request, response); // 查看页面
@@ -95,7 +110,7 @@ public class DepartmentServlet extends HttpServlet {
     }
 
     protected void listView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Department> vDataList = null;
+        List<PaySalary> vDataList = null;
 
         // ------------------------------------------------------------------------
         // 分页步骤1. 创建PagerIter对象, 处理url传过来的pagesize和pageindex
@@ -105,20 +120,18 @@ public class DepartmentServlet extends HttpServlet {
         // 分页步骤2.1. 定义记录数变量
         Long rowCount = 0L;
         // 分页步骤2.2. 根据条件，查找符合条件的所有记录数 ***** count()要根据实际换成其它方法
-        rowCount = departmentService.count();// 分页步骤2.3. 将记录数赋给pagerItem，以便进行分页的各类计算
+        rowCount = paysalaryService.count();// 分页步骤2.3. 将记录数赋给pagerItem，以便进行分页的各类计算
         pagerItem.changeRowCount(rowCount);
         // 分页步骤2.4. 从数据库取指定分页的数据 ***** pager()要根据实际换成其它方法
-        vDataList = departmentService.pager(pagerItem.getPageNum(),
-                pagerItem.getPageSize());
+        vDataList = paysalaryService.pager(pagerItem.getPageNum(), pagerItem.getPageSize());
         // 分页步骤2.5. 设置页面的跳转url
-        pagerItem.changeUrl(SysFun.generalUrl(request.getRequestURI(),
-                request.getQueryString()));
+        pagerItem.changeUrl(SysFun.generalUrl(request.getRequestURI(), request.getQueryString()));
         // 分页步骤3. 将分页对象和数据列表,放到作用域,以便页面可以访问
         request.setAttribute("pagerItem", pagerItem);
         request.setAttribute("DataList", vDataList);
         // ------------------------------------------------------------------------
         // 转发到页面
-        String toPage = UIConst.VIEWPATH + "/Department_list.jsp";
+        String toPage = UIConst.VIEWPATH + "/PaySalary_list.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
     }
 
@@ -128,7 +141,7 @@ public class DepartmentServlet extends HttpServlet {
         //回显请求数据
         request.setAttribute("searchName", searchName);
 
-        List<Department> vDataList = null;
+        List<PaySalary> vDataList = null;
         // ------------------------------------------------------------------------
         // 分页步骤1. 创建PagerIter对象, 处理url传过来的pagesize和pageindex
         PagerItem pagerItem = new PagerItem();
@@ -138,19 +151,19 @@ public class DepartmentServlet extends HttpServlet {
         Long rowCount = 0L;
         if (SysFun.isNullOrEmpty(searchName)) {
             // 分页步骤2.2. 根据条件，查找符合条件的所有记录数 ***** count()要根据实际换成其它方法
-            rowCount = departmentService.count();
+            rowCount = paysalaryService.count();
             // 分页步骤2.3. 将记录数赋给pagerItem，以便进行分页的各类计算
             pagerItem.changeRowCount(rowCount);
             // 分页步骤2.4. 从数据库取指定分页的数据 ***** pager()要根据实际换成其它方法
-            vDataList = departmentService.pager(pagerItem.getPageNum(),
+            vDataList = paysalaryService.pager(pagerItem.getPageNum(),
                     pagerItem.getPageSize());
         } else {
             // 分页步骤2.2. 根据条件，查找符合条件的所有记录数 ***** count()要根据实际换成其它方法
-            rowCount = departmentService.countByName(searchName);
+            rowCount = paysalaryService.countByName(searchName);
             // 分页步骤2.3. 将记录数赋给pagerItem，以便进行分页的各类计算
             pagerItem.changeRowCount(rowCount);
             // 分页步骤2.4. 从数据库取指定分页的数据 ***** pager()要根据实际换成其它方法
-            vDataList = departmentService.pagerByName(searchName,
+            vDataList = paysalaryService.pagerByName(searchName,
                     pagerItem.getPageNum(), pagerItem.getPageSize());
         } //分页步骤2 .5.设置页面的跳转url
         pagerItem.changeUrl(SysFun.generalUrl(request.getRequestURI(),
@@ -159,41 +172,41 @@ public class DepartmentServlet extends HttpServlet {
         request.setAttribute("pagerItem", pagerItem);
         request.setAttribute("DataList", vDataList);
         // ------------------------------------------------------------------------// 转发到页面
-        String toPage = UIConst.VIEWPATH + "/Department_list.jsp";
+        String toPage = UIConst.VIEWPATH + "/PaySalary_list.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
     }
 
     protected void insertView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //  Servlet从下面两层取出数据，通过作用域，推送到页面
-        EmployeeService employeeService=new EmployeeServiceImpl();
-        List<Employee> empList=employeeService.list();
-        request.setAttribute("empList",empList);
+        EmployeeService employeeService = new EmployeeServiceImpl();
+        List<Employee> empList = employeeService.list();
+        request.setAttribute("empList", empList);
 
         //转发页面
-        String toPage = UIConst.VIEWPATH + "/Department_insert.jsp";
+        String toPage = UIConst.VIEWPATH + "/PaySalary_insert.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
     }
 
-    protected void insertDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void insertDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
         // 获取请求数据
-        String depCode = request.getParameter("depCode");
-        String depName = request.getParameter("depName");
-        String depHead = request.getParameter("depHead");
-        String depResp = request.getParameter("depResp");
-        String supDepId = request.getParameter("supDepId");
-        //为了在输入页面回显原来的旧值，将旧值放到作用域，页面中进行获取
-        request.setAttribute("depCode", depCode);
-        request.setAttribute("depName", depName);
-        request.setAttribute("depHead", depHead);
-        request.setAttribute("depResp", depResp);
-        request.setAttribute("supDepId", supDepId);
+        String empId = request.getParameter("empId");
+        String beginDate = request.getParameter("beginDate");
+        String endDate = request.getParameter("endDate");
+        String salary = request.getParameter("salary");
 
+        System.out.println(empId);
+
+        //为了在输入页面回显原来的旧值，将旧值放到作用域，页面中进行获取
+        request.setAttribute("empId", empId);
+        request.setAttribute("beginDate", beginDate);
+        request.setAttribute("endDate", endDate);
+        request.setAttribute("salary", salary);
         //服务端验证
         String vMsg = "";
-        if (SysFun.isNullOrEmpty(depCode)) {
-            vMsg += "部门编码不能为空";
+        if (SysFun.isNullOrEmpty(empId)) {
+            vMsg += "员工Id不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -201,8 +214,8 @@ public class DepartmentServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depName)) {
-            vMsg += "部门名称不能为空";
+        if (SysFun.isNullOrEmpty(beginDate)) {
+            vMsg += "开始时间不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -210,8 +223,8 @@ public class DepartmentServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depHead)) {
-            vMsg += "部门负责人不能为空";
+        if (SysFun.isNullOrEmpty(endDate)) {
+            vMsg += "结束时间不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -219,8 +232,8 @@ public class DepartmentServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depResp)) {
-            vMsg += "部门描述不能为空";
+        if (SysFun.isNullOrEmpty(salary)) {
+            vMsg += "薪水不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -228,27 +241,22 @@ public class DepartmentServlet extends HttpServlet {
             updateView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(supDepId)) {
-            vMsg += "上级部门不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            insertView(request, response);
-            return;
-        }
 
-        Long sId=SysFun.parseLong(supDepId);
+        //类型转换
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date bDate = sdf.parse(beginDate);
+        Date eDate = sdf.parse(endDate);
+        Long sId = SysFun.parseLong(empId);
+        Long salaryL = SysFun.parseLong(salary);
 
-        Department bean = new Department();
-        bean.setDepCode(depCode);
-        bean.setDepName(depName);
-        bean.setDepHead(depHead);
-        bean.setDepResp(depResp);
-        bean.setSupDepId(sId);
+        PaySalary bean = new PaySalary();
+        bean.setEmpId(sId);
+        bean.setBeginDate(bDate);
+        bean.setEndDate(eDate);
+        bean.setSalary(salaryL);
         Long result = 0L;
         try {
-            result = departmentService.insert(bean);
+            result = paysalaryService.insert(bean);
         } catch (Exception e) {
             vMsg = "添加失败." + e.getMessage();
             // TODO: handle exception
@@ -267,9 +275,9 @@ public class DepartmentServlet extends HttpServlet {
 
     protected void updateView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //  Servlet从下面两层取出数据，通过作用域，推送到页面
-        EmployeeService employeeService=new EmployeeServiceImpl();
-        List<Employee> empList=employeeService.list();
-        request.setAttribute("empList",empList);
+        EmployeeService employeeService = new EmployeeServiceImpl();
+        List<Employee> empList = employeeService.list();
+        request.setAttribute("empList", empList);
 
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
@@ -277,19 +285,18 @@ public class DepartmentServlet extends HttpServlet {
         String vId = request.getParameter("id");
         if (!SysFun.isNullOrEmpty(vId)) {
             Long iId = SysFun.parseLong(vId);
-            Department bean = departmentService.load(iId);
+            PaySalary bean = paysalaryService.load(iId);
             if (bean != null) {
                 // 使用对象来回显
                 // request.setAttribute("bean", bean);
                 // 为了在输入页面回显原来的旧值,需要将旧值放到作用域,页面中进行获取
-                request.setAttribute("depId", bean.getDepId());
-                request.setAttribute("depCode", bean.getDepCode());
-                request.setAttribute("depName", bean.getDepName());
-                request.setAttribute("depHead", bean.getDepHead());
-                request.setAttribute("depResp", bean.getDepResp());
-                request.setAttribute("supDepId", bean.getSupDepId());
+                request.setAttribute("payId", bean.getPayId());
+                request.setAttribute("empId", bean.getEmpId());
+                request.setAttribute("beginDate", bean.getBeginDate());
+                request.setAttribute("endDate", bean.getEndDate());
+                request.setAttribute("salary", bean.getSalary());
                 String toPage = UIConst.VIEWPATH +
-                        "/Department_update.jsp";
+                        "/PaySalary_update.jsp";
                 request.getRequestDispatcher(toPage).forward(request,
                         response);
                 return;
@@ -301,27 +308,25 @@ public class DepartmentServlet extends HttpServlet {
         out.println("</script>");
     }
 
-    protected void updateDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void updateDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
         java.io.PrintWriter out = response.getWriter();
         // (0) 获取请求数据
-        String vId = request.getParameter("depId");
-        String depCode = request.getParameter("depCode");
-        String depName = request.getParameter("depName");
-        String depHead = request.getParameter("depHead");
-        String depResp = request.getParameter("depResp");
-        String supDepId = request.getParameter("supDepId");
+        String vId = request.getParameter("payId");
+        String empId = request.getParameter("empId");
+        String beginDate = request.getParameter("beginDate");
+        String endDate = request.getParameter("endDate");
+        String salary = request.getParameter("salary");
         // 为了在输入页面回显原来的旧值,需要将旧值放到作用域,页面中进行获取
-        request.setAttribute("depId", vId);
-        request.setAttribute("depCode", depCode);
-        request.setAttribute("depName", depName);
-        request.setAttribute("depHead", depHead);
-        request.setAttribute("depResp", depResp);
-        request.setAttribute("supDepId", supDepId);
+        request.setAttribute("payId", vId);
+        request.setAttribute("empId", empId);
+        request.setAttribute("beginDate", beginDate);
+        request.setAttribute("endDate", endDate);
+        request.setAttribute("salary", salary);
 
         // (1) 服务端验证
         String vMsg = "";
         if (SysFun.isNullOrEmpty(vId)) {
-            vMsg += "部门Id不能为空";
+            vMsg += "派薪Id不能为空";
         } //如果验证失败, 则将失败内容放到作用域变量, 并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -329,8 +334,17 @@ public class DepartmentServlet extends HttpServlet {
             updateView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depName)) {
-            vMsg += "部门编码不能为空";
+        if (SysFun.isNullOrEmpty(empId)) {
+            vMsg += "员工Id不能为空";
+        } //如果验证失败, 则将失败内容放到作用域变量, 并转发到页面
+        if (!SysFun.isNullOrEmpty(vMsg)) {
+            request.setAttribute("msg", vMsg);
+            System.out.println(vMsg);
+            updateView(request, response);
+            return;
+        }
+        if (SysFun.isNullOrEmpty(beginDate)) {
+            vMsg += "开始时间不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -338,8 +352,8 @@ public class DepartmentServlet extends HttpServlet {
             updateView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depHead)) {
-            vMsg += "部门负责人不能为空";
+        if (SysFun.isNullOrEmpty(endDate)) {
+            vMsg += "结束时间不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -347,8 +361,8 @@ public class DepartmentServlet extends HttpServlet {
             updateView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(depResp)) {
-            vMsg += "部门描述不能为空";
+        if (SysFun.isNullOrEmpty(salary)) {
+            vMsg += "薪水不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);
@@ -356,19 +370,17 @@ public class DepartmentServlet extends HttpServlet {
             updateView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(supDepId)) {
-            vMsg += "上级部门不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            updateView(request, response);
-            return;
-        }
-        // (2) 数据库验证
+
+        //类型转换
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date bDate = sdf.parse(beginDate);
+        Date eDate = sdf.parse(endDate);
+        Long sId = SysFun.parseLong(empId);
         Long iId = SysFun.parseLong(vId);
-        Long sId=SysFun.parseLong(supDepId);
-        Department bean = departmentService.load(iId);
+        Long salaryL = SysFun.parseLong(salary);
+
+        // (2) 数据库验证
+        PaySalary bean = paysalaryService.load(iId);
         if (bean == null) {
             vMsg = "数据不存在";
         }
@@ -378,17 +390,18 @@ public class DepartmentServlet extends HttpServlet {
             updateView(request, response);
             return;
         }
+
         // (3) 真正处理
-        bean.setDepId(iId);
-        bean.setDepCode(depCode);
-        bean.setDepName(depName);
-        bean.setDepHead(depHead);
-        bean.setDepResp(depResp);
-        bean.setSupDepId(sId);
+        bean.setPayId(iId);
+        bean.setEmpId(sId);
+        bean.setBeginDate(bDate);
+        bean.setEndDate(eDate);
+        bean.setSalary(salaryL);
         Long result = 0L;
         try {
-            result = departmentService.update(bean);
-        } catch (Exception e) {vMsg = "修改失败." + e.getMessage();
+            result = paysalaryService.update(bean);
+        } catch (Exception e) {
+            vMsg = "修改失败." + e.getMessage();
             // TODO: handle exception
         }
         if (result > 0) {
@@ -410,12 +423,12 @@ public class DepartmentServlet extends HttpServlet {
         java.io.PrintWriter out = response.getWriter();
 
         //取得逐渐，再根据主键获取记录
-        String vId = request.getParameter("depId");
+        String vId = request.getParameter("payId");
         if (!SysFun.isNullOrEmpty(vId)) {
             Long iId = SysFun.parseLong(vId);
 
             Long result = 0L;
-            result = departmentService.delete(iId);
+            result = paysalaryService.delete(iId);
 
             if (result > 0) {
                 out.print("ok");// 不要使用println()
@@ -429,19 +442,20 @@ public class DepartmentServlet extends HttpServlet {
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
         // 取得主键，再根据主键，获取记录
-        String vId = request.getParameter("depId");
+        String vId = request.getParameter("payId");
         if (!SysFun.isNullOrEmpty(vId)) {
             Long iPK = SysFun.parseLong(vId);
-            Department bean = departmentService.load(iPK);
+            PaySalary bean = paysalaryService.load(iPK);
             if (bean != null) {
                 // 使用对象来回显
                 request.setAttribute("bean", bean);
-                String toPage = UIConst.VIEWPATH + "/Department_detail.jsp";
+                String toPage = UIConst.VIEWPATH + "/PaySalary_detail.jsp";
                 request.getRequestDispatcher(toPage).forward(request, response);
                 return;
             }
         }
-        out.println("<script>");out.println("alert('数据不存在.');");
+        out.println("<script>");
+        out.println("alert('数据不存在.');");
         out.println("parent.window.location.reload();");
         out.println("</script>");
     }
