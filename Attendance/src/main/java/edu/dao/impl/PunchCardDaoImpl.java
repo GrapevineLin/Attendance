@@ -2,16 +2,11 @@ package edu.dao.impl;
 
 import com.liuvei.common.DbFun;
 import edu.bean.PunchCard;
-import edu.bean.PunchCard;
 import edu.dao.PunchCardDao;
 import edu.util.DbUtil.DbUtil;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
