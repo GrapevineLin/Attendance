@@ -2,10 +2,12 @@ package edu.service.impl.impl;
 
 import edu.bean.PaySalary;
 import edu.bean.PunchCard;
+import edu.bean.RepairCard;
 import edu.dao.PaySalaryDao;
 import edu.dao.impl.PaySalaryDaoImpl;
 import edu.service.impl.PaySalaryService;
 import edu.service.impl.PunchCardService;
+import edu.service.impl.RepairCardService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -75,28 +77,35 @@ public class PaySalaryServiceImpl implements PaySalaryService {
         //定义变量
         SimpleDateFormat daySfd = new SimpleDateFormat("yyyy-MM-dd");
         PunchCardService punchCardService = new PunchCardServiceImpl();
-        List<PunchCard> bean = punchCardService.pagerByCode(code, 0L, 100L);
+        RepairCardService repairCardService = new RepairCardServiceImpl();
+        List<PunchCard> pBean = punchCardService.pagerByCode(code, 0L, 100L);
+        List<RepairCard> rBean = repairCardService.pagerByName(code, 0L, 100L);
         List<Date> time = new ArrayList<Date>();
-        Long date1 = 0L, date2 = 0L;
+        String date1 = null, date2 = null;
         Long time1 = 0L, time2 = 0L;
         Long day = 0L;
 
-        //望list里添加PunchCard日期
+        //往time里添加PunchCard日期
         for (PunchCard item :
-                bean) {
+                pBean) {
+            time.add(item.getDate());
+        }
+        //往time里添加RepairCard日期
+        for (RepairCard item :
+                rBean) {
             time.add(item.getDate());
         }
 
         /*判断日期是否在开始时间和结束时间中
-        * 如果是则判断日期是否相同
-        * 相同则计算当日的出勤时间
-        * 最后计算薪水值*/
+         * 如果是则判断日期是否相同
+         * 相同则计算当日的出勤时间
+         * 最后计算薪水值*/
         for (int i = 0; i < time.size(); i++) {
             if (belongCalendar(time.get(i), beginDate, endDate)) {
-                for (int j = i; j < time.size(); j++) {
+                for (int j = i+1; j < time.size(); j++) {
                     if (belongCalendar(time.get(j), beginDate, endDate)) {
-                        date1 = daySfd.parse(daySfd.format(time.get(i))).getTime();
-                        date2 = daySfd.parse(daySfd.format(time.get(j))).getTime();
+                        date1 = daySfd.format(time.get(i));
+                        date2 = daySfd.format(time.get(j));
                         if (date1.equals(date2)) {
                             day++;
                             time1 = time.get(i).getTime();
@@ -130,7 +139,7 @@ public class PaySalaryServiceImpl implements PaySalaryService {
     }
 
     public static void main(String[] args) throws ParseException {
-        PaySalary bean=paySalaryDao.loadByName("ad");
+        PaySalary bean = paySalaryDao.loadByName("ad");
         System.out.println(getSalary(bean.getEmpCode(), bean.getBeginDate(), bean.getEndDate()));
     }
 }

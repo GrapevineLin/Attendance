@@ -58,6 +58,6 @@ public class RepairCardServiceImpl implements RepairCardService {
 
     @Override
     public List<RepairCard> pagerByName(String name, Long pageNum, Long pageSize) {
-        return null;
+        return repairCardDao.pagerByName(name,pageNum,pageSize);
     }
 }
