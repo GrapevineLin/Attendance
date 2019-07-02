@@ -8,7 +8,6 @@ import edu.util.DbUtil.DbUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 public class RepairCardDaoImpl implements RepairCardDao {
     private RepairCard toBean(ResultSet rs) {

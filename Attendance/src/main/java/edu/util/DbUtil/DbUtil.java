@@ -1,102 +1,78 @@
 package edu.util.DbUtil;
-import java.sql.*;
 
-import com.liuvei.common.*;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+import org.apache.taglibs.standard.tag.common.sql.DataSourceUtil;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Properties;
 
 public class DbUtil {
-    public static final String DRIVER;
-    public static final String URL;
-    public static final String USERNAME;
-    public static final String PASSWORD;
 
-    /**
-     * 【静态代码块】：读取配置文件中的四大金刚，加载数据库jar包。
-     */
+    //私有化构造方法
+    //为什么要私有化构造函数  -->目的是为了不让别人可以new这个对象
+    private DbUtil() {
+    }
+
+    private static DruidDataSource druid = null;
+    static Properties properties = new Properties();
+
+    //利用静态代码块加载驱动
     static {
-
-        AppProps props = AppProps.getInstance();
-
+        //利用静态代码块来读取C3P0的配置文件
+        // 静态块 执行的优先级比较高  静态代码块只执行一次
+        //通过类加载器获得流
+        InputStream is = DataSourceUtil.class.getClassLoader().getResourceAsStream("Druid.properties");
         try {
-
-            DRIVER = props.getDriver();
-            URL = props.getUrl();
-            USERNAME = props.getUsername();
-            PASSWORD = props.getPassword();
-
-
-
+            properties.load(is);
+            druid = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            System.out.println("读取properties文件异常！！");
             e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-        try {
-            Class.forName(DbUtil.DRIVER);
-            System.out.println("Driver【" + DbUtil.DRIVER + "】加载成功");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("Driver【" + DbUtil.DRIVER + "】加载失败");
         }
     }
 
-    /**
-     * 【获得连接对象】
-     *
-     * @return
-     */
+    /*
+     * 获取连接
+     * */
     public static Connection getConn() {
-        Connection conn = null;
-
+        Connection con = null;
         try {
-            conn = DriverManager.getConnection(DbUtil.URL, DbUtil.USERNAME, DbUtil.PASSWORD);
+            con = druid.getConnection();
         } catch (SQLException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
-            System.out.println("获取连接失败");
         }
-        return conn;
+        //返回连接给调用者
+        return con;
+
     }
 
-    /**
-     * 关闭连接对象
-     *
-     * @param conn
-     *            欲关闭的连接对象
-     */
-    public static void close(Connection conn) {
-        DbFun.close(conn);
+    /*
+     * 关闭连接*/
+    public static void close(Connection con) {
+/*        //关闭顺序==>rs<pstm<con
+        //关闭预编译对象
+        if (pstm != null) {
+            try {
+                pstm.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }*/
+        //关闭连接
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
-    /**
-     * 关闭Statement
-     *
-     * @param stmt
-     */
-    public static void close(Statement stmt) {
-        DbFun.close(stmt);
-    }
-
-    /**
-     * 关闭ResultSet
-     *
-     * @param rs
-     */
-    public static void close(ResultSet rs) {
-        DbFun.close(rs);
-    }
-
-    /**
-     * 关闭三大对象
-     *
-     * @param conn
-     * @param stmt
-     * @param rs
-     */
-    public static void close(Connection conn, Statement stmt, ResultSet rs) {
-
-        DbFun.close(conn, stmt, rs);
-    }
 
 }
