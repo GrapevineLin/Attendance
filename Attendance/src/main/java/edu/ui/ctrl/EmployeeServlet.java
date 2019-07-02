@@ -6,8 +6,10 @@ import edu.bean.Employee;
 import edu.bean.Station;
 import edu.service.impl.EmployeeService;
 import edu.service.impl.StationService;
+import edu.service.impl.UserService;
 import edu.service.impl.impl.EmployeeServiceImpl;
 import edu.service.impl.impl.StationServiceImpl;
+import edu.service.impl.impl.UserServiceImpl;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import javax.servlet.ServletException;
@@ -22,6 +24,7 @@ import java.util.List;
 @WebServlet(UIConst.AREAPATH + "/Employee")
 public class EmployeeServlet extends HttpServlet {
     EmployeeService employeeService =new EmployeeServiceImpl();
+    UserService userService = new UserServiceImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -237,14 +240,16 @@ public class EmployeeServlet extends HttpServlet {
 
 
         Long result = 0L;
+        Long result1 = 0L;
         try {
             result = employeeService.insert(bean);
+            result1 = userService.insert(bean);
         } catch (Exception e) {
             vMsg = "添加失败." + e.getMessage();
             // TODO: handle exception
         }
 
-        if (result > 0) {
+        if (result > 0 && result1 > 0) {
             System.out.println("添加成功");
             out.println("<script>");
             out.println("parent.window.location.reload();");

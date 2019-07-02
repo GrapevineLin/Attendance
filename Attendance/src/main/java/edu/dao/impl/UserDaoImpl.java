@@ -1,6 +1,7 @@
 package edu.dao.impl;
 
 import com.liuvei.common.DbFun;
+import edu.bean.Employee;
 import edu.bean.User;
 import edu.dao.UserDao;
 import edu.util.DbUtil.DbUtil;
@@ -28,8 +29,51 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Long insert(UserDao bean) {
-        return null;
+    public Long insert(Employee bean) {
+        // TODO Auto-generated method stub
+        Long result = 0L;
+
+        // 0)定义变量
+        StringBuffer sql = new StringBuffer();
+        List<Object> paramsList = new ArrayList<Object>();
+
+        // 1)组合SQL
+        sql.append(" Insert Into tlogin");
+        sql.append(" (");
+        sql.append(" userName,passWord");
+        sql.append(" )");
+        sql.append(" values(?,?)");
+
+        // 2)添加参数
+        paramsList.add(bean.getEmpCode());
+        paramsList.add("123456");
+
+
+        // 3)转换类型
+        String SQL = sql.toString();
+        Object[] params = paramsList.toArray();
+
+        Connection conn = null;
+        try {
+            // 4)取得连接对象
+            conn = DbUtil.getConn();
+
+            // 5)执行SQL
+            Long num = DbFun.update(conn, SQL, params);
+
+            // 6)结果处理
+            if (num > 0) {
+                SQL = "Select @@identity";
+                result = DbFun.queryScalarLong(conn, SQL);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            // 9)关闭连接
+            DbUtil.close(conn);
+        }
+        return result;
     }
 
     @Override
