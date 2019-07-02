@@ -19,6 +19,7 @@
             <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
             <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+
     </head>
     <body>
         <div class="layui-fluid">
@@ -41,7 +42,7 @@
                         <label for="date" class="layui-form-label">
                             <span class="x-red">*</span>打卡时间</label>
                         <div class="layui-input-inline">
-                            <input type="datetime-local" id="date" name="date" readonly required="" value=""  autocomplete="off" class="layui-input"></div>
+                            <input type="datetime-local" id="date" name="date" readonly required="" value="2010-03-02T12:23"  autocomplete="off" class="layui-input"></div>
                         <div class="layui-form-mid layui-word-aux"></div></div>
                     <div class="layui-form-item">
                         <label for="remark" class="layui-form-label">备注</label>
@@ -54,7 +55,10 @@
                 </form>
             </div>
         </div>
-        <script>layui.use(['form', 'layer','jquery'],
+        <script>
+
+
+            layui.use(['form', 'layer','jquery'],
             function() {
                 $ = layui.jquery;
                 var form = layui.form,
@@ -94,16 +98,17 @@
                 form.on('submit(add)');
 
             });
-        //转化时间以显示
-        var time = new Date();
-        var year = time.getFullYear();
-        var month = time.getMonth() + 1 < 10 ? '0' + (time.getMonth() + 1) : (time.getMonth() + 1);
-        var day = time.getDate();
-        var hour = time.getHours() < 10 ? '0' + time.getHours() : time.getHours();
-        var min = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
-        // var sec = time.getSeconds();
-        var format = year + "-" + month + "-" + day + "T" + hour + ":" +min;
-        document.getElementById("date").setAttribute("value", format);
+
+            //转化时间以显示
+            var time = new Date();
+            var year = time.getFullYear();
+            var month = time.getMonth() + 1 < 10 ? '0' + (time.getMonth() + 1) : (time.getMonth() + 1);
+            var day = time.getDate() < 10 ? '0' + (time.getDate()) : time.getDate();
+            var hour = time.getHours() < 10 ? '0' + time.getHours() : time.getHours();
+            var min = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+            // var sec = time.getSeconds();
+            var format = year + "-" + month + "-" + day + "T" + hour + ":" +min;
+            document.getElementById("date").setAttribute("value", format);
         </script>
 
     </body>
