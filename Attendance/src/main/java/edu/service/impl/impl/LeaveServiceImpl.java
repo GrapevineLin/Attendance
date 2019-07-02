@@ -12,32 +12,32 @@ public class LeaveServiceImpl implements LeaveService {
 
     @Override
     public List<Leave> list() {
-        return null;
+        return leaveDao.list();
     }
 
     @Override
     public Long insert(Leave bean) {
-        return null;
+        return leaveDao.insert(bean);
     }
 
     @Override
     public Long delete(Long id) {
-        return null;
+        return leaveDao.delete(id);
     }
 
     @Override
     public Long update(Leave bean) {
-        return null;
+        return leaveDao.update(bean);
     }
 
     @Override
     public Leave load(Long id) {
-        return null;
+        return leaveDao.load(id);
     }
 
     @Override
     public Leave loadByName(String name) {
-        return null;
+        return leaveDao.loadByName(name);
     }
 
     @Override
@@ -53,11 +53,11 @@ public class LeaveServiceImpl implements LeaveService {
 
     @Override
     public Long countByName(String name) {
-        return null;
+        return leaveDao.countByName(name);
     }
 
     @Override
     public List<Leave> pagerByName(String name, Long pageNum, Long pageSize) {
-        return null;
+        return leaveDao.pagerByName(name,pageNum,pageSize);
     }
 }

@@ -3,8 +3,12 @@ package edu.ui.cli;
 
 
 import edu.bean.Employee;
+import edu.bean.Leave;
 import edu.service.impl.EmployeeService;
+import edu.service.impl.LeaveService;
 import edu.service.impl.impl.EmployeeServiceImpl;
+import edu.service.impl.impl.LeaveServiceImpl;
+
 
 import java.nio.file.WatchKey;
 import java.util.Date;
@@ -14,19 +18,19 @@ public class test {
     private static  EmployeeService employeeService = new EmployeeServiceImpl();
 
     public static void main(String[] args) {
-        list();
-       //delete();
+        //list();
+        //delete();
        // insert();
        // load();
         //update();
-        //L();
+        L();
     }
 
 
     private static void L(){
-        List<Employee> list = employeeService.pagerByName("w",2L,1L);
-        for (Employee item : list) {
-            System.out.println(item.getEmpId() + "\t");
+        LeaveService leaveService=new LeaveServiceImpl();
+        List<Leave> list = leaveService.pagerByName("Z",1L,10L);
+        for (Leave item : list) {
             System.out.println(item.getEmpName() + "\t");
             System.out.println(item.getEmpCode() + "\n");
         }
@@ -51,7 +55,8 @@ public class test {
     }
 
     private static void delete() {
-        System.out.println(employeeService.delete(4L));
+        LeaveService leaveService = new LeaveServiceImpl();
+        System.out.println(leaveService.delete(3L));
     }
     private static void load(){
         Employee item = employeeService.load(3L);
