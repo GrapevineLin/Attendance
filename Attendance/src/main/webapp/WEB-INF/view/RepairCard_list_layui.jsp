@@ -26,27 +26,15 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <%--                <div class="layui-card-body ">--%>
-                <%--                    <form class="layui-form layui-col-space5" action="RepairCard" method="get">--%>
-                <%--                        &lt;%&ndash;                        <input type="hidden" name="oper" value="listDeal"/>&ndash;%&gt;--%>
-                <%--                        <div class="layui-inline layui-show-xs-block">--%>
-                <%--                            <input type="text" name="searchName" placeholder="请输入人员编码" autocomplete="off"--%>
-                <%--                                   class="layui-input" value="${searchName}">--%>
-                <%--                        </div>--%>
-                <%--                        <div class="layui-inline layui-show-xs-block">--%>
-                <%--                            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i--%>
-                <%--                                    class="layui-icon">&#xe615;</i>--%>
-                <%--                            </button>--%>
-                <%--                        </div>--%>
-                <%--                    </form>--%>
-                <%--                </div>--%>
+
+
                 <div class="demoTable">
                     <br>
-                    &nbsp;&nbsp;&nbsp;搜索ID：
+                    &nbsp;&nbsp;&nbsp;
                     <div class="layui-inline">
-                        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+                        <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入补卡人编码或姓名">
                     </div>
-                    <button class="layui-btn" data-type="reload">搜索</button>
+                    <div class="layui-btn" data-type="reload" >搜索</div>
                 </div>
                 <br>
                 &nbsp;&nbsp;&nbsp;
@@ -79,6 +67,7 @@
             , height: 400
             , url: 'RepairCard?oper=getList' //数据接口
             , page: true //开启分页
+            // , id: 'repairTable'
             , cols: [[ //表头
                 {type: 'checkbox', width: "5%", fixed: 'left'}
                 , {field: 'repairId', title: 'ID', width: "5%", sort: true, fixed: 'left'}
@@ -175,21 +164,36 @@
                     })
                 })
             },
+            // reload: function () {
+            //     var demoReload = $('#demoReload');
+            //     console.log("demoReload.val()" + demoReload.val());
+            //     //执行重载
+            //     tableIns.reload({
+            //         page: {
+            //             curr: 1 //重新从第 1 页开始
+            //         }
+            //         , where: {
+            //             key: {
+            //                 repairId: demoReload.val()
+            //             }
+            //         }
+            //     });
+            // },
             reload: function () {
-                var demoReload = $('#demoReload');
-                console.log("demoReload.val()" + demoReload.val());
-                //执行重载
-                tableIns.reload({
-                    page: {
-                        curr: 1 //重新从第 1 页开始
+                        var demoReload = $('#demoReload');
+                        console.log(demoReload.val());
+                        //执行重载
+                        table.reload('showlist', {
+                            // method: 'post',
+                            url: 'RepairCard?oper=listdeal',
+                            page: {
+                                curr: 1
+                            },
+                            where: {
+                                searchName : demoReload.val().trim()
+                            }
+                        });
                     }
-                    , where: {
-                        key: {
-                            repairId: demoReload.val()
-                        }
-                    }
-                });
-            }
         };
         $('.demoTable .layui-btn').on('click', function () {
             var type = $(this).data('type');

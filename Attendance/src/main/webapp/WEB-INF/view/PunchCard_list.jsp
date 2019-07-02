@@ -216,8 +216,8 @@
           })
       }
 
-      var datetime = document.getElementById("datetime");
-      var result = datetime.replaceAll(".0", "");
-      document.getElementById("datetime").innerHTML = result;
+      // var datetime = document.getElementById("datetime");
+      // var result = datetime.replaceAll(".0", "");
+      // document.getElementById("datetime").innerHTML = result;
     </script>
 </html>

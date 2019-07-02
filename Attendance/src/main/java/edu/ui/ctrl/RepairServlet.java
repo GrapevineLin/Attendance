@@ -62,6 +62,9 @@ public class RepairServlet extends HttpServlet {
             case "getlist":
                 getList(request, response);
                 break;
+            case "listdeal":
+                listDeal(request, response);
+                break;
             case "delete":
                 delete(request, response);
                 break;
@@ -214,6 +217,22 @@ public class RepairServlet extends HttpServlet {
         }
         return toURL;
     }
+    //查询id
+    protected void listDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("searchName");
+        Long page = Long.parseLong(request.getParameter("page"));
+        Long limit = Long.parseLong(request.getParameter("limit"));
+        //List<RepairCard> repairCards = repairCardService.list();
+        List<RepairCard> repairCards = repairCardService.pagerByName(name ,page, limit);
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", repairCardService.count());
+        map.put("data", repairCards);
+        //将结果转成JSON字符串 返回给前台
+        System.out.println("Json" + JSON.toJSONString(map));
+        response.getWriter().print(JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat));
+    }
 
     protected void updateView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<RepairCard> repairCards = repairCardService.list();
@@ -239,10 +258,9 @@ public class RepairServlet extends HttpServlet {
                 request.setAttribute("empCode", bean.getEmpCode());
                 request.setAttribute("date", bean.getDate());
                 request.setAttribute("reason", bean.getReason());
-                String toPage = UIConst.VIEWPATH +
-                        "/RepairCard_edit.jsp";
-                request.getRequestDispatcher(toPage).forward(request,
-                        response);
+
+                String toPage = UIConst.VIEWPATH + "/RepairCard_edit.jsp";
+                request.getRequestDispatcher(toPage).forward(request, response);
                 return;
             }
         }
