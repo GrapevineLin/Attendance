@@ -1,6 +1,7 @@
 package edu.ui.ctrl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.liuvei.common.SysFun;
 import edu.bean.Employee;
 import edu.bean.RepairCard;
@@ -171,7 +172,7 @@ public class RepairServlet extends HttpServlet {
         map.put("data", repairCards);
         //将结果转成JSON字符串 返回给前台
         System.out.println("Json" + JSON.toJSONString(map));
-        response.getWriter().print(JSON.toJSONString(map));
+        response.getWriter().print(JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat));
     }
 
     protected void listView(HttpServletRequest request, HttpServletResponse response) throws
