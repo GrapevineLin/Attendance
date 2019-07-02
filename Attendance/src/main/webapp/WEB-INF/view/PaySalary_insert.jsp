@@ -27,7 +27,7 @@
             <input type="hidden" name="oper" value="insertDeal">
             <div class="layui-form-item">
                 <label for="empId" class="layui-form-label">
-                    <span class="x-red">*</span>部门负责人</label>
+                    <span class="x-red">*</span>领薪人</label>
                 <div class="layui-input-inline">
                     <select id="empId" name="empId" class="layui-select">
                         <option value="">请选择</option>
@@ -53,15 +53,17 @@
             </div>
             <div class="layui-form-item">
                 <label for="salary" class="layui-form-label">
-                    <span class="x-red">*</span>薪水</label>
+                    薪水</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="salary" name="salary" value="${salary}" required=""
+                    <input type="text" id="salary" name="salary" value="${salary}"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-submit>增加</button>
+                <button class="layui-btn" lay-submit="sum">计算工资</button>
+<%--                <label class="layui-form-label"></label>
+                <button class="layui-btn" lay-submit>增加</button>--%>
             </div>
         </form>
     </div>
@@ -87,6 +89,8 @@
             type: 'datetime'
         });
 
+
+
         //自定义验证规则
         form.verify({
             nikename: function (value) {
@@ -102,19 +106,16 @@
             }
         });
 
-        //监听提交
-        form.on('submit(add)',
+        //监听计算
+        form.on('submit(sum)',
             function (data) {
-                console.log(data);
+                console.log("成功进行监听");
                 //发异步，把数据提交给php
                 layer.alert("增加成功", {
                         icon: 6
                     },
                     function () {
-                        //关闭当前frame
-                        xadmin.close();
-
-                        // 可以对父窗口进行刷新 
+                        // 可以对父窗口进行刷新
                         xadmin.father_reload();
                     });
                 return false;

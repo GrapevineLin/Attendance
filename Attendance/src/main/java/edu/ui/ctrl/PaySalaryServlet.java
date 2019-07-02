@@ -188,6 +188,10 @@ public class PaySalaryServlet extends HttpServlet {
     }
 
     protected void insertDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
+
+        //  Servlet从下面两层取出数据
+        EmployeeService employeeService = new EmployeeServiceImpl();
+
         // 从response对象里获取out对象——response.getWriter()之前，要先设置页面的编码
         java.io.PrintWriter out = response.getWriter();
         // 获取请求数据
@@ -196,13 +200,6 @@ public class PaySalaryServlet extends HttpServlet {
         String endDate = request.getParameter("endDate");
         String salary = request.getParameter("salary");
 
-        System.out.println(empId);
-
-        //为了在输入页面回显原来的旧值，将旧值放到作用域，页面中进行获取
-        request.setAttribute("empId", empId);
-        request.setAttribute("beginDate", beginDate);
-        request.setAttribute("endDate", endDate);
-        request.setAttribute("salary", salary);
         //服务端验证
         String vMsg = "";
         if (SysFun.isNullOrEmpty(empId)) {
@@ -232,22 +229,19 @@ public class PaySalaryServlet extends HttpServlet {
             insertView(request, response);
             return;
         }
-        if (SysFun.isNullOrEmpty(salary)) {
-            vMsg += "薪水不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            updateView(request, response);
-            return;
-        }
-
         //类型转换
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date bDate = sdf.parse(beginDate);
         Date eDate = sdf.parse(endDate);
         Long sId = SysFun.parseLong(empId);
         Long salaryL = SysFun.parseLong(salary);
+
+        //计算工资数据并添加进表单
+        Employee Ebean = employeeService.load(sId);
+        String Code = Ebean.getEmpCode();
+        salaryL = paysalaryService.getSalary(Code,bDate,eDate);
+        request.setAttribute("salary", salaryL);
+
 
         PaySalary bean = new PaySalary();
         bean.setEmpId(sId);
@@ -354,15 +348,6 @@ public class PaySalaryServlet extends HttpServlet {
         }
         if (SysFun.isNullOrEmpty(endDate)) {
             vMsg += "结束时间不能为空";
-        } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
-        if (!SysFun.isNullOrEmpty(vMsg)) {
-            request.setAttribute("msg", vMsg);
-            System.out.println(vMsg);
-            updateView(request, response);
-            return;
-        }
-        if (SysFun.isNullOrEmpty(salary)) {
-            vMsg += "薪水不能为空";
         } //如果验证失败,则将失败内容放到作用域变量,并转发到页面
         if (!SysFun.isNullOrEmpty(vMsg)) {
             request.setAttribute("msg", vMsg);

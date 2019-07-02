@@ -71,7 +71,7 @@ public class PaySalaryServiceImpl implements PaySalaryService {
     }
 
     //返回应得薪水
-    public static Long getSalary(String code, Date beginDate, Date endDate) throws ParseException {
+    public Long getSalary(String code, Date beginDate, Date endDate) throws ParseException {
         Long salary = 0L;//薪水
 
         //定义变量
@@ -83,7 +83,7 @@ public class PaySalaryServiceImpl implements PaySalaryService {
         List<Date> time = new ArrayList<Date>();
         String date1 = null, date2 = null;
         Long time1 = 0L, time2 = 0L;
-        Long day = 0L;
+        Long day = 0L,sumTime=0L;
 
         //往time里添加PunchCard日期
         for (PunchCard item :
@@ -110,18 +110,21 @@ public class PaySalaryServiceImpl implements PaySalaryService {
                             day++;
                             time1 = time.get(i).getTime();
                             time2 = time.get(j).getTime();
-                            //应得薪水数*实际出勤时间/应该出勤时间
-                            salary += 2000 * Math.abs(time1 - time2) / (3600000 * day * 8);
+                            //计算实际出勤时间
+                            sumTime += Math.abs(time1 - time2);
                         }
                     }
                 }
             }
         }
+        //计算总薪水
+        salary = (200*day)*sumTime / (3600000 * day * 8);
+
         return salary;
     }
 
     //判断日期是否在区间内
-    public static boolean belongCalendar(Date nowTime, Date beginTime, Date endTime) {
+    public boolean belongCalendar(Date nowTime, Date beginTime, Date endTime) {
         Calendar date = Calendar.getInstance();
         date.setTime(nowTime);
 
@@ -136,10 +139,5 @@ public class PaySalaryServiceImpl implements PaySalaryService {
         } else {
             return false;
         }
-    }
-
-    public static void main(String[] args) throws ParseException {
-        PaySalary bean = paySalaryDao.loadByName("ad");
-        System.out.println(getSalary(bean.getEmpCode(), bean.getBeginDate(), bean.getEndDate()));
     }
 }
