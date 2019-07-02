@@ -414,7 +414,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         sbSQL.append("select E.*,S.jobName from Employee E");
         sbSQL.append(" left join Station S on E.jobId=S.jobId");
-        sbSQL.append( "where E.empName like ?");
+        sbSQL.append(" where E.empName like ?");
         sbSQL.append(" order by E.empId asc");
 
         if(pageNum<1){

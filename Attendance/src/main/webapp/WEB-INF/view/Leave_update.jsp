@@ -48,16 +48,16 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label" for="beginDate">开始时间</label>
+                <label class="layui-form-label" for="beginDate"><span class="x-red">*</span>开始时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="beginDate" id="beginDate" value="${beginDate}"
+                    <input type="text" name="beginDate" id="beginDate" value="${beginDate}" required=""
                            placeholder="-" class="layui-input" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" for="beginDate">结束时间</label>
+                <label class="layui-form-label" for="beginDate"><span class="x-red">*</span>结束时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="endDate" id="endDate" value="${endDate}"
+                    <input type="text" name="endDate" id="endDate" value="${endDate}" required=""
                            placeholder="-" class="layui-input" autocomplete="off">
                 </div>
             </div>
