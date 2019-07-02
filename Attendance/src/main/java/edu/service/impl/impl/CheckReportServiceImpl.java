@@ -155,7 +155,7 @@ public class CheckReportServiceImpl implements CheckReportService {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        int hour = cal.get(Calendar.HOUR);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
         if (hour < 12) {
             return true;
         } else {
