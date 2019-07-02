@@ -100,7 +100,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </body>
     <script>
       layui.use(['laydate','form'], function(){
@@ -117,8 +117,8 @@
             $('tbody input').prop('checked',false);
           }
           form.render('checkbox');
-        }); 
-        
+        });
+
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -152,7 +152,7 @@
                 $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
                 layer.msg('已启用!',{icon: 5,time:1000});
               }
-              
+
           });
       }
 

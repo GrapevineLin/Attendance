@@ -42,10 +42,10 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="" method="get">
+                    <form class="layui-form layui-col-space5" action="Leave" method="get">
                         <input type="hidden" name="oper" value="listDeal"/>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="searchName" placeholder="请输入人员编码或名称" autocomplete="off"
+                        <div class="layui-inline layui-show-xs-block" >
+                            <input type="text" name="searchName" placeholder="请输入编码或者名称" autocomplete="off"
                                    class="layui-input" value="${searchName}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
@@ -91,7 +91,7 @@
                                 <td>${item.endDate}</td>
                                 <td class="td-manage">
                                     <a title="编辑"
-                                       onclick="xadmin.open('编辑[leaveId=${item.leaveId}]','Station?oper=update&leaveId=${item.leaveId}','800','500',false)"
+                                       onclick="xadmin.open('编辑[leaveId=${item.leaveId}]','Leave?oper=update&leaveId=${item.leaveId}','800','500',false)"
                                        href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
@@ -184,7 +184,7 @@
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: 'Station?oper=deleteDeal&leaveId=' + id,
+                url: 'Leave?oper=deleteDeal&leaveId=' + id,
                 //dataType: 'json',
                 success: function (data) {
                     if (data == "ok") {
@@ -201,10 +201,6 @@
         });
     }
 
-    /*项目-查看*/
-    function item_detail(title, url, id, w, h) {
-        layer_show(title, url, w, h);
-    }
 
     // function delAll(argument) {
     //     var ids = [];
@@ -239,7 +235,7 @@
                     //Start : ajax方式，一行一行删除
                     $.ajax({
                         type: 'POST',
-                        url: 'Station',
+                        url: 'Leave',
                         async: false, //是否异步
                         data: {"oper": "deleteDeal", "leaveId": id},
                         success: function (data) {

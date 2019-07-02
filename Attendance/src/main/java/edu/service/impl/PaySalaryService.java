@@ -2,6 +2,8 @@ package edu.service.impl;
 
 import edu.bean.PaySalary;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 public interface PaySalaryService {
@@ -24,4 +26,6 @@ public interface PaySalaryService {
     Long countByName(String name);
 
     List<PaySalary> pagerByName(String name, Long pageNum, Long pageSize);
+
+    Long getSalary(String code, Date beginDate, Date endDate) throws ParseException;
 }
