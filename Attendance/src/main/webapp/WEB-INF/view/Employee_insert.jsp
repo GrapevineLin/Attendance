@@ -107,7 +107,7 @@
                 <label for="jobId" class="layui-form-label">
                     <span class="x-red">*</span>岗位</label>
                 <div class="layui-input-inline">
-                    <select id="jobId" name="jobId" class="layui-select">
+                    <select id="jobId" name="jobId" class="layui-select" required="">
                         <option value="">请选择</option>
                         <c:forEach var="item" items="${sList}">
                             <option value="${item.jobId}">${item.jobCode}-${item.jobName}</option>

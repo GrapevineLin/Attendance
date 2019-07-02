@@ -1,13 +1,14 @@
 package edu.dao;
 
 
+import edu.bean.Employee;
 import edu.bean.User;
 
 import java.util.List;
 
 public interface UserDao {
     //    List<UserDao> list();
-    Long insert(UserDao bean);
+    Long insert(Employee bean);
 //    Long delete(Long id);
 //    Long update(UserDao bean);
 //    UserDao Load(Long id);

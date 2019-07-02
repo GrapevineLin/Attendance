@@ -1,13 +1,14 @@
 package edu.service.impl;
 
 
+import edu.bean.Employee;
 import edu.bean.User;
 
 import java.util.List;
 
 public interface UserService {
 //    List<User> list();
-//    Long insert(User bean);
+    Long insert(Employee bean);
 //    Long delete(Long id);
 //    Long update(User bean);
 //    User Load(Long id);

@@ -32,7 +32,6 @@
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form" id="objForm">
-            <input type="hidden" name="oper" value="updateDeal"/>
             <input type="hidden" name="leaveId" value="${leaveId}"/>
 
             <div class="layui-form-item">
@@ -135,7 +134,8 @@
                             type:'POST',
                             url:'Leave',
                             data:{
-                                "oper": "insertDeal",
+                                "oper": "updateDeal",
+                                "leaveId":'${leaveId}',
                                 "empCode":$('#empCode').val(),
                                 "beginDate":$('#beginDate').val(),
                                 "endDate":$('#endDate').val(),
