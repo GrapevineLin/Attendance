@@ -2,6 +2,7 @@ package edu.ui.ctrl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.liuvei.common.PagerItem;
 import com.liuvei.common.SysFun;
 import edu.bean.Employee;
 import edu.bean.RepairCard;
@@ -164,15 +165,28 @@ public class RepairServlet extends HttpServlet {
 
     private void getList(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
+        //获取请求参数
+        String searchName = request.getParameter("searchName");
+        //回显请求参数
+        request.setAttribute("searchName", searchName);
+
+        List<RepairCard> vDateList = null;
+
+        //分页处理，回去page和limit
         Long page = Long.parseLong(request.getParameter("page"));
         Long limit = Long.parseLong(request.getParameter("limit"));
-        //List<RepairCard> repairCards = repairCardService.list();
-        List<RepairCard> repairCards = repairCardService.pager(page, limit);
+
+        PagerItem pagerItem = new PagerItem();
+
+        Long rowCount = 0L;
+        rowCount = repairCardService.count();
+        vDateList = repairCardService.pager(page, limit);
+
         Map<String, Object> map = new HashMap<>();
         map.put("code", 0);
         map.put("msg", "");
-        map.put("count", repairCardService.count());
-        map.put("data", repairCards);
+        map.put("count", rowCount);
+        map.put("data", vDateList);
         //将结果转成JSON字符串 返回给前台
         System.out.println("Json" + JSON.toJSONString(map));
         response.getWriter().print(JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat));
