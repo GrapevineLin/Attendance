@@ -265,6 +265,17 @@ public class PaySalaryServlet extends HttpServlet {
             System.out.println(vMsg);
             insertView(request, response);
         }
+/*
+        Map<String,Object> map = new HashMap<>();
+        if (result > 0) {
+            map.put("code",200);
+            map.put("msg","success");
+            response.getWriter().print(JSON.toJSONString(map));
+        } else {
+            map.put("code", 500);
+            map.put("msg", "fail");
+            response.getWriter().print(JSON.toJSONString(map));
+        }*/
     }
 
     protected void updateView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

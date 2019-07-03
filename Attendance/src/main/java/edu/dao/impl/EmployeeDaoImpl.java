@@ -258,11 +258,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
         List<Object> paramsList = new ArrayList<Object>();
         //组合SQL
         sbSQL.append("select * from Employee ");
-        sbSQL.append("where empName= ? ");
+        sbSQL.append("where empName like ? or empCode like ?");
         sbSQL.append(" order by empId asc");
 
         //添加参数
-        paramsList.add(name);
+        paramsList.add("%"+name+"%");
+        paramsList.add("%"+name+"%");
 
         //类型转换
         String sql = sbSQL.toString();
@@ -287,7 +288,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
             throw  new RuntimeException(e);
-        }finally {
+        }finally{
             //关闭
             DbUtil.close(conn);
         }

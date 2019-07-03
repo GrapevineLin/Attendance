@@ -1,10 +1,12 @@
 package edu.service.impl.impl;
 
+import edu.bean.Employee;
 import edu.bean.PaySalary;
 import edu.bean.PunchCard;
 import edu.bean.RepairCard;
 import edu.dao.PaySalaryDao;
 import edu.dao.impl.PaySalaryDaoImpl;
+import edu.service.impl.EmployeeService;
 import edu.service.impl.PaySalaryService;
 import edu.service.impl.PunchCardService;
 import edu.service.impl.RepairCardService;
@@ -78,8 +80,10 @@ public class PaySalaryServiceImpl implements PaySalaryService {
         SimpleDateFormat daySfd = new SimpleDateFormat("yyyy-MM-dd");
         PunchCardService punchCardService = new PunchCardServiceImpl();
         RepairCardService repairCardService = new RepairCardServiceImpl();
+        EmployeeService employeeService = new EmployeeServiceImpl();
         List<PunchCard> pBean = punchCardService.pagerByCode(code, 0L, 100L);
         List<RepairCard> rBean = repairCardService.pagerByName(code, 0L, 100L);
+        Employee eBean = employeeService.loadByName(code);
         List<Date> time = new ArrayList<Date>();
         String date1 = null, date2 = null;
         Long time1 = 0L, time2 = 0L;
@@ -117,8 +121,12 @@ public class PaySalaryServiceImpl implements PaySalaryService {
                 }
             }
         }
+
+        //获取员工薪资
+        Long money = eBean.getMoney();
+
         //计算总薪水
-        salary = (200*day)*sumTime / (3600000 * day * 8);
+        salary = (money*day)*sumTime / (3600000 * day * 8);
 
         return salary;
     }

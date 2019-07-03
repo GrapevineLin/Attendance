@@ -225,13 +225,5 @@
             });
         });
     }
-
-    var bDate = document.getElementById("bDate");
-    var eDate = document.getElementById("eDate");
-    var bd = bDate.replaceAll(".0", "");
-    var ed = eDate.replaceAll(".0", "");
-    document.getElementById("bDate").innerHTML = bd;
-    document.getElementById("eDate").innerHTML = ed;
-
 </script>
 </html>

@@ -122,7 +122,7 @@ public class DepartmentServlet extends HttpServlet {
         request.getRequestDispatcher(toPage).forward(request, response);
     }
 
-    protected void listDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void listDeal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
         //获取请求参数
         String searchName = request.getParameter("searchName");
         //回显请求数据

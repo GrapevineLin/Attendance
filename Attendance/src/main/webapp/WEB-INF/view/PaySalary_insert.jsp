@@ -63,13 +63,13 @@
                 <label class="layui-form-label"></label>
                 <button class="layui-btn" lay-submit="sum">计算工资</button>
 <%--                <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-submit>增加</button>--%>
+                <button class="layui-btn" lay-submit="add">增加</button>--%>
             </div>
         </form>
     </div>
 </div>
 
-<script>layui.use(['form', 'layer', 'jquery','laydate'],
+<script>layui.use(['form', 'layer', 'jquery', 'laydate'],
     function () {
         $ = layui.jquery;
         var form = layui.form,
@@ -88,7 +88,6 @@
             elem: '#endDate', //指定元素
             type: 'datetime'
         });
-
 
 
         //自定义验证规则
@@ -120,6 +119,45 @@
                     });
                 return false;
             });
+
+        /*//监听提交
+        form.on('submit(sum)',
+            function (data) {
+                console.log('成功进入监听');
+                var date1 = document.getElementById('beginDate').value;
+                var date2 = document.getElementById('endDate').value;
+
+                //在这里面向后台发送添加的ajax请求
+                console.log("AJAX READY!")
+                $.ajax({
+                    type: 'POST',
+                    url: 'PaySalary',
+                    data: {
+                        "oper": "insertDeal",
+                        "empName": $('#empName').val(),
+                        "beginDate": $('#beginDate').val(),
+                        "endDate": $('#endDate').val(),
+                        "salary": $('#salary').val()
+                    },
+                    dataType: 'JSON',
+                    success: function (data) {
+
+                        if (data.code == 200) {
+                            //如果修改成功了
+                            //要关闭当前页面
+                            layer.msg("修改成功！");
+                            layer.reload();
+                        } else {
+                            layer.msg("对不起 添加失败了！");
+                        }
+                    },
+                    fail: function (data) {
+                        layer.msg("对不起 添加失败了！");
+                    }
+                })
+
+                return false;
+            });*/
 
     });</script>
 <script>var _hmt = _hmt || [];
