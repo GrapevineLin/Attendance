@@ -100,7 +100,7 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('多级分类','CheckReport?oper=list')">
+                        <a onclick="xadmin.add_tab('考勤情况','CheckReport?oper=list')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>考勤情况</cite></a>
                     </li>
