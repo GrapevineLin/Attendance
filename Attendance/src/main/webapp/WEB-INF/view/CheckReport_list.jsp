@@ -61,28 +61,10 @@
                             <th>下午下班时间</th>
                             <th>出勤情况</th>
                         </thead>
-                        <tbody>
-                        <c:forEach var="item" items="${DataList }" varStatus="v">
-                            <tr>
-
-                                <td>${v.count}</td>
-                                <td>${item.empCode}</td>
-                                <td>${item.empName}</td>
-                                <td>${item.am}</td>
-                                <td>${item.pm}</td>
-                                <td>${item.attendance}</td>
-
-                                    <%--<td class="td-status">
-                                      <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
-                                    <td class="td-manage">
-                                      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                                        <i class="layui-icon">&#xe601;</i>
-                                    </a>--%>
-                        </c:forEach>
-
+                        <tbody id="lay_table">
                         </tbody>
                     </table>
-                    <jsp:include page="__pager.jsp" flush="true"/>
+                        <div id="lay_pager"></div>
                 </div>
             </div>
         </div>
@@ -91,34 +73,76 @@
 </body>
 <script>
 
-    layui.use(['laydate', 'form'], function () {
+    layui.use(['laydate', 'form', 'laypage'], function () {
         var laydate = layui.laydate;
         var form = layui.form;
-
-
-        // 监听全选
-        form.on('checkbox(checkall)', function (data) {
-
-            if (data.elem.checked) {
-                $('tbody input').prop('checked', true);
-            } else {
-                $('tbody input').prop('checked', false);
-            }
-            form.render('checkbox');
+        var laypage = layui.laypage;
+        
+        var total = 0;
+        var $ = layui.$;
+        $.ajax({
+           type: 'get',
+           url: 'CheckReport?oper=getlist',
+           async: false,
+           dataType: 'json',
+           success: function (data) {
+               total = data.length;
+               console.log(data);
+               var json = data;
+               loadData(json);
+           }
         });
+            //时间戳转换
+        function add0(m){return m<10?'0'+m:m }
 
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#start' //指定元素
-        });
+        function formatDate(timestamp)
+        {
+            //timestamp是整数，否则要parseInt转换
+            var time = new Date(timestamp);
+            var y = time.getFullYear();
+            var m = time.getMonth()+1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            var s = time.getSeconds();
+            return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+        }
+        function loadData(data) {
+            var nums = 10; //每页数量
+            // new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            var render = function (data, curr) {
+                var arr = [], thisData = data.concat().splice(curr * nums - nums, nums);
+                for(var i = 0; i < thisData.length; i++){
 
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#end' //指定元素
-        });
-
+                    var str = "<tr>" +
+                        "<td>" + (i + 1) + "</td>" +
+                        "<td>" + thisData[i].empCode + "</td>" +
+                        "<td>" + thisData[i].empName + "</td>" +
+                        "<td>" + (thisData[i].am === undefined ? " " : formatDate(thisData[i].am) ) + "</td>" +
+                        "<td>" + (thisData[i].pm === undefined ? " " : formatDate(thisData[i].pm) ) + "</td>" +
+                        "<td>" + thisData[i].attendance + "</td>" +
+                        "</tr>";
+                    arr.push(str);
+                }
+                return arr.join('');
+            };
+            laypage.render({
+                elem: 'lay_pager',
+                // pages: Math.ceil(data.length / nums), //得到总页数
+                // curr: 1,
+                count: total,
+                limit: 10,
+                group: 10,
+                layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip'],
+                jump: function (obj) {
+                    document.getElementById('lay_table').innerHTML = render(data, obj.curr);
+                    console.log(total);
+                }
+            })
+        }
 
     });
+
 
 
 
