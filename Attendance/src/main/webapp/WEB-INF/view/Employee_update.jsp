@@ -21,6 +21,8 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/lib/layui/layui.js"
             charset="utf-8"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/js/xadmin.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/js/jquery.min.js"></script>
+
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -116,7 +118,7 @@
                 <label for="jobId" class="layui-form-label">
                     <span class="x-red">*</span>岗位</label>
                 <div class="layui-input-inline">
-                    <select id="jobId" name="jobId" class="layui-select">
+                    <select id="jobId" name="jobId" class="layui-select" required="">
                         <option value="">请选择</option>
                         <c:forEach var="item" items="${sList}">
                             <option value="${item.jobId}">${item.jobCode}-${item.jobName}</option>
@@ -191,7 +193,6 @@
 <script>
     $(function () {
         $("#jobId").val("${jobId}");
-
     });
 
 </script>
