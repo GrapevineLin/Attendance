@@ -3,6 +3,7 @@ package edu.ui.ctrl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import edu.bean.EmployeeCharts;
+import edu.bean.RepairCharts;
 import edu.dao.impl.ChartsImpl;
 
 import javax.servlet.ServletException;
@@ -67,6 +68,9 @@ public class ChartsServlet extends HttpServlet {
             case "getlist":
                 getList(request, response);
                 break;
+            case "getrepaircharts":
+                GetRepairCharts(request, response);
+                break;
             //case "listdeal":
             //    listDeal(request, response); // 列表处理
             //    break;
@@ -124,5 +128,19 @@ public class ChartsServlet extends HttpServlet {
             throws ServletException, IOException {
         String toPage = UIConst.VIEWPATH + "/Charts.jsp";
         request.getRequestDispatcher(toPage).forward(request, response);
+    }
+
+    private void GetRepairCharts(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ChartsImpl charts = new ChartsImpl();
+        List<RepairCharts> repairCharts = charts.GetRepairCharts();
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", repairCharts);
+        System.out.println("MAP:" + map + "repairCharts:" + repairCharts);
+        //将结果转成JSON字符串 返回给前台
+        System.out.println("Json" + JSON.toJSONString(map));
+        response.getWriter().print(JSON.toJSONString(map));
     }
 }
