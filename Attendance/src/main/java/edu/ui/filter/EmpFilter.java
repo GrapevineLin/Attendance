@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(filterName = "empFilter", urlPatterns = UIConst.AREAPATH + "/*", initParams = {
-        @WebInitParam(name = "excludePages", value = UIConst.AREAPATH + "/Login;" + UIConst.AREAPATH + "/Main;" + UIConst.AREAPATH + "/PunchCard"),
+        @WebInitParam(name = "excludePages", value = UIConst.AREAPATH + "/Login;" + UIConst.AREAPATH + "/Main;" + UIConst.AREAPATH + "/PunchCard;" + UIConst.AREAPATH + "/EmpDetail"),
 })
 public class EmpFilter implements Filter {
     private static String admin = "";
