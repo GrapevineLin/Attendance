@@ -39,7 +39,7 @@
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                    <a onclick="xadmin.open('个人信息','${pageContext.request.contextPath}/static/empDetailInfo/EmpDetail.html?empCode=${loginUser}', 1300, 650, false)">个人信息</a></dd>
                 <dd>
                     <a id="exit">退出</a></dd>
             </dl>
