@@ -2,15 +2,14 @@ package edu.ui.ctrl;
 
 
 import com.alibaba.fastjson.JSON;
-
 import com.liuvei.common.PagerItem;
 import com.liuvei.common.SysFun;
-import edu.bean.PaySalary;
 import edu.bean.Employee;
-import edu.service.impl.PaySalaryService;
+import edu.bean.PaySalary;
 import edu.service.impl.EmployeeService;
-import edu.service.impl.impl.PaySalaryServiceImpl;
+import edu.service.impl.PaySalaryService;
 import edu.service.impl.impl.EmployeeServiceImpl;
+import edu.service.impl.impl.PaySalaryServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -101,6 +100,13 @@ public class PaySalaryServlet extends HttpServlet {
                 break;
             case "deletedeal":
                 deleteDeal(request, response); // 删除处理
+                break;
+            case "getsalary":
+                try {
+                    getSalary(request, response);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 // listView(request, response); // 列表页面 : 默认
