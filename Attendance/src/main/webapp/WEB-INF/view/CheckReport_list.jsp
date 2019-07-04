@@ -35,18 +35,16 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="CheckReport" method="get">
-                        <input type="hidden" name="oper" value="listDeal"/>
+<%--                        <input type="hidden" name="oper" value="listDeal"/>--%>
                         <div class="layui-inline layui-show-xs-block" >
-                            <input type="text" name="searchName" placeholder="请输入名称" autocomplete="off"
-                                   class="layui-input" value="${searchName}">
+                            <input type="text" name="searchName" id="searchName" placeholder="请输入编号"
+                                   class="layui-input" value="" >
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i
+                            <button class="layui-btn" id="searchBtn"><i
                                     class="layui-icon">&#xe615;</i>
                             </button>
                         </div>
-                    </form>
                 </div>
                 <div class="layui-card-header">
                 </div>
@@ -79,20 +77,49 @@
         var laypage = layui.laypage;
         
         var total = 0;
+        var json = [];
+        var searchData = [];
+        // var jsonData = null;
         var $ = layui.$;
-        $.ajax({
-           type: 'get',
-           url: 'CheckReport?oper=getlist',
-           async: false,
-           dataType: 'json',
-           success: function (data) {
-               total = data.length;
-               console.log(data);
-               var json = data;
-               loadData(json);
-           }
-        });
-            //时间戳转换
+            $.ajax({
+                type: 'get',
+                url: 'CheckReport?oper=getlist',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    total = data.length;
+                    console.log(data);
+                    json = data;
+                    loadData(json);
+
+                }
+            });
+            searchInfo();
+
+            function searchInfo(){
+                document.getElementById("searchBtn").onclick = function () {
+                    var name = document.getElementById("searchName").value;
+                    console.log("name=" + name);
+                    if(name == ""){
+                        console.log("jjdfjdjfdjfjdfjd");
+                        loadData(json);
+                    }else{
+                        searchData = [];
+                        json.forEach(function (currentValue) {
+                            console.log("lalalalala");
+                            console.log(currentValue);
+                            if(currentValue.empCode.indexOf(name) !== -1){
+                                searchData.push(currentValue);
+                            }
+                        });
+                        console.log(searchData);
+                        loadData(searchData);
+                    }
+                }
+            }
+
+
+        //时间戳转换
         function add0(m){return m<10?'0'+m:m }
 
         function formatDate(timestamp)
@@ -128,8 +155,6 @@
             };
             laypage.render({
                 elem: 'lay_pager',
-                // pages: Math.ceil(data.length / nums), //得到总页数
-                // curr: 1,
                 count: total,
                 limit: 10,
                 group: 10,
@@ -138,7 +163,9 @@
                     document.getElementById('lay_table').innerHTML = render(data, obj.curr);
                     console.log(total);
                 }
-            })
+            });
+
+
         }
 
     });
