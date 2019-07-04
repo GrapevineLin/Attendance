@@ -9,6 +9,9 @@
     <url>http://maven.apache.org</url>
     <properties>
 
+        <!-- ***** 1033. [ds-druid][props] -->
+        <ds.druid.version>1.1.14</ds.druid.version>
+
         <!-- ***** 0000.[compile plugin][props] -->
         <jdk.source.version>1.8</jdk.source.version>
         <jdk.target.version>1.8</jdk.target.version>
@@ -232,11 +235,16 @@
         </dependency>
 
         <!-- 引入druid所需的jar包 -->
+        <!-- ********************************************************************** -->
+        <!-- ***** 1033. [ds-druid][jar] -->
+        <!-- ********************************************************************** -->
+        <!-- 数据库连接池：阿里的 druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.0.18</version>
+            <version>${ds.druid.version}</version>
         </dependency>
+        <!-- ********************************************************************** -->
 
     </dependencies>
 
