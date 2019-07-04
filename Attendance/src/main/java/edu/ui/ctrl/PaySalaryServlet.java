@@ -466,4 +466,39 @@ public class PaySalaryServlet extends HttpServlet {
         return toURL;
     }
 
+    protected void getSalary(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, ParseException {
+        //  Servlet从下面两层取出数据
+        EmployeeService employeeService = new EmployeeServiceImpl();
+
+        String empId = request.getParameter("empId");
+        String beginDate = request.getParameter("beginDate");
+        String endDate = request.getParameter("endDate");
+
+        //类型转换
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date bDate = sdf.parse(beginDate);
+        Date eDate = sdf.parse(endDate);
+        Long sId = SysFun.parseLong(empId);
+
+        //计算薪水，并在页面回显
+        Employee Ebean = employeeService.load(sId);
+        String Code = Ebean.getEmpCode();
+        Long salaryL = paysalaryService.getSalary(Code,bDate,eDate);
+        request.setAttribute("salary", salaryL);
+
+        Map<String,Object> map = new HashMap<>();
+        if (salaryL > 0) {
+            map.put("code",200);
+            map.put("msg","success");
+            map.put("salary",salaryL);
+            response.getWriter().print(JSON.toJSONString(map));
+        } else {
+            map.put("code", 500);
+            map.put("msg", "fail");
+            map.put("salary",0);
+            response.getWriter().print(JSON.toJSONString(map));
+        }
+
+    }
+
 }
