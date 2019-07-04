@@ -37,7 +37,7 @@
                 <div class="layui-card-body ">
 <%--                        <input type="hidden" name="oper" value="listDeal"/>--%>
                         <div class="layui-inline layui-show-xs-block" >
-                            <input type="text" name="searchName" id="searchName" placeholder="请输入编号"
+                            <input type="text" name="searchName" id="searchName" placeholder="请输入员工编码"
                                    class="layui-input" value="" >
                         </div>
                         <div class="layui-inline layui-show-xs-block">

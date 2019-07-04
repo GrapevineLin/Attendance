@@ -82,8 +82,8 @@
             </li>
             <li>
                 <a href="javascript:; ">
-                    <i class="iconfont left-nav-li" lay-tips="考勤数据">&#xe6ce;</i>
-                    <cite>考勤数据</cite>
+                    <i class="iconfont left-nav-li" lay-tips="数据分析">&#xe6ce;</i>
+                    <cite>数据分析</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
