@@ -125,30 +125,6 @@ public class CheckReportServlet extends HttpServlet {
 
     protected void listView(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        List<CheckReport> vDataList = null;
-//// ------------------------------------------------------------------------
-//// 分页步骤1. 创建PagerIter对象, 处理url传过来的pagesize和pageindex
-//        PagerItem pagerItem = new PagerItem();
-//        pagerItem.parsePageSize(request.getParameter(pagerItem.getParamPageSize()));
-//        pagerItem.parsePageNum(request.getParameter(pagerItem.getParamPageNum()));
-//// 分页步骤2.1. 定义记录数变量
-//        Long rowCount = 0L;
-//// 分页步骤2.2. 根据条件，查找符合条件的所有记录数 ***** count()要根据实际换成其它方法
-//// 分页步骤2.4. 从数据库取指定分页的数据 ***** pager()要根据实际换成其它方法
-//        vDataList = checkReportService.list();
-//        rowCount = checkReportService.count();// 分页步骤2.3. 将记录数赋给pagerItem，以便进行分页的各类计算
-//        pagerItem.changeRowCount(rowCount);
-//// 分页步骤2.5. 设置页面的跳转url
-//        pagerItem.changeUrl(SysFun.generalUrl(request.getRequestURI(),
-//                request.getQueryString()));
-//// 分页步骤3. 将分页对象和数据列表,放到作用域,以便页面可以访问
-////        request.setAttribute("pagerItem", pagerItem);
-////        request.setAttribute("DataList", vDataList);
-//
-////        Map<String, Object> map = new HashMap<>();
-//////        map.put("")
-//        String vObj = JSON.toJSONString(vDataList);
-//        response.getWriter().print(vObj);
 
 // ------------------------------------------------------------------------
 // 转发到页面
