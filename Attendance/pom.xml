@@ -89,6 +89,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+
 
         <!-- 指定scope为provided可以避免在发布的时候把servlet-api包拷到lib目录下。 -->
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->

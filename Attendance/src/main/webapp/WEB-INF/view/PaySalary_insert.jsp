@@ -15,6 +15,7 @@
     <script src="${pageContext.request.contextPath}/static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/js/xadmin.js"></script>
     <script src="${pageContext.request.contextPath}/static/X-admin/laydate/laydate.js"></script>
+    <script src="${pageContext.request.contextPath}/static/X-admin/js/jquery.min.js"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -56,14 +57,14 @@
                     薪水</label>
                 <div class="layui-input-inline">
                     <input type="text" id="salary" name="salary" value="${salary}"
-                           autocomplete="off" class="layui-input">
+                           autocomplete="off" class="layui-input" disabled>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <button class="layui-btn" lay-submit="sum">计算工资</button>
-<%--                <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-submit="add">增加</button>--%>
+                <%--                <label class="layui-form-label"></label>
+                                <button class="layui-btn" lay-submit="add">增加</button>--%>
             </div>
         </form>
     </div>
@@ -86,7 +87,37 @@
         //执行一个laydate实例
         laydate.render({
             elem: '#endDate', //指定元素
-            type: 'datetime'
+            type: 'datetime',
+            done: function (value, date) { //监听日期被切换
+                var empId = document.getElementById('empId').value;
+                var beginDate = document.getElementById('beginDate').value;
+                var endDate = value;
+                console.log("empId:" + empId + "beginDate:" + beginDate + "endDate:" + endDate);
+                if (empId != null && beginDate != null && endDate != null) {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'PaySalary',
+                        data: {
+                            "oper": "getSalary",
+                            "empId": empId,
+                            "beginDate": beginDate,
+                            "endDate": endDate
+                        },
+                        dataType: 'JSON',
+                        success: function (data) {
+                            if (data.code == 200) {
+                                layer.msg("计算成功！薪水:" + data.salary);
+                                document.getElementById("salary").value = data.salary;
+                            } else {
+                                layer.msg("对不起失败了！");
+                            }
+                        },
+                        fail: function (data) {
+                            layer.msg("对不起失败了！");
+                        }
+                    })
+                }
+            }
         });
 
 

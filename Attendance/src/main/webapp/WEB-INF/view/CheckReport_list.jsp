@@ -35,18 +35,16 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="CheckReport" method="get">
-                        <input type="hidden" name="oper" value="listDeal"/>
+<%--                        <input type="hidden" name="oper" value="listDeal"/>--%>
                         <div class="layui-inline layui-show-xs-block" >
-                            <input type="text" name="searchName" placeholder="请输入名称" autocomplete="off"
-                                   class="layui-input" value="${searchName}">
+                            <input type="text" name="searchName" id="searchName" placeholder="请输入员工编码"
+                                   class="layui-input" value="" >
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i
+                            <button class="layui-btn" id="searchBtn"><i
                                     class="layui-icon">&#xe615;</i>
                             </button>
                         </div>
-                    </form>
                 </div>
                 <div class="layui-card-header">
                 </div>
@@ -61,28 +59,10 @@
                             <th>下午下班时间</th>
                             <th>出勤情况</th>
                         </thead>
-                        <tbody>
-                        <c:forEach var="item" items="${DataList }" varStatus="v">
-                            <tr>
-
-                                <td>${v.count}</td>
-                                <td>${item.empCode}</td>
-                                <td>${item.empName}</td>
-                                <td>${item.am}</td>
-                                <td>${item.pm}</td>
-                                <td>${item.attendance}</td>
-
-                                    <%--<td class="td-status">
-                                      <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
-                                    <td class="td-manage">
-                                      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                                        <i class="layui-icon">&#xe601;</i>
-                                    </a>--%>
-                        </c:forEach>
-
+                        <tbody id="lay_table">
                         </tbody>
                     </table>
-                    <jsp:include page="__pager.jsp" flush="true"/>
+                        <div id="lay_pager"></div>
                 </div>
             </div>
         </div>
@@ -91,34 +71,105 @@
 </body>
 <script>
 
-    layui.use(['laydate', 'form'], function () {
+    layui.use(['laydate', 'form', 'laypage'], function () {
         var laydate = layui.laydate;
         var form = layui.form;
+        var laypage = layui.laypage;
+        
+        var total = 0;
+        var json = [];
+        var searchData = [];
+        // var jsonData = null;
+        var $ = layui.$;
+            $.ajax({
+                type: 'get',
+                url: 'CheckReport?oper=getlist',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    total = data.length;
+                    console.log(data);
+                    json = data;
+                    loadData(json);
 
+                }
+            });
+            searchInfo();
 
-        // 监听全选
-        form.on('checkbox(checkall)', function (data) {
-
-            if (data.elem.checked) {
-                $('tbody input').prop('checked', true);
-            } else {
-                $('tbody input').prop('checked', false);
+            function searchInfo(){
+                document.getElementById("searchBtn").onclick = function () {
+                    var name = document.getElementById("searchName").value;
+                    console.log("name=" + name);
+                    if(name == ""){
+                        console.log("jjdfjdjfdjfjdfjd");
+                        loadData(json);
+                    }else{
+                        searchData = [];
+                        json.forEach(function (currentValue) {
+                            console.log("lalalalala");
+                            console.log(currentValue);
+                            if(currentValue.empCode.indexOf(name) !== -1){
+                                searchData.push(currentValue);
+                            }
+                        });
+                        console.log(searchData);
+                        loadData(searchData);
+                    }
+                }
             }
-            form.render('checkbox');
-        });
 
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#start' //指定元素
-        });
 
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#end' //指定元素
-        });
+        //时间戳转换
+        function add0(m){return m<10?'0'+m:m }
 
+        function formatDate(timestamp)
+        {
+            //timestamp是整数，否则要parseInt转换
+            var time = new Date(timestamp);
+            var y = time.getFullYear();
+            var m = time.getMonth()+1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            var s = time.getSeconds();
+            return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+        }
+        function loadData(data) {
+            var nums = 10; //每页数量
+            // new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            var render = function (data, curr) {
+                var arr = [], thisData = data.concat().splice(curr * nums - nums, nums);
+                for(var i = 0; i < thisData.length; i++){
+
+                    var str = "<tr>" +
+                        "<td>" + (i + 1) + "</td>" +
+                        "<td>" + thisData[i].empCode + "</td>" +
+                        "<td>" + thisData[i].empName + "</td>" +
+                        "<td>" + (thisData[i].am === undefined ? " " : formatDate(thisData[i].am) ) + "</td>" +
+                        "<td>" + (thisData[i].pm === undefined ? " " : formatDate(thisData[i].pm) ) + "</td>" +
+                        "<td>" + thisData[i].attendance + "</td>" +
+                        "</tr>";
+                    arr.push(str);
+                }
+                return arr.join('');
+            };
+            laypage.render({
+                elem: 'lay_pager',
+                count: total,
+                limit: 10,
+                group: 10,
+                layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip'],
+                jump: function (obj) {
+                    document.getElementById('lay_table').innerHTML = render(data, obj.curr);
+                    console.log(total);
+                }
+            });
+
+
+        }
 
     });
+
 
 
 

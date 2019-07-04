@@ -1,5 +1,7 @@
 package edu.ui.ctrl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.liuvei.common.PagerItem;
 import com.liuvei.common.SysFun;
 import edu.bean.CheckReport;
@@ -13,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(UIConst.AREAPATH + "/CheckReport")
 public class CheckReportServlet extends HttpServlet {
@@ -64,6 +68,9 @@ public class CheckReportServlet extends HttpServlet {
                 break;
             case "listdeal":
                 listDeal(request, response); // 列表处理
+                break;
+            case "getlist":
+                getlist(request, response);
                 break;
             default:
                 // listView(request, response); // 列表页面 : 默认
@@ -118,25 +125,7 @@ public class CheckReportServlet extends HttpServlet {
 
     protected void listView(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<CheckReport> vDataList = null;
-// ------------------------------------------------------------------------
-// 分页步骤1. 创建PagerIter对象, 处理url传过来的pagesize和pageindex
-        PagerItem pagerItem = new PagerItem();
-        pagerItem.parsePageSize(request.getParameter(pagerItem.getParamPageSize()));
-        pagerItem.parsePageNum(request.getParameter(pagerItem.getParamPageNum()));
-// 分页步骤2.1. 定义记录数变量
-        Long rowCount = 0L;
-// 分页步骤2.2. 根据条件，查找符合条件的所有记录数 ***** count()要根据实际换成其它方法
-        //rowCount = checkReportService.count();// 分页步骤2.3. 将记录数赋给pagerItem，以便进行分页的各类计算
-        pagerItem.changeRowCount(rowCount);
-// 分页步骤2.4. 从数据库取指定分页的数据 ***** pager()要根据实际换成其它方法
-        vDataList = checkReportService.list();
-// 分页步骤2.5. 设置页面的跳转url
-        pagerItem.changeUrl(SysFun.generalUrl(request.getRequestURI(),
-                request.getQueryString()));
-// 分页步骤3. 将分页对象和数据列表,放到作用域,以便页面可以访问
-        request.setAttribute("pagerItem", pagerItem);
-        request.setAttribute("DataList", vDataList);
+
 // ------------------------------------------------------------------------
 // 转发到页面
         String toPage = UIConst.VIEWPATH + "/CheckReport_list.jsp";
@@ -145,7 +134,17 @@ public class CheckReportServlet extends HttpServlet {
 
     }
 
+    protected void getlist(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
+        List<CheckReport> vDataList = null;
+        vDataList = checkReportService.list();
+//        String vObj = JSON.toJSONString(vDataList);
+        String vObj = JSON.toJSONString(vDataList, SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat);
+
+        response.getWriter().print(vObj);
+
+    }
     protected String checkLogin(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

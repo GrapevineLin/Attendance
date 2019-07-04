@@ -2,15 +2,14 @@ package edu.ui.ctrl;
 
 
 import com.alibaba.fastjson.JSON;
-
 import com.liuvei.common.PagerItem;
 import com.liuvei.common.SysFun;
-import edu.bean.PaySalary;
 import edu.bean.Employee;
-import edu.service.impl.PaySalaryService;
+import edu.bean.PaySalary;
 import edu.service.impl.EmployeeService;
-import edu.service.impl.impl.PaySalaryServiceImpl;
+import edu.service.impl.PaySalaryService;
 import edu.service.impl.impl.EmployeeServiceImpl;
+import edu.service.impl.impl.PaySalaryServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -101,6 +100,13 @@ public class PaySalaryServlet extends HttpServlet {
                 break;
             case "deletedeal":
                 deleteDeal(request, response); // 删除处理
+                break;
+            case "getsalary":
+                try {
+                    getSalary(request, response);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 // listView(request, response); // 列表页面 : 默认
@@ -464,6 +470,41 @@ public class PaySalaryServlet extends HttpServlet {
             toURL = request.getContextPath() + UIConst.AREAPATH + "/Login";
         }
         return toURL;
+    }
+
+    protected void getSalary(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, ParseException {
+        //  Servlet从下面两层取出数据
+        EmployeeService employeeService = new EmployeeServiceImpl();
+
+        String empId = request.getParameter("empId");
+        String beginDate = request.getParameter("beginDate");
+        String endDate = request.getParameter("endDate");
+
+        //类型转换
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date bDate = sdf.parse(beginDate);
+        Date eDate = sdf.parse(endDate);
+        Long sId = SysFun.parseLong(empId);
+
+        //计算薪水，并在页面回显
+        Employee Ebean = employeeService.load(sId);
+        String Code = Ebean.getEmpCode();
+        Long salaryL = paysalaryService.getSalary(Code,bDate,eDate);
+        request.setAttribute("salary", salaryL);
+
+        Map<String,Object> map = new HashMap<>();
+        if (salaryL > 0) {
+            map.put("code",200);
+            map.put("msg","success");
+            map.put("salary",salaryL);
+            response.getWriter().print(JSON.toJSONString(map));
+        } else {
+            map.put("code", 500);
+            map.put("msg", "fail");
+            map.put("salary",0);
+            response.getWriter().print(JSON.toJSONString(map));
+        }
+
     }
 
 }

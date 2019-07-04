@@ -17,7 +17,7 @@ public class CheckReportServiceImpl implements CheckReportService {
 
     RepairCardService repairCardService = new RepairCardServiceImpl();
     PunchCardService punchCardService = new PunchCardServiceImpl();
-
+    private Long count = 0L;
     @Override
     public List<CheckReport> list() {
 
@@ -26,13 +26,14 @@ public class CheckReportServiceImpl implements CheckReportService {
         List<RepairCard> repList = repairCardService.list();
         PunchCard punchCard = new PunchCard();
         List<PunchCard> punList = punchCardService.list();
+        count = 0L;
 
         //打卡
         for (PunchCard pun : punList) {
             int flag = 0;
             CheckReport checkReport = new CheckReport();
             for (CheckReport che : cheList) {
-                System.out.println(che.getAm());
+//                System.out.println(che.getAm());
                 if (pun.getEmpCode().equals(che.getEmpCode()) && (isTheSameDay(pun.getDate(), che.getAm()) || isTheSameDay(pun.getDate(), che.getPm()))) {
                     if (che.getAm() != null && pun.getDate().after(che.getAm())) {
                         che.setPm(pun.getDate());
@@ -100,10 +101,20 @@ public class CheckReportServiceImpl implements CheckReportService {
                     che.setAttendance("正常");
                 }
             } else {
-                che.setAttendance("矿工");
+                che.setAttendance("旷工");
             }
         }
+        count = new Long(cheList.size());
         return cheList;
+    }
+
+    @Override
+    public Long count() {
+        if(count != 0L){
+            return count;
+        }else{
+            return 0L;
+        }
     }
 
     public static boolean isBelong(Date date) {
