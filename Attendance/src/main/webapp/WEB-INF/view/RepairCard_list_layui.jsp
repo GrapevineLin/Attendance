@@ -85,6 +85,7 @@
         //监听行工具事件
         table.on('tool(oper)', function (obj) {
             //obj obj代表选中的整行表格
+            console.log("obj.data" + obj.data);
             var data = obj.data; //obj.data 代表是这行表格的数据
             if (obj.event === 'del') {
                 layer.confirm('真的删除这行么', function (index) {
@@ -150,7 +151,7 @@
                             url: 'RepairCard',
                             data: {
                                 "oper": "delete",
-                                "repairIdList": arr[index]
+                                "repairId": arr[index]
                             },
                             dataType: 'JSON',
                             success: function (data) {
