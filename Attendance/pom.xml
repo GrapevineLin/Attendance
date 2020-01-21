@@ -58,7 +58,7 @@
 
 
         <!-- ***** 2000. [spring app][props] -->
-        <spring.app.version>5.1.5.RELEASE</spring.app.version>
+        <spring.app.version>5.2.3.RELEASE</spring.app.version>
         <aopalliance.version>1.0</aopalliance.version>
         <asm.version>5.2</asm.version>
         <cglib.version>3.2.10</cglib.version>
